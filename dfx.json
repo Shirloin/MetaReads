@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "MetaReads_backend": {
+      "candid": "src/MetaReads_backend/MetaReads_backend.did",
+      "package": "MetaReads_backend",
+      "type": "rust"
+    },
+    "MetaReads_frontend": {
+      "dependencies": [
+        "MetaReads_backend"
+      ],
+      "source": [
+        "src/MetaReads_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "MetaReads_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
