@@ -3,7 +3,9 @@
     "MetaReads_backend": {
       "candid": "src/MetaReads_backend/MetaReads_backend.did",
       "package": "MetaReads_backend",
-      "type": "rust"
+      "type": "rust",
+      "wasm": "target/wasm32-unknown-unknown/release/MetaReads_backend.wasm",
+      "postbuild": "candid-extractor target/wasm32-unknown-unknown/release/MetaReads_backend.wasm > src/MetaReads_backend/MetaReads_backend.did"
     },
     "MetaReads_frontend": {
       "dependencies": [
