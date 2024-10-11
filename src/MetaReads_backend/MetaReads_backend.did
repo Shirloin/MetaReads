@@ -1,1 +1,24 @@
-service : () -> { adsf : (text) -> (text); bla : (text) -> (text) query }
+type Error = variant {
+  NotFound : record { msg : text };
+  ValidationErrors : record { errors : text };
+  NotAuthorized : record { msg : text };
+};
+type Result = variant { Ok : UserResponse; Err : Error };
+type User = record {
+  id : principal;
+  money : nat32;
+  username : text;
+  password : text;
+  image : text;
+};
+type UserPayload = record {
+  money : opt nat32;
+  username : text;
+  password : text;
+  image : text;
+};
+type UserResponse = record { user : User; message : text };
+service : () -> {
+  create_user : (UserPayload) -> (Result);
+  getUser : () -> (vec User) query;
+}
