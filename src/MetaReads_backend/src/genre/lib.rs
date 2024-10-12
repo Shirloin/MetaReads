@@ -35,6 +35,5 @@ fn get_all_genre() -> Vec<Genre> {
             genres.push(genre.clone());
         }
     });
-    ic_cdk::println!("Retrieved genres: {:?}", genres);
     return genres;
 }

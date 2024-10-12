@@ -32,6 +32,7 @@ impl Storable for Book {
 
 #[derive(CandidType, Serialize, Deserialize, Validate)]
 pub struct BookPayload {
+    pub id: Option<Principal>,
     pub title: String,
     pub description: String,
     pub cover_image: String,
