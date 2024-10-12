@@ -4,39 +4,32 @@ use candid::{CandidType, Decode, Encode, Principal};
 use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
-pub struct User {
+pub struct Author {
     pub id: Principal,
-    pub username: String,
-    pub password: String,
-    pub image: String,
-    pub money: u32,
+    pub name: String,
 }
 
-impl Storable for User {
-    fn to_bytes(&self) -> Cow<[u8]> {
+impl Storable for Author {
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
         Cow::Owned(Encode!(self).unwrap())
     }
 
-    fn from_bytes(bytes: Cow<[u8]>) -> Self {
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
         Decode!(bytes.as_ref(), Self).unwrap()
     }
 
     const BOUND: Bound = Bound::Unbounded;
 }
-
-#[derive(CandidType, Serialize, Deserialize, Default, Validate)]
-pub struct UserPayload {
+#[derive(CandidType, Serialize, Deserialize, Validate)]
+pub struct AuthorPayload {
     #[validate(length(min = 1))]
-    pub username: String,
-    #[validate(length(min = 5))]
-    pub password: String,
-    pub image: String,
-    pub money: Option<u32>,
+    pub name: String,
 }
 
 #[derive(CandidType, Deserialize, Serialize)]
-pub struct UserResponse {
-    pub user: User,
+pub struct AuthorResponse {
+    pub author: Author,
     pub message: String,
 }

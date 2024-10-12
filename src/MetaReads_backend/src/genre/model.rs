@@ -5,15 +5,12 @@ use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
-pub struct User {
+pub struct Genre {
     pub id: Principal,
-    pub username: String,
-    pub password: String,
-    pub image: String,
-    pub money: u32,
+    pub name: String,
 }
 
-impl Storable for User {
+impl Storable for Genre {
     fn to_bytes(&self) -> Cow<[u8]> {
         Cow::Owned(Encode!(self).unwrap())
     }
@@ -24,19 +21,14 @@ impl Storable for User {
 
     const BOUND: Bound = Bound::Unbounded;
 }
-
-#[derive(CandidType, Serialize, Deserialize, Default, Validate)]
-pub struct UserPayload {
+#[derive(CandidType, Serialize, Deserialize, Validate)]
+pub struct GenrePayload {
     #[validate(length(min = 1))]
-    pub username: String,
-    #[validate(length(min = 5))]
-    pub password: String,
-    pub image: String,
-    pub money: Option<u32>,
+    pub name: String,
 }
 
 #[derive(CandidType, Deserialize, Serialize)]
-pub struct UserResponse {
-    pub user: User,
+pub struct GenreResponse {
+    pub genre: Genre,
     pub message: String,
 }

@@ -1,9 +1,39 @@
+type Author = record { id : principal; name : text };
+type AuthorPayload = record { name : text };
+type AuthorResponse = record { author : Author; message : text };
+type Book = record {
+  id : principal;
+  title : text;
+  views : nat32;
+  cover_image : text;
+  plan : text;
+  genre_id : principal;
+  description : text;
+  author_id : principal;
+  page_count : nat32;
+};
+type BookPayload = record {
+  title : text;
+  cover_image : text;
+  plan : text;
+  genre_id : principal;
+  description : text;
+  author_id : principal;
+  page_count : nat32;
+};
+type BookResponse = record { book : Book; message : text };
 type Error = variant {
   NotFound : record { msg : text };
   ValidationErrors : record { errors : text };
   NotAuthorized : record { msg : text };
 };
-type Result = variant { Ok : UserResponse; Err : Error };
+type Genre = record { id : principal; name : text };
+type GenrePayload = record { name : text };
+type GenreResponse = record { genre : Genre; message : text };
+type Result = variant { Ok : AuthorResponse; Err : Error };
+type Result_1 = variant { Ok : BookResponse; Err : Error };
+type Result_2 = variant { Ok : GenreResponse; Err : Error };
+type Result_3 = variant { Ok : UserResponse; Err : Error };
 type User = record {
   id : principal;
   money : nat32;
@@ -19,6 +49,12 @@ type UserPayload = record {
 };
 type UserResponse = record { user : User; message : text };
 service : () -> {
-  create_user : (UserPayload) -> (Result);
-  getUser : () -> (vec User) query;
+  create_author : (AuthorPayload) -> (Result);
+  create_book : (BookPayload) -> (Result_1);
+  create_genre : (GenrePayload) -> (Result_2);
+  create_user : (UserPayload) -> (Result_3);
+  get_all_author : () -> (vec Genre) query;
+  get_all_book : () -> (vec Book) query;
+  get_all_genre : () -> (vec Genre) query;
+  get_all_user : () -> (vec User) query;
 }

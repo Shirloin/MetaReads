@@ -1,8 +1,9 @@
 use validator::Validate;
 
-use super::model::{User, UserPayload, UserResponse, USER_STORE};
+use super::model::{User, UserPayload, UserResponse};
 use crate::error::error::Error;
 use crate::helper::helper::generate_unique_id;
+use crate::USER_STORE;
 
 #[ic_cdk::update]
 async fn create_user(payload: UserPayload) -> Result<UserResponse, Error> {
@@ -31,14 +32,14 @@ async fn create_user(payload: UserPayload) -> Result<UserResponse, Error> {
 }
 
 #[ic_cdk::query]
-fn getUser() -> Vec<User> {
-    return USER_STORE.with(|user_store| {
+fn get_all_user() -> Vec<User> {
+    let mut users = Vec::new();
+    USER_STORE.with(|user_store| {
         let store = user_store.borrow();
-        let mut users = Vec::new();
 
         for (_key, user) in store.iter() {
             users.push(user.clone());
         }
-        users
     });
+    return users;
 }
