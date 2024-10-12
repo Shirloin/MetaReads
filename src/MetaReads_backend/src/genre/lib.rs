@@ -11,6 +11,22 @@ async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
             errors: check_payload.err().unwrap().to_string(),
         });
     }
+
+    let check_stored_name = GENRE_STORE.with(|genre_store| {
+        let store = genre_store.borrow();
+        for (_key, genre) in store.iter() {
+            if genre.name == payload.name {
+                return true;
+            }
+        }
+        false 
+    });
+    if check_stored_name {
+        return Err(Error::ValidationErrors {
+            errors: "Genre already stored!".to_string(),
+        });
+    }
+
     let id = generate_unique_id().await;
     let genre = Genre {
         id,
