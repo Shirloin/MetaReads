@@ -43,3 +43,32 @@ fn get_all_user() -> Vec<User> {
     });
     return users;
 }
+
+#[ic_cdk::query]
+fn login(username: String, password: String) -> Result<User, Error> {
+    match get_user_by_username(&username) {
+        Some(user) => {
+            if password == user.password {
+                return Ok(user);
+            }
+            Err(Error::NotAuthorized {
+                message: format!("Wrong password"),
+            })
+        }
+        None => Err(Error::NotFound {
+            message: format!("Username not found"),
+        }),
+    }
+}
+
+fn get_user_by_username(username: &String) -> Option<User> {
+    USER_STORE.with(|user_store| {
+        let store = user_store.borrow();
+        for (_key, user) in store.iter() {
+            if &user.username == username {
+                return Some(user.clone());
+            }
+        }
+        None
+    })
+}

@@ -1,3 +1,4 @@
+use candid::Principal;
 use validator::Validate;
 
 use super::model::{Genre, GenrePayload, GenreResponse};
@@ -12,18 +13,9 @@ async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
         });
     }
 
-    let check_stored_name = GENRE_STORE.with(|genre_store| {
-        let store = genre_store.borrow();
-        for (_key, genre) in store.iter() {
-            if genre.name == payload.name {
-                return true;
-            }
-        }
-        false 
-    });
-    if check_stored_name {
+    if let Some(_) = get_genre_by_name(&payload.name) {
         return Err(Error::ValidationErrors {
-            errors: "Genre already stored!".to_string(),
+            errors: "Genre already exists!".to_string(),
         });
     }
 
@@ -33,9 +25,8 @@ async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
         name: payload.name,
     };
 
-    GENRE_STORE.with(|genre_store| {
-        genre_store.borrow_mut().insert(id, genre.clone());
-    });
+    insert_genre(&genre);
+
     let message = format!("{} has been successfully registered", genre.name);
     let response = GenreResponse { genre, message };
     Ok(response)
@@ -52,4 +43,68 @@ fn get_all_genre() -> Vec<Genre> {
         }
     });
     return genres;
+}
+
+#[ic_cdk::update]
+fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
+    let id = match payload.id {
+        Some(ref id) => id,
+        None => {
+            return Err(Error::NotFound {
+                message: "Genre ID is missing".to_string(),
+            });
+        }
+    };
+
+    match get_genre(&id) {
+        Some(mut genre) => {
+            let check_payload = payload.validate();
+            if check_payload.is_err() {
+                return Err(Error::ValidationErrors {
+                    errors: check_payload.err().unwrap().to_string(),
+                });
+            }
+            genre.name = payload.name;
+            insert_genre(&genre);
+            Ok(genre)
+        }
+        None => Err(Error::NotFound {
+            message: format!("Genre with ID {} not found. Cannot update.", id),
+        }),
+    }
+}
+
+#[ic_cdk::update]
+fn delete_genre(id: Principal) -> Result<Genre, Error> {
+    match get_genre(&id) {
+        Some(genre) => {
+            GENRE_STORE.with(|genre_store| genre_store.borrow_mut().remove(&id));
+            Ok(genre)
+        }
+        None => Err(Error::NotFound {
+            message: format!("Genre with ID {} not found. Cannot delete.", id),
+        }),
+    }
+}
+
+pub fn insert_genre(genre: &Genre) {
+    GENRE_STORE.with(|genre_store| {
+        genre_store.borrow_mut().insert(genre.id, genre.clone());
+    });
+}
+
+fn get_genre(id: &Principal) -> Option<Genre> {
+    GENRE_STORE.with(|genre_store| genre_store.borrow().get(id))
+}
+
+pub fn get_genre_by_name(name: &String) -> Option<Genre> {
+    GENRE_STORE.with(|genre_store| {
+        let store = genre_store.borrow();
+        for (_key, genre) in store.iter() {
+            if &genre.name == name {
+                return Some(genre.clone());
+            }
+        }
+        None
+    })
 }

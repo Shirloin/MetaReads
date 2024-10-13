@@ -23,6 +23,7 @@ impl Storable for Genre {
 }
 #[derive(CandidType, Serialize, Deserialize, Validate)]
 pub struct GenrePayload {
+    pub id: Option<Principal>,
     #[validate(length(min = 1))]
     pub name: String,
 }

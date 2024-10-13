@@ -24,6 +24,7 @@ impl Storable for Author {
 }
 #[derive(CandidType, Serialize, Deserialize, Validate)]
 pub struct AuthorPayload {
+    pub id: Option<Principal>,
     #[validate(length(min = 1))]
     pub name: String,
 }
