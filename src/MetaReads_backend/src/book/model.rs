@@ -14,8 +14,10 @@ pub struct Book {
     pub author_id: Principal,
     pub genre_id: Principal,
     pub plan: String,
-    pub views: u32,
-    pub page_count: u32,
+    pub views: u64,
+    pub page_count: u64,
+    pub created_at: u64,
+    pub updated_at: Option<u64>,
 }
 
 impl Storable for Book {
@@ -39,7 +41,7 @@ pub struct BookPayload {
     pub author_id: Principal,
     pub genre_id: Principal,
     pub plan: String,
-    pub page_count: u32,
+    pub page_count: u64,
 }
 
 #[derive(CandidType, Deserialize, Serialize)]

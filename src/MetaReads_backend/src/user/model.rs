@@ -10,7 +10,7 @@ pub struct User {
     pub username: String,
     pub password: String,
     pub image: String,
-    pub money: u32,
+    pub money: u64,
 }
 
 impl Storable for User {
@@ -32,7 +32,7 @@ pub struct UserPayload {
     #[validate(length(min = 5))]
     pub password: String,
     pub image: String,
-    pub money: Option<u32>,
+    pub money: Option<u64>,
 }
 
 #[derive(CandidType, Deserialize, Serialize)]

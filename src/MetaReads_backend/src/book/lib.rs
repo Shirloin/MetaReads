@@ -1,5 +1,6 @@
 use crate::{error::error::Error, helper::helper::generate_unique_id, BOOK_STORE};
 use candid::Principal;
+use ic_cdk::api::time;
 use validator::Validate;
 
 use super::model::{Book, BookPayload, BookResponse};
@@ -23,6 +24,8 @@ async fn create_book(payload: BookPayload) -> Result<BookResponse, Error> {
         page_count: payload.page_count,
         plan: payload.plan,
         views: 0,
+        created_at: time(),
+        updated_at: None,
     };
     BOOK_STORE.with(|book_store| {
         book_store.borrow_mut().insert(id, book.clone());
@@ -45,6 +48,22 @@ fn get_all_book() -> Vec<Book> {
     });
 }
 
+#[ic_cdk::query]
+fn get_book(id: Principal) -> Result<Book, Error> {
+    match get_book_by_id(&id) {
+        Some(mut book) => {
+            book.views = book.views + 1;
+            insert_book(&book);
+            Ok(book)
+        }
+        None => {
+            return Err(Error::NotFound {
+                message: "Book Not Found".to_string(),
+            });
+        }
+    }
+}
+
 #[ic_cdk::update]
 fn update_book(payload: BookPayload) -> Result<Book, Error> {
     let id = match payload.id {
@@ -55,7 +74,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             });
         }
     };
-    match get_book(&id) {
+    match get_book_by_id(&id) {
         Some(mut book) => {
             let check_payload = payload.validate();
             if check_payload.is_err() {
@@ -70,6 +89,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             book.genre_id = payload.genre_id;
             book.page_count = payload.page_count;
             book.plan = payload.plan;
+            book.updated_at = Some(time());
             insert_book(&book);
             Ok(book)
         }
@@ -81,7 +101,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
 
 #[ic_cdk::update]
 fn delete_book(id: Principal) -> Result<Book, Error> {
-    match get_book(&id) {
+    match get_book_by_id(&id) {
         Some(book) => {
             BOOK_STORE.with(|book_store| book_store.borrow_mut().remove(&id));
             Ok(book)
@@ -92,7 +112,32 @@ fn delete_book(id: Principal) -> Result<Book, Error> {
     }
 }
 
-fn get_book(id: &Principal) -> Option<Book> {
+#[ic_cdk::query]
+fn get_popular_book() -> Vec<Book> {
+    let mut books: Vec<Book> = Vec::new();
+    BOOK_STORE.with(|book_store| {
+        let store = book_store.borrow();
+        for (_key, book) in store.iter() {
+            books.push(book.clone());
+        }
+    });
+    books.sort_by(|a, b| b.views.cmp(&a.views));
+    books.into_iter().take(10).collect()
+}
+#[ic_cdk::query]
+fn get_latest_release_book() -> Vec<Book> {
+    let mut books: Vec<Book> = Vec::new();
+    BOOK_STORE.with(|book_store| {
+        let store = book_store.borrow();
+        for (_key, book) in store.iter() {
+            books.push(book.clone());
+        }
+    });
+    books.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+    books.into_iter().take(20).collect()
+}
+
+fn get_book_by_id(id: &Principal) -> Option<Book> {
     BOOK_STORE.with(|book_store| book_store.borrow().get(id))
 }
 
