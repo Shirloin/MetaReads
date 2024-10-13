@@ -1,3 +1,4 @@
+use candid::Principal;
 use validator::Validate;
 
 use super::model::{User, UserPayload, UserResponse};
@@ -59,6 +60,20 @@ fn login(username: String, password: String) -> Result<User, Error> {
             message: format!("Username not found"),
         }),
     }
+}
+
+#[ic_cdk::query]
+fn get_user(id: Principal) -> Result<User, Error> {
+    match get_user_by_id(&id) {
+        Some(user) => Ok(user),
+        None => Err(Error::NotFound {
+            message: format!("User Not Found"),
+        }),
+    }
+}
+
+fn get_user_by_id(id: &Principal) -> Option<User> {
+    USER_STORE.with(|user_store| user_store.borrow().get(id))
 }
 
 fn get_user_by_username(username: &String) -> Option<User> {

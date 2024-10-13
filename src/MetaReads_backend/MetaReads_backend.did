@@ -1,16 +1,18 @@
 type Author = record { id : principal; name : text };
-type AuthorPayload = record { name : text };
+type AuthorPayload = record { id : opt principal; name : text };
 type AuthorResponse = record { author : Author; message : text };
 type Book = record {
   id : principal;
   title : text;
-  views : nat32;
+  updated_at : opt nat64;
+  views : nat64;
   cover_image : text;
   plan : text;
   genre_id : principal;
   description : text;
+  created_at : nat64;
   author_id : principal;
-  page_count : nat32;
+  page_count : nat64;
 };
 type BookPayload = record {
   id : opt principal;
@@ -20,7 +22,7 @@ type BookPayload = record {
   genre_id : principal;
   description : text;
   author_id : principal;
-  page_count : nat32;
+  page_count : nat64;
 };
 type BookResponse = record { book : Book; message : text };
 type Error = variant {
@@ -29,22 +31,25 @@ type Error = variant {
   NotAuthorized : record { message : text };
 };
 type Genre = record { id : principal; name : text };
-type GenrePayload = record { name : text };
+type GenrePayload = record { id : opt principal; name : text };
 type GenreResponse = record { genre : Genre; message : text };
 type Result = variant { Ok : AuthorResponse; Err : Error };
 type Result_1 = variant { Ok : BookResponse; Err : Error };
 type Result_2 = variant { Ok : GenreResponse; Err : Error };
 type Result_3 = variant { Ok : UserResponse; Err : Error };
-type Result_4 = variant { Ok : Book; Err : Error };
+type Result_4 = variant { Ok : Genre; Err : Error };
+type Result_5 = variant { Ok : Book; Err : Error };
+type Result_6 = variant { Ok : Genre; Err : Error };
+type Result_7 = variant { Ok : User; Err : Error };
 type User = record {
   id : principal;
-  money : nat32;
+  money : nat64;
   username : text;
   password : text;
   image : text;
 };
 type UserPayload = record {
-  money : opt nat32;
+  money : opt nat64;
   username : text;
   password : text;
   image : text;
@@ -55,10 +60,19 @@ service : () -> {
   create_book : (BookPayload) -> (Result_1);
   create_genre : (GenrePayload) -> (Result_2);
   create_user : (UserPayload) -> (Result_3);
-  delete_book : (principal) -> (Result_4);
+  delete_author : (principal) -> (Result_4);
+  delete_book : (principal) -> (Result_5);
+  delete_genre : (principal) -> (Result_6);
   get_all_author : () -> (vec Genre) query;
   get_all_book : () -> (vec Book) query;
   get_all_genre : () -> (vec Genre) query;
   get_all_user : () -> (vec User) query;
-  update_book : (BookPayload) -> (Result_4);
+  get_book : (principal) -> (Result_5) query;
+  get_latest_release_book : () -> (vec Book) query;
+  get_popular_book : () -> (vec Book) query;
+  get_user : (principal) -> (Result_7) query;
+  login : (text, text) -> (Result_7) query;
+  update_author : (GenrePayload) -> (Result_6);
+  update_book : (BookPayload) -> (Result_5);
+  update_genre : (GenrePayload) -> (Result_6);
 }
