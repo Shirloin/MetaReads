@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.inject-black-border {
+    border: 1px solid #14181E !important;
+}
+
+.inject-width {
+    width: 97px !important;
+}
