@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 
-export default function Layout() {
-    return (
-        <>
-            <div className="min-h-screen w-full bg-black">
-                <Outlet />
-            </div>
-        </>
-    )
+export default function BaseLayout() {
+  return (
+    <>
+      <div className="min-h-screen w-full bg-black">
+        <Outlet />
+      </div>
+    </>
+  );
 }

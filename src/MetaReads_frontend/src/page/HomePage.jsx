@@ -1,11 +1,6 @@
+import PageLayout from "../components/Layout/PageLayout";
 import SideNavbar from "../components/Navbar/SideNavbar";
 
-export default function  HomePage(){
-    return (
-        <div className="text-white">
-            <div className="min-h-screen flex w-full">
-             <SideNavbar /> 
-            </div>
-            </div>
-    )
+export default function HomePage() {
+  return <PageLayout>Home Page</PageLayout>;
 }

@@ -1,11 +1,5 @@
-import SideNavbar from "../components/Navbar/SideNavbar";
+import PageLayout from "../components/Layout/PageLayout";
 
-export default function SubscriptionPage(){
-    return (
-        <div className="text-white">
-            <div className="min-h-screen flex w-full">
-            SubscriptionPage
-            </div>
-            </div>
-    )
+export default function SubscriptionPage() {
+  return <PageLayout>Subscription Page</PageLayout>;
 }
