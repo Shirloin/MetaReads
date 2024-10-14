@@ -1,6 +1,60 @@
 import PageLayout from "../components/Layout/PageLayout";
-import SideNavbar from "../components/Navbar/SideNavbar";
+import TopNavbar from "../components/Navbar/TopNavbar";
 
 export default function HomePage() {
-  return <PageLayout>Home Page</PageLayout>;
+  return (
+    <PageLayout>
+      <TopNavbar />
+      <div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+        <div className="text-white">asdasd</div>
+      </div>
+    </PageLayout>
+  );
 }
