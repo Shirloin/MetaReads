@@ -1,3 +1,5 @@
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import StoreLogo from "../../../public/assets/Store Logo.png";
 import LibraryLogo from "../../../public/assets/Library Logo.png";
@@ -6,10 +8,15 @@ import SignoutLogo from "../../../public/assets/Sign out Logo.png";
 import MetaReadsFullLogo from "../../../public/assets/Meta Reads Full Logo.png";
 import MetaReadsLogo from "../../../public/assets/Meta Reads Logo.png";
 import { useCollapsed } from "../../lib/collapsed_provider";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import {
+  baseLogoutStyle,
+  baseStyle,
+  getHoverStyle,
+} from "../Utility/StylingUtility";
 
 export default function SideNavbar() {
-  const { collapsed } = useCollapsed();
+  const { collapsed, setCollapsed } = useCollapsed();
   const hexToRgba = (hex, alpha) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
@@ -17,38 +24,55 @@ export default function SideNavbar() {
 
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    // Add Logout Logic Here
+  };
+
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed); // Toggle the collapsed state
+  };
+
+  const location = useLocation();
+
+  const getMenuItemStyle = (path) => {
+    return location.pathname === path
+      ? getHoverStyle() // Active styles
+      : baseStyle(); // Default styles
+  };
   return (
-    <>
+    <div style={{ position: "relative" }} className="h-screen">
       <Sidebar
         collapsed={collapsed}
         backgroundColor={hexToRgba("#14181E", 0.7)}
-        className="inject-black-border"
+        className="inject-black-border inject-width h-full"
       >
         <Menu className="w-100 mb-6 mt-6 flex justify-center align-middle">
-          {collapsed ? (
-            <img src={MetaReadsLogo} alt="Full Logo" width={200} />
-          ) : (
+          {collapsed == true && (
+            <img src={MetaReadsLogo} alt="Full Logo" width={40} />
+          )}
+          {collapsed == false && (
             <img src={MetaReadsFullLogo} alt="Logo" width={200} />
           )}
         </Menu>
+
         <Menu
           menuItemStyles={{
             button: {
-              [`&:hover`]: {
-                backgroundColor: "#0d48a159",
-                color: "white",
-              },
+              [`&:hover`]: getHoverStyle(),
               color: "#D1D3D7",
             },
           }}
         >
           <MenuItem
+            style={getMenuItemStyle("/")}
             icon={
               <img
                 src={StoreLogo}
                 alt="Store Logo"
-                style={{ width: "22px", height: "22px" }}
+                style={{
+                  width: "22px",
+                  height: "22px",
+                }}
               />
             }
             component={<Link to="/" />}
@@ -56,6 +80,7 @@ export default function SideNavbar() {
             Store
           </MenuItem>
           <MenuItem
+            style={getMenuItemStyle("/library")}
             icon={
               <img
                 src={LibraryLogo}
@@ -68,6 +93,7 @@ export default function SideNavbar() {
             Library
           </MenuItem>
           <MenuItem
+            style={getMenuItemStyle("/subscriptions")}
             icon={
               <img
                 src={SubscriptionLogo}
@@ -87,7 +113,7 @@ export default function SideNavbar() {
                 style={{ width: "22px", height: "22px" }}
               />
             }
-            style={{ color: "#F85050" }}
+            style={baseLogoutStyle()}
             onClick={handleLogout}
           >
             Logout
@@ -95,6 +121,39 @@ export default function SideNavbar() {
         </Menu>
       </Sidebar>
       <Outlet />
-    </>
+      <div
+        onClick={toggleSidebar}
+        style={{
+          position: "absolute",
+          top: "50%",
+          right: "0%",
+          transform: "translate(50%, 0)",
+          cursor: "pointer",
+          zIndex: 1000,
+        }}
+      >
+        {collapsed ? (
+          <IoIosArrowDroprightCircle
+            className="cursor-pointer text-white"
+            size={30}
+            style={{
+              color: "#EFAF21",
+              //   backgroundColor: "#D1D3D7",
+              borderRadius: "30px",
+            }}
+          />
+        ) : (
+          <IoIosArrowDropleftCircle
+            className="cursor-pointer"
+            size={30}
+            style={{
+              color: "#EFAF21",
+              //   backgroundColor: "#D1D3D7",
+              borderRadius: "30px",
+            }}
+          />
+        )}
+      </div>
+    </div>
   );
 }
