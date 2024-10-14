@@ -45,6 +45,7 @@ export default function SideNavbar() {
         collapsed={collapsed}
         backgroundColor={hexToRgba("#14181E", 0.7)}
         className="inject-black-border inject-width h-full"
+        style={{ position: "fixed", top: 0, left: 0 }}
       >
         <Menu className="w-100 mb-6 mt-6 flex justify-center align-middle">
           {collapsed == true && (
@@ -124,12 +125,14 @@ export default function SideNavbar() {
       <div
         onClick={toggleSidebar}
         style={{
-          position: "absolute",
+          position: "fixed",
           top: "50%",
-          right: "0%",
+          left: collapsed ? "80px" : "230px",
+          right: "100%",
           transform: "translate(50%, 0)",
           cursor: "pointer",
           zIndex: 1000,
+          transition: "left 0.28s ease",
         }}
       >
         {collapsed ? (
