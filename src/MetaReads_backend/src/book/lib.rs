@@ -1,6 +1,14 @@
+use std::sync::Arc;
+
 use crate::{
-    author::lib::get_author_by_id, error::error::Error, genre::lib::get_genre_by_id,
-    helper::helper::generate_unique_id, BOOK_STORE,
+    author::lib::get_author_by_id,
+    error::error::Error,
+    genre::{
+        lib::{delete_book_in_genre, get_genre_by_id, insert_genre, update_book_in_genre},
+        model::Genre,
+    },
+    helper::helper::generate_unique_id,
+    BOOK_STORE,
 };
 use candid::Principal;
 use ic_cdk::api::time;
@@ -52,9 +60,8 @@ async fn create_book(payload: BookPayload) -> Result<BookResponse, Error> {
         updated_at: None,
     };
     genre.books.push(book.clone());
-    BOOK_STORE.with(|book_store| {
-        book_store.borrow_mut().insert(id, book.clone());
-    });
+    insert_genre(&genre);
+    insert_book(&book);
     let message = format!("{} has been successfully created", book.title);
     let response = BookResponse { book, message };
     Ok(response)
@@ -111,7 +118,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             let genre_id = payload.genre_id;
             let author_id = payload.author_id;
 
-            let genre = match get_genre_by_id(&genre_id) {
+            let mut genre = match get_genre_by_id(&genre_id) {
                 Some(ref existing_genre) => existing_genre.clone(),
                 None => {
                     return Err(Error::NotFound {
@@ -131,11 +138,12 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             book.title = payload.title;
             book.description = payload.description;
             book.cover_image = payload.cover_image;
-            book.author = author;
-            book.genre = genre;
+            book.author = author.clone();
+            book.genre = genre.clone();
             book.page_count = payload.page_count;
             book.plan = payload.plan;
             book.updated_at = Some(time());
+            update_book_in_genre(&mut genre, &book);
             insert_book(&book);
             Ok(book)
         }
@@ -148,8 +156,9 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
 #[ic_cdk::update]
 fn delete_book(id: Principal) -> Result<Book, Error> {
     match get_book_by_id(&id) {
-        Some(book) => {
+        Some(mut book) => {
             BOOK_STORE.with(|book_store| book_store.borrow_mut().remove(&id));
+            delete_book_in_genre(&mut book.genre, &book.id);
             Ok(book)
         }
         None => Err(Error::NotFound {

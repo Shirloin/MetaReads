@@ -2,7 +2,12 @@ use candid::Principal;
 use validator::Validate;
 
 use super::model::{Genre, GenrePayload, GenreResponse};
-use crate::{error::error::Error, helper::helper::generate_unique_id, BOOK_STORE, GENRE_STORE};
+use crate::{
+    book::{lib::insert_book, model::Book},
+    error::error::Error,
+    helper::helper::generate_unique_id,
+    BOOK_STORE, GENRE_STORE,
+};
 
 #[ic_cdk::update]
 async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
@@ -118,7 +123,23 @@ fn update_books_with_genre(updated_genre: &Genre) {
         for (_, mut book) in book_store.iter() {
             if book.genre.id == updated_genre.id {
                 book.genre = updated_genre.clone();
+                insert_book(&book);
             }
         }
     });
+}
+
+pub fn update_book_in_genre(genre: &mut Genre, book: &Book) {
+    let book_index = genre.books.iter().position(|b| b.id == book.id);
+
+    if let Some(index) = book_index {
+        genre.books[index] = book.clone();
+        insert_genre(genre);
+    }
+}
+
+pub fn delete_book_in_genre(genre: &mut Genre, book_id: &Principal) {
+    if genre.books.iter().any(|b| b.id == *book_id) {
+        genre.books.retain(|b| b.id != *book_id);
+    }
 }
