@@ -17,6 +17,9 @@
   ],
   "dependencies": {
     "@dfinity/agent": "^2.1.2",
-    "@dfinity/auth-client": "^2.1.2"
+    "@dfinity/auth-client": "^2.1.2",
+    "queue-microtask": "^1.2.3",
+    "to-regex-range": "^5.0.1",
+    "ts-interface-checker": "^1.0.2"
   }
 }
