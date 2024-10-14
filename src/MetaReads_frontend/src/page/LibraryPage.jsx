@@ -1,10 +1,10 @@
 import SideNavbar from "../components/Navbar/SideNavbar";
 
-export default function  HomePage(){
+export default function LibraryPage(){
     return (
         <div className="text-white">
             <div className="min-h-screen flex w-full">
-             <SideNavbar /> 
+            LibraryPage
             </div>
             </div>
     )
