@@ -54,7 +54,7 @@ fn update_author(payload: AuthorPayload) -> Result<Author, Error> {
         }
     };
 
-    match get_author(&id) {
+    match get_author_by_id(&id) {
         Some(mut author) => {
             let check_payload = payload.validate();
             if check_payload.is_err() {
@@ -74,7 +74,7 @@ fn update_author(payload: AuthorPayload) -> Result<Author, Error> {
 
 #[ic_cdk::update]
 fn delete_author(id: Principal) -> Result<Author, Error> {
-    match get_author(&id) {
+    match get_author_by_id(&id) {
         Some(author) => {
             AUTHOR_STORE.with(|author_store| author_store.borrow_mut().remove(&id));
             Ok(author)
@@ -91,7 +91,7 @@ pub fn insert_author(author: &Author) {
     });
 }
 
-fn get_author(id: &Principal) -> Option<Author> {
+pub fn get_author_by_id(id: &Principal) -> Option<Author> {
     AUTHOR_STORE.with(|author_store| author_store.borrow().get(id))
 }
 

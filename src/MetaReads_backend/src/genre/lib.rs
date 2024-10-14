@@ -2,7 +2,7 @@ use candid::Principal;
 use validator::Validate;
 
 use super::model::{Genre, GenrePayload, GenreResponse};
-use crate::{error::error::Error, helper::helper::generate_unique_id, GENRE_STORE};
+use crate::{error::error::Error, helper::helper::generate_unique_id, BOOK_STORE, GENRE_STORE};
 
 #[ic_cdk::update]
 async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
@@ -23,6 +23,7 @@ async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
     let genre = Genre {
         id,
         name: payload.name,
+        books: Vec::new(),
     };
 
     insert_genre(&genre);
@@ -56,7 +57,7 @@ fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
         }
     };
 
-    match get_genre(&id) {
+    match get_genre_by_id(&id) {
         Some(mut genre) => {
             let check_payload = payload.validate();
             if check_payload.is_err() {
@@ -65,6 +66,7 @@ fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
                 });
             }
             genre.name = payload.name;
+            update_books_with_genre(&genre);
             insert_genre(&genre);
             Ok(genre)
         }
@@ -76,7 +78,7 @@ fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
 
 #[ic_cdk::update]
 fn delete_genre(id: Principal) -> Result<Genre, Error> {
-    match get_genre(&id) {
+    match get_genre_by_id(&id) {
         Some(genre) => {
             GENRE_STORE.with(|genre_store| genre_store.borrow_mut().remove(&id));
             Ok(genre)
@@ -93,7 +95,7 @@ pub fn insert_genre(genre: &Genre) {
     });
 }
 
-fn get_genre(id: &Principal) -> Option<Genre> {
+pub fn get_genre_by_id(id: &Principal) -> Option<Genre> {
     GENRE_STORE.with(|genre_store| genre_store.borrow().get(id))
 }
 
@@ -107,4 +109,16 @@ pub fn get_genre_by_name(name: &String) -> Option<Genre> {
         }
         None
     })
+}
+
+fn update_books_with_genre(updated_genre: &Genre) {
+    BOOK_STORE.with(|book_store| {
+        let book_store = book_store.borrow_mut();
+
+        for (_, mut book) in book_store.iter() {
+            if book.genre.id == updated_genre.id {
+                book.genre = updated_genre.clone();
+            }
+        }
+    });
 }
