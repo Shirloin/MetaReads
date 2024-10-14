@@ -137,11 +137,11 @@ fn get_latest_release_book() -> Vec<Book> {
     books.into_iter().take(20).collect()
 }
 
-fn get_book_by_id(id: &Principal) -> Option<Book> {
+pub fn get_book_by_id(id: &Principal) -> Option<Book> {
     BOOK_STORE.with(|book_store| book_store.borrow().get(id))
 }
 
-fn insert_book(book: &Book) {
+pub fn insert_book(book: &Book) {
     BOOK_STORE.with(|book_store| {
         book_store.borrow_mut().insert(book.id, book.clone());
     });

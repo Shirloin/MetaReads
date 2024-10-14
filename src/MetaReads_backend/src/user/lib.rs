@@ -72,7 +72,7 @@ fn get_user(id: Principal) -> Result<User, Error> {
     }
 }
 
-fn get_user_by_id(id: &Principal) -> Option<User> {
+pub fn get_user_by_id(id: &Principal) -> Option<User> {
     USER_STORE.with(|user_store| user_store.borrow().get(id))
 }
 
