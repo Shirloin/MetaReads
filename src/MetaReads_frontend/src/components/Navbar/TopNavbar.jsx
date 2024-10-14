@@ -1,3 +1,5 @@
+import SearchBar from "../Form/Input/TextField/SearchBar";
+
 export default function TopNavbar() {
   return (
     <div
@@ -14,9 +16,11 @@ export default function TopNavbar() {
           zIndex: -1,
         }}
       ></div>
-      <div className="relative z-10">
-        {/* Content Layer */}
-        Top Nav
+      <div className="relative z-10 flex h-full w-full items-center justify-around gap-3 px-4">
+        <div className="w-10/12">
+          <SearchBar />
+        </div>
+        <div className="w-2/12">Profile here</div>
       </div>
     </div>
   );
