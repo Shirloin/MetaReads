@@ -45,9 +45,3 @@ pub struct BookPayload {
     pub plan: String,
     pub page_count: u64,
 }
-
-#[derive(CandidType, Deserialize, Serialize)]
-pub struct BookResponse {
-    pub book: Book,
-    pub message: String,
-}

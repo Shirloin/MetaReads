@@ -31,9 +31,3 @@ pub struct AuthorPayload {
     #[validate(length(min = 1))]
     pub name: String,
 }
-
-#[derive(CandidType, Deserialize, Serialize)]
-pub struct AuthorResponse {
-    pub author: Author,
-    pub message: String,
-}

@@ -5,11 +5,11 @@ use crate::{
     user::lib::get_user_by_id,
 };
 
-use super::model::{Library, LibraryPayload, LibraryResponse};
+use super::model::{Library, LibraryPayload};
 use crate::{error::error::Error, helper::helper::generate_unique_id, LIBRARY_STORE};
 
 #[ic_cdk::update]
-async fn create_library(payload: LibraryPayload) -> Result<LibraryResponse, Error> {
+async fn create_library(payload: LibraryPayload) -> Result<Library, Error> {
     let book_id = payload.book_id;
     let user_id = payload.user_id;
 
@@ -33,12 +33,7 @@ async fn create_library(payload: LibraryPayload) -> Result<LibraryResponse, Erro
     let id = generate_unique_id().await;
     let library = Library { id, book, user };
     insert_library(&library);
-    let message = format!(
-        "{} has been successfully added to library",
-        library.book.title
-    );
-    let response = LibraryResponse { library, message };
-    Ok(response)
+    Ok(library)
 }
 
 #[ic_cdk::update]

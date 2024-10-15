@@ -3,17 +3,15 @@ use std::borrow::Cow;
 use candid::{CandidType, Decode, Encode, Principal};
 use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
-use validator::Validate;
 
-use crate::book::model::Book;
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
-pub struct Genre {
+pub struct Plan {
     pub id: Principal,
     pub name: String,
-    pub books: Vec<Book>,
+    pub price_per_month: u64,
+    pub price_per_year: u64,
 }
-
-impl Storable for Genre {
+impl Storable for Plan {
     fn to_bytes(&self) -> Cow<[u8]> {
         Cow::Owned(Encode!(self).unwrap())
     }
@@ -24,9 +22,11 @@ impl Storable for Genre {
 
     const BOUND: Bound = Bound::Unbounded;
 }
-#[derive(CandidType, Serialize, Deserialize, Validate)]
-pub struct GenrePayload {
+
+#[derive(CandidType, Serialize, Deserialize, Default)]
+pub struct PlanPayload {
     pub id: Option<Principal>,
-    #[validate(length(min = 1))]
     pub name: String,
+    pub price_per_month: u64,
+    pub price_per_year: u64,
 }

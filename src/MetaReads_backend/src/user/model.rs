@@ -34,9 +34,3 @@ pub struct UserPayload {
     pub image: Option<String>,
     pub money: Option<u64>,
 }
-
-#[derive(CandidType, Deserialize, Serialize)]
-pub struct UserResponse {
-    pub user: User,
-    pub message: String,
-}
