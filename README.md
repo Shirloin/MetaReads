@@ -53,6 +53,292 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
 
 ### Note on frontend environment variables
 
+
+## Book Reference
+
+#### Get all books
+
+```http
+get_all_book()
+```
+Return array of books
+
+Return Ex:
+
+book = {
+    id,
+    title,
+    description,
+    cover_image,
+    author: {id, name}, 
+    genre: {id, name},
+    plan,
+    views,
+    page_count, 
+    created_at,
+    updated_at,
+  }
+
+[
+  book1, book2, book3
+]
+
+#### Get book
+
+```http
+get_book({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Book or Error
+
+#### Get Popular Book
+
+```http
+get_popular_book()
+```
+Return 10 books with the most views
+
+#### Get Latest Release Book
+
+```http
+get_latest_release_book()
+```
+Return 20 books with the newest release
+
+#### Get Book By Genre
+
+```http
+get_book_by_genre({genre_id})
+```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `genre_id`      | `Principal` | **Required**.|
+
+Return books filtered by the genre
+
+#### Create Book
+
+```http
+create_book({title, description, cover_image, author_id, genre_id, plan, page_count})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `title`      | `string` | **Required**.|
+| `description`      | `string` | **Required**.|
+| `cover_image`      | `string` | **Required**.|
+| `author_id`      | `Principal` | **Required**.|
+| `genre_id`      | `Principal` | **Required**.|
+| `plan`      | `string` | **Required**.|
+| `page_count`      | `u64` | **Required**.|
+
+Return Book or Error
+
+#### Update Book
+
+```http
+update_book({id, title, description, cover_image, author_id, genre_id, plan, page_count})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `title`      | `string` | **Required**.|
+| `description`      | `string` | **Required**.|
+| `cover_image`      | `string` | **Required**.|
+| `author_id`      | `Principal` | **Required**.|
+| `genre_id`      | `Principal` | **Required**.|
+| `plan`      | `string` | **Required**.|
+| `page_count`      | `u64` | **Required**.|
+
+Return Book or Error
+
+#### Delete Book
+
+```http
+delete_book({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Book or Error
+
+
+## User Reference
+
+#### Create User
+
+```http
+create_user({username, password})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `username`      | `string` | **Required**.|
+| `password`      | `string` | **Required**.|
+
+Return User or Error
+#### Get User
+
+```http
+get_user({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return User or Error
+
+#### Login
+
+```http
+login({username, password})
+```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `username`      | `string` | **Required**.|
+| `password`      | `string` | **Required**.|
+
+Return User or Error
+
+
+## Genre Reference
+
+#### Create Genre
+
+```http
+create_genre({name})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `name`      | `string` | **Required**.|
+
+Return Genre or Error
+#### Get All Genre
+
+```http
+get_all_genre()
+```
+Return array of genre
+
+#### Update Genre
+
+```http
+update_genre({id, name})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `name`      | `string` | **Required**.|
+
+Return Genre or Error
+
+#### Delete Genre
+
+```http
+delete_genre({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Genre or Error
+
+## Author Reference
+
+#### Create Author
+
+```http
+create_author({name})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `name`      | `string` | **Required**.|
+
+Return Author or Error
+
+#### Get All Author
+
+```http
+get_all_author()
+```
+Return array of author
+
+#### Update Author
+
+```http
+update_author({id, name})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `name`      | `string` | **Required**.|
+
+Return Author or Error
+
+#### Delete Author
+
+```http
+delete_author({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Author or Error
+
+## Library Reference
+
+#### Create Library
+
+```http
+create_library({book_id, user_id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `book_id`      | `Principal` | **Required**.|
+| `user_id`      | `Principal` | **Required**.|
+
+Return Library or Error
+
+#### Delete Library
+
+```http
+delete_library({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Library or Error
+
+#### Get Library By User
+
+```http
+get_library_by_user({user_id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `user_id`      | `Principal` | **Required**.|
+
+Return array of library (user, book)
+
 If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
 - set`DFX_NETWORK` to `ic` if you are using Webpack
