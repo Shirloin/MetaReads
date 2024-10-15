@@ -53,11 +53,8 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
 
 ### Note on frontend environment variables
 
-<details>
-    <summary>
-        ## Book Reference
-    </summary>
-    #### Get all books
+## Book Reference
+#### Get all books
 
     ```http
     get_all_book()
@@ -169,8 +166,6 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
     | `id`      | `Principal` | **Required**.|
     
     Return Book or Error
-</details>
-
 
 
 
