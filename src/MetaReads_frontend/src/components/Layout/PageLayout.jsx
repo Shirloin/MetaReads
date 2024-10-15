@@ -8,7 +8,7 @@ export default function PageLayout({ children }) {
       <SideNavbar />
       <main
         className="min-h-screen w-full transition-all duration-300"
-        style={{ marginLeft: collapsed ? "97px" : "250px" }}
+        style={{ paddingLeft: collapsed ? "97px" : "250px" }}
       >
         <div>{children}</div>
       </main>
