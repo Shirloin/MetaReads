@@ -13,7 +13,8 @@ export default function SubscriptionCard({ title, price, benefits }) {
       sx={{
         width: "20%",
         backgroundColor: "#14181E",
-        height: "500px",
+        minHeight: "500px",
+        maxHeight: "1000px",
         display: "flex",
         flexDirection: "column",
         borderRadius: "5px",
@@ -72,21 +73,27 @@ export default function SubscriptionCard({ title, price, benefits }) {
             }}
           />
         </div>
-        <ul className="mt-4">
-          {benefits.map((benefit, index) => (
-            <li
-              key={index}
-              className="flex items-center p-2 text-sm text-gray-600"
-            >
-              <div className="mr-2">
-                <BsFillCheckCircleFill color="#EFAF21" size={19} />
-              </div>
-              <div className="text-white" style={{ fontSize: "16px" }}>
-                {benefit}
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="max-h-[220px] overflow-y-auto">
+          {" "}
+          {/* Set a max height and enable vertical scrolling */}
+          <ul className="flex flex-col space-y-2">
+            {" "}
+            {/* Use flex column layout for vertical alignment */}
+            {benefits.map((benefit, index) => (
+              <li
+                key={index}
+                className="flex items-center p-2 text-sm text-gray-600"
+              >
+                <div className="mr-2">
+                  <BsFillCheckCircleFill color="#EFAF21" size={19} />
+                </div>
+                <div className="text-white" style={{ fontSize: "16px" }}>
+                  {benefit}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div></div>
       </CardContent>

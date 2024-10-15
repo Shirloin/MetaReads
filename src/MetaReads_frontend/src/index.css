@@ -9,3 +9,27 @@
 .inject-width {
     width: 97px !important;
 }
+
+/* Custom scrollbar styles */
+.scrollbar-thin {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #EFAF21 transparent !important; /* Firefox */
+}
+  
+.scrollbar-thin::-webkit-scrollbar {
+width: 8px; /* Width of the scrollbar */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+background: transparent; /* Background of the track */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+background-color: #EFAF21; /* Color of the thumb */
+border-radius: 10px; /* Round the edges of the scrollbar */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+background-color: #CDAF18; /* Color on hover */
+}
+  

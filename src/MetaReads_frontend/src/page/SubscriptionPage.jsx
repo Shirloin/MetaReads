@@ -4,7 +4,10 @@ import SubscriptionCard from "../components/Subscriptions/Subscription Card";
 export default function SubscriptionPage() {
   return (
     <PageLayout>
-      <div className="m-16 flex items-center justify-center gap-28">
+      <div
+        className="m-16 flex items-center justify-center"
+        style={{ gap: "10%" }}
+      >
         <div className="text-center text-white">
           <h1 className="text-3xl font-bold">Unlock Your Reading Potential!</h1>
           <p className="mt-4 w-[700px] text-xl font-semibold">
@@ -14,7 +17,10 @@ export default function SubscriptionPage() {
           </p>
         </div>
       </div>
-      <div className="mt-40 flex items-center justify-center gap-28">
+      <div
+        className="mt-40 flex items-center justify-center"
+        style={{ gap: "10%" }}
+      >
         <SubscriptionCard
           title="Free"
           price="200"

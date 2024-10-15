@@ -1,19 +1,12 @@
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import StoreLogo from "../../../public/assets/Store Logo.png";
-import LibraryLogo from "../../../public/assets/Library Logo.png";
-import SubscriptionLogo from "../../../public/assets/Subscription Logo.png";
-import SignoutLogo from "../../../public/assets/Sign out Logo.png";
+import { Sidebar, Menu } from "react-pro-sidebar";
 import MetaReadsFullLogo from "../../../public/assets/Meta Reads Full Logo.png";
 import MetaReadsLogo from "../../../public/assets/Meta Reads Logo.png";
 import { useCollapsed } from "../../lib/collapsed_provider";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import {
-  baseLogoutStyle,
-  baseStyle,
-  getHoverStyle,
-} from "../Utility/StylingUtility";
+import { Outlet } from "react-router-dom";
+import UserNavigation from "./UserNavigation";
+import AdminNavigation from "./AdminNavigation";
 
 export default function SideNavbar() {
   const { collapsed, setCollapsed } = useCollapsed();
@@ -24,21 +17,11 @@ export default function SideNavbar() {
 
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
-  const handleLogout = () => {
-    // Add Logout Logic Here
-  };
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed); // Toggle the collapsed state
   };
 
-  const location = useLocation();
-
-  const getMenuItemStyle = (path) => {
-    return location.pathname === path
-      ? getHoverStyle() // Active styles
-      : baseStyle(); // Default styles
-  };
   return (
     <div style={{ position: "relative" }} className="h-screen">
       <Sidebar
@@ -55,71 +38,8 @@ export default function SideNavbar() {
             <img src={MetaReadsFullLogo} alt="Logo" width={200} />
           )}
         </Menu>
-
-        <Menu
-          menuItemStyles={{
-            button: {
-              [`&:hover`]: getHoverStyle(),
-              color: "#D1D3D7",
-            },
-          }}
-        >
-          <MenuItem
-            style={getMenuItemStyle("/")}
-            icon={
-              <img
-                src={StoreLogo}
-                alt="Store Logo"
-                style={{
-                  width: "22px",
-                  height: "22px",
-                }}
-              />
-            }
-            component={<Link to="/" />}
-          >
-            Store
-          </MenuItem>
-          <MenuItem
-            style={getMenuItemStyle("/library")}
-            icon={
-              <img
-                src={LibraryLogo}
-                alt="Library Logo"
-                style={{ width: "22px", height: "22px" }}
-              />
-            }
-            component={<Link to="/library" />}
-          >
-            Library
-          </MenuItem>
-          <MenuItem
-            style={getMenuItemStyle("/subscriptions")}
-            icon={
-              <img
-                src={SubscriptionLogo}
-                alt="Library Logo"
-                style={{ width: "22px", height: "22px" }}
-              />
-            }
-            component={<Link to="/subscriptions" />}
-          >
-            Subscriptions
-          </MenuItem>
-          <MenuItem
-            icon={
-              <img
-                src={SignoutLogo}
-                alt="Library Logo"
-                style={{ width: "22px", height: "22px" }}
-              />
-            }
-            style={baseLogoutStyle()}
-            onClick={handleLogout}
-          >
-            Logout
-          </MenuItem>
-        </Menu>
+        <UserNavigation />
+        <AdminNavigation />
       </Sidebar>
       <Outlet />
       <div
