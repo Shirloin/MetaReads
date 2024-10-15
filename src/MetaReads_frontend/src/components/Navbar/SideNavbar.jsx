@@ -6,7 +6,7 @@ import MetaReadsLogo from "../../../public/assets/Meta Reads Logo.png";
 import { useCollapsed } from "../../lib/collapsed_provider";
 import { Outlet } from "react-router-dom";
 import UserNavigation from "./UserNavigation";
-import AdminNavigation from "./AdminSideNavbar";
+import AdminNavigation from "./AdminNavigation";
 
 export default function SideNavbar() {
   const { collapsed, setCollapsed } = useCollapsed();
