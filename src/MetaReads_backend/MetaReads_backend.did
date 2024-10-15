@@ -52,13 +52,24 @@ type LibraryPayload = record {
   user_id : principal;
   book_id : principal;
 };
-type LibraryResponse = record { library : Library; message : text };
+type Plan = record {
+  id : principal;
+  price_per_year : nat64;
+  name : text;
+  price_per_month : nat64;
+};
+type PlanPayload = record {
+  id : opt principal;
+  price_per_year : nat64;
+  name : text;
+  price_per_month : nat64;
+};
 type Result = variant { Ok : Author; Err : Error };
 type Result_1 = variant { Ok : Book; Err : Error };
 type Result_2 = variant { Ok : Genre; Err : Error };
-type Result_3 = variant { Ok : LibraryResponse; Err : Error };
-type Result_4 = variant { Ok : User; Err : Error };
-type Result_5 = variant { Ok : Library; Err : Error };
+type Result_3 = variant { Ok : Library; Err : Error };
+type Result_4 = variant { Ok : Plan; Err : Error };
+type Result_5 = variant { Ok : User; Err : Error };
 type User = record {
   id : principal;
   money : nat64;
@@ -90,23 +101,26 @@ service : () -> {
   create_book : (BookPayload) -> (Result_1);
   create_genre : (GenrePayload) -> (Result_2);
   create_library : (LibraryPayload) -> (Result_3);
-  create_user : (UserPayload) -> (Result_4);
+  create_plan : (PlanPayload) -> (Result_4);
+  create_user : (UserPayload) -> (Result_5);
   delete_author : (principal) -> (Result);
   delete_book : (principal) -> (Result_1);
   delete_genre : (principal) -> (Result_2);
-  delete_library : (principal) -> (Result_5);
+  delete_library : (principal) -> (Result_3);
   get_all_author : () -> (vec Author) query;
   get_all_book : () -> (vec Book) query;
   get_all_genre : () -> (vec Genre) query;
+  get_all_plan : () -> (vec Plan) query;
   get_all_user : () -> (vec User) query;
   get_book : (principal) -> (Result_1) query;
   get_book_by_genre : (principal) -> (vec Book) query;
   get_latest_release_book : () -> (vec Book) query;
   get_library_by_user : (principal) -> (vec Library) query;
   get_popular_book : () -> (vec Book) query;
-  get_user : (principal) -> (Result_4) query;
-  login : (text, text) -> (Result_4) query;
+  get_user : (principal) -> (Result_5) query;
+  login : (text, text) -> (Result_5) query;
   update_author : (GenrePayload) -> (Result);
   update_book : (BookPayload) -> (Result_1);
   update_genre : (GenrePayload) -> (Result_2);
+  update_plan : (PlanPayload) -> (Result_4);
 }

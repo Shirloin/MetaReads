@@ -135,3 +135,15 @@ pub fn delete_book_in_genre(genre: &mut Genre, book_id: &Principal) {
         genre.books.retain(|b| b.id != *book_id);
     }
 }
+pub async fn seed_genre(name: String) -> Option<Genre> {
+    let payload = GenrePayload {
+        id: None,
+        name: name,
+    };
+    match create_genre(payload).await {
+        Ok(genre) => return Some(genre),
+        Err(_) => {
+            return None;
+        }
+    }
+}

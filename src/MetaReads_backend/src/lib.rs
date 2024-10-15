@@ -1,9 +1,12 @@
 #![allow(non_snake_case)]
 use std::cell::RefCell;
+use std::time::Duration;
 
 use candid::Principal;
+use ic_cdk::{init, post_upgrade, spawn};
 use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 use ic_stable_structures::{DefaultMemoryImpl, StableBTreeMap};
+use seed::lib::seed_data;
 
 use crate::author::model::{Author, AuthorPayload};
 use crate::book::model::{Book, BookPayload};
@@ -19,6 +22,7 @@ mod genre;
 mod helper;
 mod library;
 mod plan;
+mod seed;
 mod user;
 
 type Memory = VirtualMemory<DefaultMemoryImpl>;
@@ -61,7 +65,37 @@ thread_local! {
     ));
 }
 
-#[ic_cdk::init]
-async fn init() {}
+#[init]
+fn init() {
+    ic_cdk::print("!!! Calling init");
+    seed();
+    ic_cdk::println!("Seeded Called");
+}
+
+#[post_upgrade]
+fn seed() {
+    ic_cdk_timers::set_timer(Duration::ZERO, || {
+        spawn(async {
+            clear_stores();
+            seed_data().await;
+        })
+    });
+}
+
+fn clear_stores() {
+    ic_cdk::print("Clearing Author, Genre, and Book stores...");
+
+    AUTHOR_STORE.with(|store| {
+        store.borrow_mut().clear_new();
+    });
+    GENRE_STORE.with(|store| {
+        store.borrow_mut().clear_new();
+    });
+    BOOK_STORE.with(|store| {
+        store.borrow_mut().clear_new();
+    });
+
+    ic_cdk::println!("Stores cleared successfully!");
+}
 
 ic_cdk::export_candid!();

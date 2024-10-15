@@ -134,3 +134,16 @@ pub fn delete_book_in_author(author: &mut Author, book_id: &Principal) {
         author.books.retain(|b| b.id != *book_id);
     }
 }
+
+pub async fn seed_author(name: String) -> Option<Author> {
+    let payload = AuthorPayload {
+        id: None,
+        name: name,
+    };
+    match create_author(payload).await {
+        Ok(author) => return Some(author),
+        Err(_) => {
+            return None;
+        }
+    }
+}

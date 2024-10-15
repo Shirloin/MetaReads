@@ -59,6 +59,7 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
         title: payload.title,
         description: payload.description,
         cover_image: payload.cover_image,
+        book_url: payload.book_url,
         author: author.clone(),
         genre: genre.clone(),
         page_count: payload.page_count,
@@ -149,6 +150,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             book.title = payload.title;
             book.description = payload.description;
             book.cover_image = payload.cover_image;
+            book.book_url = payload.book_url;
             book.page_count = payload.page_count;
             book.author = new_author.clone();
             book.genre = new_genre.clone();
@@ -328,4 +330,24 @@ pub fn delete_book_related_to_genre(genre_id: &Principal) {
             store.remove(&book_id);
         }
     });
+}
+
+pub async fn seed_book(title: String, author_id: Principal, genre_id: Principal) -> Option<Book> {
+    let payload = BookPayload {
+        id: None,
+        title: title,
+        description: "A journey through space and time.".to_string(),
+        cover_image: "cover_image_url".to_string(),
+        author_id: author_id,
+        genre_id: genre_id,
+        page_count: 0,
+        book_url: "Book Url".to_string(),
+        plan: "Free".to_string(),
+    };
+    match create_book(payload).await {
+        Ok(book) => return Some(book),
+        Err(error) => {
+            return None;
+        }
+    }
 }
