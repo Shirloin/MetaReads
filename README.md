@@ -56,116 +56,116 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
 ## Book Reference
 #### Get all books
 
-    ```http
-    get_all_book()
-    ```
-    Return array of books
-    
-    Return Ex:
-    
-    book = {
-        id,
-        title,
-        description,
-        cover_image,
-        author: {id, name}, 
-        genre: {id, name},
-        plan,
-        views,
-        page_count, 
-        created_at,
-        updated_at,
-      }
-    
-    [
-      book1, book2, book3
-    ]
-    
-    #### Get book
-    
-    ```http
-    get_book({id})
-    ```
-    
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `id`      | `Principal` | **Required**.|
-    
-    Return Book or Error
-    
-    #### Get Popular Book
-    
-    ```http
-    get_popular_book()
-    ```
-    Return 10 books with the most views
-    
-    #### Get Latest Release Book
-    
-    ```http
-    get_latest_release_book()
-    ```
-    Return 20 books with the newest release
-    
-    #### Get Book By Genre
-    
-    ```http
-    get_book_by_genre({genre_id})
-    ```
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `genre_id`      | `Principal` | **Required**.|
-    
-    Return books filtered by the genre
-    
-    #### Create Book
-    
-    ```http
-    create_book({title, description, cover_image, author_id, genre_id, plan, page_count})
-    ```
-    
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `title`      | `string` | **Required**.|
-    | `description`      | `string` | **Required**.|
-    | `cover_image`      | `string` | **Required**.|
-    | `author_id`      | `Principal` | **Required**.|
-    | `genre_id`      | `Principal` | **Required**.|
-    | `plan`      | `string` | **Required**.|
-    | `page_count`      | `u64` | **Required**.|
-    
-    Return Book or Error
-    
-    #### Update Book
-    
-    ```http
-    update_book({id, title, description, cover_image, author_id, genre_id, plan, page_count})
-    ```
-    
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `id`      | `Principal` | **Required**.|
-    | `title`      | `string` | **Required**.|
-    | `description`      | `string` | **Required**.|
-    | `cover_image`      | `string` | **Required**.|
-    | `author_id`      | `Principal` | **Required**.|
-    | `genre_id`      | `Principal` | **Required**.|
-    | `plan`      | `string` | **Required**.|
-    | `page_count`      | `u64` | **Required**.|
-    
-    Return Book or Error
-    
-    #### Delete Book
-    
-    ```http
-    delete_book({id})
-    ```
-    
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `id`      | `Principal` | **Required**.|
-    
-    Return Book or Error
+```http
+get_all_book()
+```
+Return array of books
+
+Return Ex:
+
+book = {
+    id,
+    title,
+    description,
+    cover_image,
+    author: {id, name}, 
+    genre: {id, name},
+    plan,
+    views,
+    page_count, 
+    created_at,
+    updated_at,
+  }
+
+[
+  book1, book2, book3
+]
+
+#### Get book
+
+```http
+get_book({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Book or Error
+
+#### Get Popular Book
+
+```http
+get_popular_book()
+```
+Return 10 books with the most views
+
+#### Get Latest Release Book
+
+```http
+get_latest_release_book()
+```
+Return 20 books with the newest release
+
+#### Get Book By Genre
+
+```http
+get_book_by_genre({genre_id})
+```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `genre_id`      | `Principal` | **Required**.|
+
+Return books filtered by the genre
+
+#### Create Book
+
+```http
+create_book({title, description, cover_image, author_id, genre_id, plan, page_count})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `title`      | `string` | **Required**.|
+| `description`      | `string` | **Required**.|
+| `cover_image`      | `string` | **Required**.|
+| `author_id`      | `Principal` | **Required**.|
+| `genre_id`      | `Principal` | **Required**.|
+| `plan`      | `string` | **Required**.|
+| `page_count`      | `u64` | **Required**.|
+
+Return Book or Error
+
+#### Update Book
+
+```http
+update_book({id, title, description, cover_image, author_id, genre_id, plan, page_count})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `title`      | `string` | **Required**.|
+| `description`      | `string` | **Required**.|
+| `cover_image`      | `string` | **Required**.|
+| `author_id`      | `Principal` | **Required**.|
+| `genre_id`      | `Principal` | **Required**.|
+| `plan`      | `string` | **Required**.|
+| `page_count`      | `u64` | **Required**.|
+
+Return Book or Error
+
+#### Delete Book
+
+```http
+delete_book({id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Book or Error
 
 
 
