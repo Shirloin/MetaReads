@@ -1,3 +1,5 @@
+import PageLayout from "../../components/Layout/PageLayout";
+
 export default function GenrePage() {
-  return <>Genre Management Page</>;
+  return <PageLayout>Genre Management Page</PageLayout>;
 }

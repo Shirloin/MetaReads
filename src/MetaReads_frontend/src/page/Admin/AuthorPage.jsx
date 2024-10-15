@@ -1,3 +1,5 @@
+import PageLayout from "../../components/Layout/PageLayout";
+
 export default function AuthorPage() {
-  return <>Author Management Page</>;
+  return <PageLayout>Author Management Page</PageLayout>;
 }
