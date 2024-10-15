@@ -3,6 +3,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { getHoverStyle, getMenuItemStyle } from "../Utility/StylingUtility";
+import { createUrl } from "../Utility/UrlUtility";
 export default function AdminNavigation() {
   return (
     <Menu
@@ -16,14 +17,14 @@ export default function AdminNavigation() {
       <MenuItem
         style={getMenuItemStyle("/admin/genre")}
         icon={<AiOutlineUnorderedList size={22} />}
-        component={<Link to="/admin/genre" />}
+        component={<Link to={createUrl("/admin/genre")} />}
       >
         Genre
       </MenuItem>
       <MenuItem
         style={getMenuItemStyle("/admin/author")}
         icon={<BsPeopleFill size={22} />}
-        component={<Link to="/admin/author" />}
+        component={<Link to={createUrl("/admin/author")} />}
       >
         Author
       </MenuItem>

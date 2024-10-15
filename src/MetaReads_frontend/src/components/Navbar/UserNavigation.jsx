@@ -5,7 +5,12 @@ import SignoutLogo from "../../../public/assets/Sign out Logo.png";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
-import { baseLogoutStyle, getHoverStyle, getMenuItemStyle } from "../Utility/StylingUtility";
+import {
+  baseLogoutStyle,
+  getHoverStyle,
+  getMenuItemStyle,
+} from "../Utility/StylingUtility";
+import { createUrl } from "../Utility/UrlUtility";
 export default function UserNavigation() {
   const handleLogout = () => {
     // Add Logout Logic Here
@@ -32,7 +37,7 @@ export default function UserNavigation() {
             }}
           />
         }
-        component={<Link to="/" />}
+        component={<Link to={createUrl("/")} />}
       >
         Store
       </MenuItem>
@@ -45,7 +50,7 @@ export default function UserNavigation() {
             style={{ width: "22px", height: "22px" }}
           />
         }
-        component={<Link to="/library" />}
+        component={<Link to={createUrl("/library")} />}
       >
         Library
       </MenuItem>
@@ -58,7 +63,7 @@ export default function UserNavigation() {
             style={{ width: "22px", height: "22px" }}
           />
         }
-        component={<Link to="/subscriptions" />}
+        component={<Link to={createUrl("/subscriptions")} />}
       >
         Subscriptions
       </MenuItem>
