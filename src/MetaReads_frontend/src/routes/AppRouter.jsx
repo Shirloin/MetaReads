@@ -5,12 +5,15 @@ import LoginPage from "../page/LoginPage";
 import HomePage from "../page/HomePage";
 import LibraryPage from "../page/LibraryPage";
 import SubscriptionPage from "../page/SubscriptionPage";
+import AuthorPage from "../page/Admin/AuthorPage";
+import GenrePage from "../page/Admin/GenrePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <BaseLayout />,
     children: [
+      // User
       {
         path: "/",
         element: <HomePage />,
@@ -24,12 +27,22 @@ const router = createBrowserRouter([
         element: <SubscriptionPage />,
       },
       {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      // Debug
+      {
         path: "/debug",
         element: <DebugPage />,
       },
+      // Admin
       {
-        path: "/login",
-        element: <LoginPage />,
+        path: "/admin/author",
+        element: <AuthorPage />,
+      },
+      {
+        path: "/admin/genre",
+        element: <GenrePage />,
       },
     ],
   },
