@@ -81,24 +81,45 @@ fn get_library(id: &Principal) -> Option<Library> {
 }
 
 pub fn update_book_in_library(book: &Book) {
-    LIBRARY_STORE.with(|library_store| {
-        let store = library_store.borrow();
-        for (_key, mut library) in store.iter() {
-            if library.book.id == book.id {
-                library.book = book.clone();
-                insert_library(&library);
-            }
-        }
-    })
+    let libraries_to_update: Vec<Library> = LIBRARY_STORE.with(|library_store| {
+        let library_store = library_store.borrow();
+
+        library_store
+            .iter()
+            .filter_map(|(_, library)| {
+                if library.book.id == book.id {
+                    let mut updated_library = library.clone();
+                    updated_library.book = book.clone();
+                    Some(updated_library)
+                } else {
+                    None
+                }
+            })
+            .collect()
+    });
+    for library in libraries_to_update {
+        insert_library(&library);
+    }
 }
 
 pub fn delete_book_in_library(book_id: &Principal) {
-    LIBRARY_STORE.with(|library_store| {
+    let library_to_remove: Vec<Principal> = LIBRARY_STORE.with(|library_store| {
         let store = library_store.borrow();
-        for (_key, library) in store.iter() {
-            if library.book.id == *book_id {
-                library_store.borrow_mut().remove(&library.id);
-            }
+        store
+            .iter()
+            .filter_map(|(_, library)| {
+                if library.book.id == *book_id {
+                    Some(library.id.clone())
+                } else {
+                    None
+                }
+            })
+            .collect()
+    });
+    LIBRARY_STORE.with(|library_store| {
+        let mut store = library_store.borrow_mut();
+        for library_id in library_to_remove {
+            store.remove(&library_id);
         }
     })
 }
