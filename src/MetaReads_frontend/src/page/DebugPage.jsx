@@ -165,7 +165,7 @@ export default function DebugPage() {
         <div className="text-5xl font-bold text-white">Debug Page</div>
         <div className="flex w-full gap-4">
           <div className="flex w-full max-w-md flex-col gap-4">
-            <h1 className="text-xl">Create Genre</h1>
+            <h1 className="text-xl">Create Genredddd</h1>
             <input
               onChange={(e) => setGenre(e.target.value)}
               value={genre}
