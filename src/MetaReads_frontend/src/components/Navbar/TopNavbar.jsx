@@ -20,7 +20,7 @@ export default function TopNavbar() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundColor: "#14181E",
+            backgroundColor: "#d",
             opacity: "0.11",
             zIndex: 1,
           }}
