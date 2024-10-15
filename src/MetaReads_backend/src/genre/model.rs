@@ -4,10 +4,13 @@ use candid::{CandidType, Decode, Encode, Principal};
 use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+
+use crate::book::model::Book;
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
 pub struct Genre {
     pub id: Principal,
     pub name: String,
+    pub books: Vec<Book>,
 }
 
 impl Storable for Genre {
