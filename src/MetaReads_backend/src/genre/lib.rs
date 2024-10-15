@@ -1,16 +1,19 @@
 use candid::Principal;
 use validator::Validate;
 
-use super::model::{Genre, GenrePayload, GenreResponse};
+use super::model::{Genre, GenrePayload};
 use crate::{
-    book::{lib::insert_book, model::Book},
+    book::{
+        lib::{delete_book_related_to_genre, update_genre_in_book},
+        model::Book,
+    },
     error::error::Error,
     helper::helper::generate_unique_id,
-    BOOK_STORE, GENRE_STORE,
+    GENRE_STORE,
 };
 
 #[ic_cdk::update]
-async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
+async fn create_genre(payload: GenrePayload) -> Result<Genre, Error> {
     let check_payload = payload.validate();
     if check_payload.is_err() {
         return Err(Error::ValidationErrors {
@@ -32,10 +35,7 @@ async fn create_genre(payload: GenrePayload) -> Result<GenreResponse, Error> {
     };
 
     insert_genre(&genre);
-
-    let message = format!("{} has been successfully registered", genre.name);
-    let response = GenreResponse { genre, message };
-    Ok(response)
+    Ok(genre)
 }
 
 #[ic_cdk::query]
@@ -71,7 +71,7 @@ fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
                 });
             }
             genre.name = payload.name;
-            update_books_with_genre(&genre);
+            update_genre_in_book(&genre);
             insert_genre(&genre);
             Ok(genre)
         }
@@ -86,6 +86,7 @@ fn delete_genre(id: Principal) -> Result<Genre, Error> {
     match get_genre_by_id(&id) {
         Some(genre) => {
             GENRE_STORE.with(|genre_store| genre_store.borrow_mut().remove(&id));
+            delete_book_related_to_genre(&id);
             Ok(genre)
         }
         None => Err(Error::NotFound {
@@ -116,17 +117,8 @@ pub fn get_genre_by_name(name: &String) -> Option<Genre> {
     })
 }
 
-fn update_books_with_genre(updated_genre: &Genre) {
-    BOOK_STORE.with(|book_store| {
-        let book_store = book_store.borrow_mut();
-
-        for (_, mut book) in book_store.iter() {
-            if book.genre.id == updated_genre.id {
-                book.genre = updated_genre.clone();
-                insert_book(&book);
-            }
-        }
-    });
+pub fn add_book_in_genre(genre: &mut Genre, book: &Book) {
+    genre.books.push(book.clone());
 }
 
 pub fn update_book_in_genre(genre: &mut Genre, book: &Book) {

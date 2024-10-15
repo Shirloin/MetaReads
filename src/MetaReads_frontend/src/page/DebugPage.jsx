@@ -26,6 +26,7 @@ export default function DebugPage() {
         id: [],
         name: genre,
       });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +38,7 @@ export default function DebugPage() {
         id: [],
         name: author,
       });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -55,6 +57,83 @@ export default function DebugPage() {
         page_count: book.page_count,
         plan: book.plan,
       });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateGenre = async () => {
+    try {
+      const response = await MetaReads_backend.update_genre({
+        id: [],
+        name: genre,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateAuthor = async () => {
+    try {
+      const response = await MetaReads_backend.create_author({
+        id: [],
+        name: author,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const updateBook = async () => {
+    const authorIdPrincipal = Principal.fromText(book.author_id);
+    const genreIdPrincipal = Principal.fromText(book.genre_id);
+    try {
+      const response = await MetaReads_backend.create_book({
+        id: [],
+        title: book.title,
+        description: book.description,
+        cover_image: book.cover_image,
+        author_id: authorIdPrincipal,
+        genre_id: genreIdPrincipal,
+        page_count: book.page_count,
+        plan: book.plan,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteGenre = async (id) => {
+    console.log("delete genre");
+    console.log(id.toString());
+    const genre_id = Principal.fromText(id.toString());
+    try {
+      const response = await MetaReads_backend.delete_genre(genre_id);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteAuthor = async (id) => {
+    console.log("delete author");
+    console.log(id.toString());
+    const author_id = Principal.fromText(id.toString());
+    try {
+      const response = await MetaReads_backend.delete_author(author_id);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteBook = async (id) => {
+    console.log(id.toString());
+    const book_id = Principal.fromText(id.toString());
+    try {
+      const response = await MetaReads_backend.delete_book(book_id);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -85,15 +164,7 @@ export default function DebugPage() {
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-10 p-10 text-white">
         <div className="text-5xl font-bold text-white">Debug Page</div>
         <div className="flex w-full gap-4">
-          <ul className="flex flex-col">
-            {genres.map((genre) => (
-              <li>
-                <h5>{genre.id.toString()}</h5>
-                <h4>{genre.name}</h4>
-              </li>
-            ))}
-          </ul>
-          <div className="flex w-full flex-col gap-4">
+          <div className="flex w-full max-w-md flex-col gap-4">
             <h1 className="text-xl">Create Genre</h1>
             <input
               onChange={(e) => setGenre(e.target.value)}
@@ -107,18 +178,32 @@ export default function DebugPage() {
             >
               Create Genre
             </button>
+            <button
+              onClick={updateGenre}
+              className="rounded-md bg-white p-2 font-bold text-black"
+            >
+              Update Genre
+            </button>
           </div>
-        </div>
-        <div className="flex w-full gap-4">
           <ul className="flex flex-col">
-            {authors.map((author) => (
+            {genres.map((genre, index) => (
               <li>
-                <h5>{author.id.toString()}</h5>
-                <h4>{author.name}</h4>
+                <h5>{index}</h5>
+                <h5>{genre.id.toString()}</h5>
+                <h4>{genre.name}</h4>
+                <button
+                  onClick={() => deleteGenre(genre.id)}
+                  className="rounded-md bg-red-500 p-2 text-white"
+                >
+                  Delete
+                </button>
+                <p>========================================</p>
               </li>
             ))}
           </ul>
-          <div className="flex w-full flex-col gap-4">
+        </div>
+        <div className="flex w-full gap-4">
+          <div className="flex w-full max-w-md flex-col gap-4">
             <h1 className="text-xl">Create Author</h1>
             <input
               onChange={(e) => setAuthor(e.target.value)}
@@ -132,18 +217,32 @@ export default function DebugPage() {
             >
               Create Author
             </button>
+            <button
+              onClick={updateAuthor}
+              className="rounded-md bg-white p-2 font-bold text-black"
+            >
+              Update Author
+            </button>
           </div>
-        </div>
-        <div className="flex w-full gap-4">
           <ul className="flex flex-col">
-            {books.map((book) => (
+            {authors.map((author, index) => (
               <li>
-                <h5>{book.id.toString()}</h5>
-                <h4>{book.title}</h4>
+                <h5>{index}</h5>
+                <h5>{author.id.toString()}</h5>
+                <h4>{author.name}</h4>
+                <button
+                  onClick={() => deleteAuthor(author.id)}
+                  className="rounded-md bg-red-500 p-2 text-white"
+                >
+                  Delete
+                </button>
+                <p> ========================================</p>
               </li>
             ))}
           </ul>
-          <div className="flex w-full flex-col gap-4">
+        </div>
+        <div className="flex w-full gap-4">
+          <div className="flex w-full max-w-md flex-col gap-4">
             <h1 className="text-xl">Create Book</h1>
             <input
               onChange={handleOnChange}
@@ -223,7 +322,30 @@ export default function DebugPage() {
             >
               Create Book
             </button>
+            <button
+              onClick={updateBook}
+              className="rounded-md bg-white p-2 font-bold text-black"
+            >
+              Update Book
+            </button>
           </div>
+          <ul className="flex flex-col">
+            {books.map((book, index) => (
+              <li>
+                <h5>{index}</h5>
+                <h5>{book.id.toString()}</h5>
+                <h4>{book.title}</h4>
+                <h4>{book.author.name}</h4>
+                <h4>{book.genre.name}</h4>
+                <button
+                  onClick={() => deleteBook(book.id)}
+                  className="rounded-md bg-red-500 p-2 text-white"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>

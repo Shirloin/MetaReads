@@ -1,6 +1,21 @@
-type Author = record { id : principal; name : text };
+type Author = record {
+  id : principal;
+  name : text;
+  books : vec record {
+    id : principal;
+    title : text;
+    updated_at : opt nat64;
+    views : nat64;
+    cover_image : text;
+    plan : text;
+    description : text;
+    created_at : nat64;
+    author : Author;
+    genre : record { id : principal; name : text; books : Vec };
+    page_count : nat64;
+  };
+};
 type AuthorPayload = record { id : opt principal; name : text };
-type AuthorResponse = record { author : Author; message : text };
 type Book = record {
   id : principal;
   title : text;
@@ -10,8 +25,8 @@ type Book = record {
   plan : text;
   description : text;
   created_at : nat64;
-  author : record { id : principal; name : text };
-  genre : record { id : principal; name : text; books : vec Book };
+  author : Author;
+  genre : Genre;
   page_count : nat64;
 };
 type BookPayload = record {
@@ -24,15 +39,13 @@ type BookPayload = record {
   author_id : principal;
   page_count : nat64;
 };
-type BookResponse = record { book : Book; message : text };
 type Error = variant {
   NotFound : record { message : text };
   ValidationErrors : record { errors : text };
   NotAuthorized : record { message : text };
 };
-type Genre = record { id : principal; name : text; books : vec Book };
+type Genre = record { id : principal; name : text; books : Vec };
 type GenrePayload = record { id : opt principal; name : text };
-type GenreResponse = record { genre : Genre; message : text };
 type Library = record { id : principal; book : Book; user : User };
 type LibraryPayload = record {
   id : opt principal;
@@ -40,16 +53,12 @@ type LibraryPayload = record {
   book_id : principal;
 };
 type LibraryResponse = record { library : Library; message : text };
-type Result = variant { Ok : AuthorResponse; Err : Error };
-type Result_1 = variant { Ok : BookResponse; Err : Error };
-type Result_2 = variant { Ok : GenreResponse; Err : Error };
+type Result = variant { Ok : Author; Err : Error };
+type Result_1 = variant { Ok : Book; Err : Error };
+type Result_2 = variant { Ok : Genre; Err : Error };
 type Result_3 = variant { Ok : LibraryResponse; Err : Error };
-type Result_4 = variant { Ok : UserResponse; Err : Error };
-type Result_5 = variant { Ok : Author; Err : Error };
-type Result_6 = variant { Ok : Book; Err : Error };
-type Result_7 = variant { Ok : Genre; Err : Error };
-type Result_8 = variant { Ok : Library; Err : Error };
-type Result_9 = variant { Ok : User; Err : Error };
+type Result_4 = variant { Ok : User; Err : Error };
+type Result_5 = variant { Ok : Library; Err : Error };
 type User = record {
   id : principal;
   money : nat64;
@@ -61,31 +70,43 @@ type UserPayload = record {
   money : opt nat64;
   username : text;
   password : text;
-  image : text;
+  image : opt text;
 };
-type UserResponse = record { user : User; message : text };
+type Vec = vec record {
+  id : principal;
+  title : text;
+  updated_at : opt nat64;
+  views : nat64;
+  cover_image : text;
+  plan : text;
+  description : text;
+  created_at : nat64;
+  author : Author;
+  genre : record { id : principal; name : text; books : Vec };
+  page_count : nat64;
+};
 service : () -> {
   create_author : (AuthorPayload) -> (Result);
   create_book : (BookPayload) -> (Result_1);
   create_genre : (GenrePayload) -> (Result_2);
   create_library : (LibraryPayload) -> (Result_3);
   create_user : (UserPayload) -> (Result_4);
-  delete_author : (principal) -> (Result_5);
-  delete_book : (principal) -> (Result_6);
-  delete_genre : (principal) -> (Result_7);
-  delete_library : (principal) -> (Result_8);
+  delete_author : (principal) -> (Result);
+  delete_book : (principal) -> (Result_1);
+  delete_genre : (principal) -> (Result_2);
+  delete_library : (principal) -> (Result_5);
   get_all_author : () -> (vec Author) query;
   get_all_book : () -> (vec Book) query;
   get_all_genre : () -> (vec Genre) query;
   get_all_user : () -> (vec User) query;
-  get_book : (principal) -> (Result_6) query;
+  get_book : (principal) -> (Result_1) query;
   get_book_by_genre : (principal) -> (vec Book) query;
   get_latest_release_book : () -> (vec Book) query;
   get_library_by_user : (principal) -> (vec Library) query;
   get_popular_book : () -> (vec Book) query;
-  get_user : (principal) -> (Result_9) query;
-  login : (text, text) -> (Result_9) query;
-  update_author : (GenrePayload) -> (Result_5);
-  update_book : (BookPayload) -> (Result_6);
-  update_genre : (GenrePayload) -> (Result_7);
+  get_user : (principal) -> (Result_4) query;
+  login : (text, text) -> (Result_4) query;
+  update_author : (GenrePayload) -> (Result);
+  update_book : (BookPayload) -> (Result_1);
+  update_genre : (GenrePayload) -> (Result_2);
 }

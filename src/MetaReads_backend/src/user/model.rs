@@ -31,7 +31,7 @@ pub struct UserPayload {
     pub username: String,
     #[validate(length(min = 5))]
     pub password: String,
-    pub image: String,
+    pub image: Option<String>,
     pub money: Option<u64>,
 }
 

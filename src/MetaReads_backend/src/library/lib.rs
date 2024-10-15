@@ -1,6 +1,9 @@
 use candid::Principal;
 
-use crate::{book::lib::get_book_by_id, user::lib::get_user_by_id};
+use crate::{
+    book::{lib::get_book_by_id, model::Book},
+    user::lib::get_user_by_id,
+};
 
 use super::model::{Library, LibraryPayload, LibraryResponse};
 use crate::{error::error::Error, helper::helper::generate_unique_id, LIBRARY_STORE};
@@ -75,4 +78,27 @@ pub fn insert_library(library: &Library) {
 
 fn get_library(id: &Principal) -> Option<Library> {
     LIBRARY_STORE.with(|library_store| library_store.borrow().get(id))
+}
+
+pub fn update_book_in_library(book: &Book) {
+    LIBRARY_STORE.with(|library_store| {
+        let store = library_store.borrow();
+        for (_key, mut library) in store.iter() {
+            if library.book.id == book.id {
+                library.book = book.clone();
+                insert_library(&library);
+            }
+        }
+    })
+}
+
+pub fn delete_book_in_library(book_id: &Principal) {
+    LIBRARY_STORE.with(|library_store| {
+        let store = library_store.borrow();
+        for (_key, library) in store.iter() {
+            if library.book.id == *book_id {
+                library_store.borrow_mut().remove(&library.id);
+            }
+        }
+    })
 }
