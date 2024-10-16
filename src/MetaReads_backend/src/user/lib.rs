@@ -23,9 +23,7 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
         image: payload.image.unwrap_or_default(),
         money: payload.money.unwrap_or(0),
     };
-    USER_STORE.with(|user_store| {
-        user_store.borrow_mut().insert(id, user.clone());
-    });
+    insert_user(&user);
     Ok(user)
 }
 
@@ -69,6 +67,26 @@ fn get_user(id: Principal) -> Result<User, Error> {
     }
 }
 
+#[ic_cdk::query]
+fn update_balance(id: Principal, balance: u64) -> Result<User, Error> {
+    let mut user = match get_user_by_id(&id) {
+        Some(ref user) => user.clone(),
+        None => {
+            return Err(Error::NotFound {
+                message: "User not found".to_string(),
+            })
+        }
+    };
+    update_user_balance(&mut user, balance as i64);
+    Ok(user)
+}
+
+pub fn insert_user(user: &User) {
+    USER_STORE.with(|user_store| {
+        user_store.borrow_mut().insert(user.id, user.clone());
+    });
+}
+
 pub fn get_user_by_id(id: &Principal) -> Option<User> {
     USER_STORE.with(|user_store| user_store.borrow().get(id))
 }
@@ -83,4 +101,9 @@ fn get_user_by_username(username: &String) -> Option<User> {
         }
         None
     })
+}
+
+pub fn update_user_balance(user: &mut User, balance: i64) {
+    user.money += balance;
+    insert_user(&user);
 }

@@ -17,8 +17,8 @@ pub struct Book {
     pub author: Author,
     pub genre: Genre,
     pub plan: String,
-    pub views: u64,
-    pub page_count: u64,
+    pub views: i64,
+    pub page_count: i64,
     pub created_at: u64,
     pub updated_at: Option<u64>,
 }
@@ -45,5 +45,5 @@ pub struct BookPayload {
     pub author_id: Principal,
     pub genre_id: Principal,
     pub plan: String,
-    pub page_count: u64,
+    pub page_count: i64,
 }

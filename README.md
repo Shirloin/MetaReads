@@ -132,7 +132,7 @@ create_book({title, description, cover_image, author_id, genre_id, plan, page_co
 | `author_id`      | `Principal` | **Required**.|
 | `genre_id`      | `Principal` | **Required**.|
 | `plan`      | `string` | **Required**.|
-| `page_count`      | `u64` | **Required**.|
+| `page_count`      | `i64` | **Required**.|
 
 Return Book or Error
 
@@ -151,7 +151,7 @@ update_book({id, title, description, cover_image, author_id, genre_id, plan, pag
 | `author_id`      | `Principal` | **Required**.|
 | `genre_id`      | `Principal` | **Required**.|
 | `plan`      | `string` | **Required**.|
-| `page_count`      | `u64` | **Required**.|
+| `page_count`      | `i64` | **Required**.|
 
 Return Book or Error
 

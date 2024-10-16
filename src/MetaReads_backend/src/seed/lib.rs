@@ -1,5 +1,4 @@
 use crate::author::lib::seed_author;
-use crate::author::model::{Author, AuthorPayload};
 use crate::book::lib::seed_book;
 use crate::genre::lib::seed_genre;
 

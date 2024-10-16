@@ -8,8 +8,8 @@ use serde::{Deserialize, Serialize};
 pub struct Plan {
     pub id: Principal,
     pub name: String,
-    pub price_per_month: u64,
-    pub price_per_year: u64,
+    pub price_per_month: i64,
+    pub price_per_year: i64,
 }
 impl Storable for Plan {
     fn to_bytes(&self) -> Cow<[u8]> {
@@ -27,6 +27,6 @@ impl Storable for Plan {
 pub struct PlanPayload {
     pub id: Option<Principal>,
     pub name: String,
-    pub price_per_month: u64,
-    pub price_per_year: u64,
+    pub price_per_month: i64,
+    pub price_per_year: i64,
 }
