@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AlertButton from "../../Form/Button/AlertButton";
 import PrimaryButton from "../../Form/Button/PrimaryButton";
 import InputField from "../../Form/Input/TextField/InputField";
 import BaseModal from "../BaseModal";
 import { Title } from "../../Utility/TitleUtility";
-import { MetaReads_backend } from "../../../../../declarations/MetaReads_backend";
 import { ToastError } from "../../Form/Notifications/ErrorNotification";
 import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
+import { useCreateGenre } from "../../Hook/Genre/useCreateGenre";
+import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
+import { toast } from "react-toastify";
 
-export default function CreateGenreModal({ open, handleClose }) {
+export default function CreateGenreModal({ open, handleClose, fetchData }) {
   const [name, setName] = useState("");
-
+  const { createGenre, error, success } = useCreateGenre();
+  const loadingToastId = useRef(null);
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -19,15 +22,25 @@ export default function CreateGenreModal({ open, handleClose }) {
     if (!name || name.trim() === "") {
       ToastError("Genre name can't be empty");
     } else {
+      loadingToastId.current = ToastLoading("Loading..");
       try {
-        await MetaReads_backend.create_genre({
-          id: [],
-          name: name,
-        });
-        ToastSuccess("Genre Created");
-      } catch (error) {}
+        await createGenre(name);
+        if (success) {
+          ToastSuccess("Genre Created Successfully");
+          fetchData();
+        }
+        if (error) {
+          ToastError(error);
+        }
+      } finally {
+        if (loadingToastId.current) {
+          toast.dismiss(loadingToastId.current);
+          loadingToastId.current = null;
+        }
+      }
     }
   };
+
   return (
     <BaseModal open={open} handleClose={handleClose}>
       <Title text={"Add Genre"} />

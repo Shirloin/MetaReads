@@ -15,8 +15,8 @@ import {
 export default function BaseTable({
   headers,
   rows,
-  handleUpdateItem,
-  handleDeleteItem,
+  handleOpenUpdate,
+  handleOpenDelete,
 }) {
   return (
     <>
@@ -61,11 +61,11 @@ export default function BaseTable({
                                   <AiFillEdit
                                     fontSize="18px"
                                     className="cursor-pointer text-green-600"
-                                    onClick={() => handleUpdateItem(row)}
+                                    onClick={() => handleOpenUpdate(row)}
                                   />
                                   <AiFillDelete
                                     fontSize={"18px"}
-                                    onClick={() => handleDeleteItem(row)}
+                                    onClick={() => handleOpenDelete(row)}
                                     className="cursor-pointer text-red-600"
                                   />
                                 </div>

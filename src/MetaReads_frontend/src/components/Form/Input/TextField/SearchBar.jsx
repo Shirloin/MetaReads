@@ -1,6 +1,6 @@
 import SearchLogo from "../../../../../public/assets/Search Logo.png";
 
-export default function SearchBar({ query, setQuery }) {
+export default function SearchBar({ query, onChange }) {
   return (
     <div
       style={{
@@ -28,7 +28,7 @@ export default function SearchBar({ query, setQuery }) {
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => onChange(e)}
         style={{
           width: "100%",
           border: "none",

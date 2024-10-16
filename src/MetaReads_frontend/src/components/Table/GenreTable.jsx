@@ -1,86 +1,95 @@
 import { useEffect, useState } from "react";
 import BaseTable from "./BaseTable";
-import { MetaReads_backend } from "../../../../declarations/MetaReads_backend";
-import { Button } from "@mui/material";
 import PrimaryButton from "../Form/Button/PrimaryButton";
 import CreateGenreModal from "../Modal/Genre/CreateGenreModal";
+import CustomPagination from "./CustomPagination";
+import SearchBar from "../Form/Input/TextField/SearchBar";
+import useGenres from "../Hook/Genre/useGenres";
 
 export default function GenreTable() {
-  const [createItem, setCreateItem] = useState(false);
-  const [updateItem, setUpdateItem] = useState(false);
-  const [deleteItem, setDeleteItem] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(undefined);
-  const [rows, setRows] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const genresResponse = await MetaReads_backend.get_all_genre();
-        // Map the response to match the table structure
-        const genreRows = genresResponse.map((genre) =>
-          createData(genre.id, genre.name, "Options"),
-        );
-        setRows(genreRows);
-        console.log(genresResponse);
-      } catch (error) {
-        console.error("Error fetching genres:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const [modalState, setModalState] = useState({
+    create: false,
+    update: false,
+    delete: false,
+    selectedRow: undefined,
+  });
 
-  //   useEffect(() => {
-  //     const seedDummyData = () => {
-  //       const dummyRows = [
-  //         createData(1, "Fiction", "Options"),
-  //         createData(2, "Science Fiction", "Options"),
-  //         createData(3, "Fantasy", "Options"),
-  //         createData(4, "Romance", "Options"),
-  //       ];
-  //       console.log(dummyRows);
+  const [query, setQuery] = useState("");
+  const [pagination, setPagination] = useState({
+    page: 0,
+    rowsPerPage: 10,
+  });
 
-  //       setRows(dummyRows);
-  //     };
-  //     seedDummyData();
-  //   }, []);
-
+  const [rows, fetchData] = useGenres();
   const headers = ["Id", "Name", "Option"];
-  function createData(id, name, option) {
-    return { id, name, option };
-  }
-  const handleUpdateItem = (row) => {
-    setSelectedRow(row);
-    setUpdateItem(true);
+
+  const toggleModal = (type, row = null) => {
+    setModalState((prevState) => ({
+      ...prevState,
+      [type]: !prevState[type],
+      selectedRow: row,
+    }));
   };
-  const handleDeleteItem = (row) => {
-    setSelectedRow(row);
-    setDeleteItem(true);
+
+  // Usage in handlers
+  const handleOpenUpdate = (row) => toggleModal("update", row);
+  const handleOpenDelete = (row) => toggleModal("delete", row);
+  const handleOpenCreate = () => toggleModal("create");
+  const handleCloseUpdate = () => toggleModal("update");
+  const handleCloseDelete = () => toggleModal("delete");
+  const handleCloseCreate = () => toggleModal("create");
+
+  const handleChangePage = (event, newPage) => {
+    setPagination({ ...pagination, page: newPage });
   };
-  const handleCreateItem = () => {
-    setCreateItem(true);
+
+  const handleChangeRowsPerPage = (event) => {
+    setPagination({ page: 0, rowsPerPage: parseInt(event.target.value, 10) });
   };
-  const handleCloseUpdate = () => {
-    setUpdateItem(false);
-    setSelectedRow(null);
+
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value);
   };
-  const handleCloseDelete = () => {
-    setDeleteItem(false);
-    setSelectedRow(null);
-  };
-  const handleCloseCreate = () => {
-    setCreateItem(false);
-  };
+
+  const filteredRows = rows.filter((row) =>
+    row.name.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  useEffect(() => {
+    setPagination({ page: 0, rowsPerPage: pagination.rowsPerPage });
+  }, [query]);
+
   return (
     <>
-      <CreateGenreModal open={createItem} handleClose={handleCloseCreate} />
+      <CreateGenreModal
+        open={modalState.create}
+        handleClose={handleCloseCreate}
+        fetchData={fetchData}
+      />
       <div className="flex flex-col gap-2 p-4">
-        <div>
-          <PrimaryButton onClick={handleCreateItem} text={"Add Genre"} />
+        <div className="flex gap-4">
+          <div className="flex-grow transition-all duration-300">
+            <SearchBar value={query} onChange={handleQueryChange} />
+          </div>
+          <div className="flex items-center">
+            <PrimaryButton onClick={handleOpenCreate} text={"Add Genre"} />
+          </div>
         </div>
         <BaseTable
-          rows={rows}
+          rows={filteredRows.slice(
+            pagination.page * pagination.rowsPerPage,
+            pagination.page * pagination.rowsPerPage + pagination.rowsPerPage,
+          )}
           headers={headers}
-          handleDeleteItem={handleDeleteItem}
-          handleUpdateItem={handleUpdateItem}
+          handleOpenDelete={handleOpenDelete}
+          handleOpenUpdate={handleOpenUpdate}
+        />
+        <CustomPagination
+          count={filteredRows.length}
+          rowsPerPage={pagination.rowsPerPage}
+          page={pagination.page}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </div>
     </>
