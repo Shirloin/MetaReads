@@ -7,10 +7,10 @@ export default function PageLayout({ children }) {
     <div className="flex min-h-screen w-full">
       <SideNavbar />
       <main
-        className="min-h-screen w-full transition-all duration-300"
+        className="min-h-screen w-full transition-all duration-30"
         style={{ paddingLeft: collapsed ? "97px" : "250px" }}
       >
-        <div>{children}</div>
+        <div className="w-full">{children}</div>
       </main>
     </div>
   );

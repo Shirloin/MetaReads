@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
+// import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
 import { Principal } from "@dfinity/principal";
 
 export default function DebugPage() {

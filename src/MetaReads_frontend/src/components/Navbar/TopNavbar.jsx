@@ -9,11 +9,7 @@ export default function TopNavbar() {
 
   return (
     <div
-      className="fixed h-[100px] text-white transition-all duration-300"
-      style={{
-        backgroundColor: "#14181E",
-        width: collapsed ? "calc(100% - 97px)" : "calc(100% - 250px)",
-      }}
+      className="h-[100px] text-white transition-all duration-300 w-full bg-[#14181E]"
     >
       {/* Set relative positioning on the parent to constrain the absolute div */}
       <div className="relative h-full w-full">
