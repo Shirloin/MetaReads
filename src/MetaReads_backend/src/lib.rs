@@ -14,7 +14,7 @@ use crate::error::error::Error;
 use crate::genre::model::{Genre, GenrePayload};
 use crate::library::model::{Library, LibraryPayload};
 use crate::plan::model::{Plan, PlanPayload};
-use crate::subscription::model::{Subscription, SubscriptionPayload};
+// use crate::subscription::model::{Subscription, SubscriptionPayload};
 use crate::user::model::{User, UserPayload};
 mod author;
 mod book;
@@ -24,7 +24,7 @@ mod helper;
 mod library;
 mod plan;
 mod seed;
-mod subscription;
+// mod subscription;
 mod user;
 
 type Memory = VirtualMemory<DefaultMemoryImpl>;
