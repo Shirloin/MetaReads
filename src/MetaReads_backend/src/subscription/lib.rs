@@ -1,5 +1,4 @@
 use chrono::{Duration, Utc};
-use ic_cdk::api::time;
 
 use super::model::{Subscription, SubscriptionPayload};
 use crate::{
@@ -28,7 +27,7 @@ async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscriptio
         }
     };
 
-    let mut cost = 0;
+    let cost;
     let start_date = Utc::now().timestamp();
     let end_date;
 

@@ -24,7 +24,7 @@ pub async fn seed_data() {
                 for genre in &genres {
                     if let Some(genre) = genre {
                         let book_title = format!("Book {} by {}", book_count + 1, author.name);
-                        let book = seed_book(book_title, author.id, genre.id).await;
+                        let _ = seed_book(book_title, author.id, genre.id).await;
                         book_count += 1;
 
                         if book_count >= 15 {
