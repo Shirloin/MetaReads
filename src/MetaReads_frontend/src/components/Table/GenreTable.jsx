@@ -72,13 +72,17 @@ export default function GenreTable() {
   return (
     <>
       <CreateGenreModal open={createItem} handleClose={handleCloseCreate} />
-      <PrimaryButton onClick={handleCreateItem} text={"Add Genre"} />
-      <BaseTable
-        rows={rows}
-        headers={headers}
-        handleDeleteItem={handleDeleteItem}
-        handleUpdateItem={handleUpdateItem}
-      />
+      <div className="flex flex-col gap-2 p-4">
+        <div>
+          <PrimaryButton onClick={handleCreateItem} text={"Add Genre"} />
+        </div>
+        <BaseTable
+          rows={rows}
+          headers={headers}
+          handleDeleteItem={handleDeleteItem}
+          handleUpdateItem={handleUpdateItem}
+        />
+      </div>
     </>
   );
 }

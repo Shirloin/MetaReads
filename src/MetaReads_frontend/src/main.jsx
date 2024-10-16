@@ -4,6 +4,8 @@ import App from "./App";
 import "./index.css";
 import { CollapsedProvider } from "./lib/collapsed_provider";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Create a dark theme using MUI's createTheme
 const darkTheme = createTheme({
@@ -30,6 +32,7 @@ if (rootElement) {
       <ThemeProvider theme={darkTheme}>
         <CollapsedProvider>
           <App />
+          <ToastContainer stacked />
         </CollapsedProvider>
       </ThemeProvider>
     </React.StrictMode>,

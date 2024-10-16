@@ -5,6 +5,8 @@ import InputField from "../../Form/Input/TextField/InputField";
 import BaseModal from "../BaseModal";
 import { Title } from "../../Utility/TitleUtility";
 import { MetaReads_backend } from "../../../../../declarations/MetaReads_backend";
+import { ToastError } from "../../Form/Notifications/ErrorNotification";
+import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
 
 export default function CreateGenreModal({ open, handleClose }) {
   const [name, setName] = useState("");
@@ -14,12 +16,17 @@ export default function CreateGenreModal({ open, handleClose }) {
   };
 
   const handleCreate = async () => {
-    try {
-      await MetaReads_backend.create_genre({
-        id: [],
-        name: name,
-      });
-    } catch (error) {}
+    if (!name || name.trim() === "") {
+      ToastError("Genre name can't be empty");
+    } else {
+      try {
+        await MetaReads_backend.create_genre({
+          id: [],
+          name: name,
+        });
+        ToastSuccess("Genre Created");
+      } catch (error) {}
+    }
   };
   return (
     <BaseModal open={open} handleClose={handleClose}>
