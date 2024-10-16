@@ -3,14 +3,38 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { CollapsedProvider } from "./lib/collapsed_provider";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Create a dark theme using MUI's createTheme
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#121212", // Default background color
+      paper: "#14181E", // Background for Paper components
+    },
+    text: {
+      primary: "#ffffff", // White text for primary content
+      secondary: "#bbbbbb", // Secondary color
+    },
+  },
+});
+
+// Add Tailwind CSS scrollbar styles globally
 document.body.classList.add("scrollbar-thin");
+
 const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <CollapsedProvider>
-        <App />
-      </CollapsedProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CollapsedProvider>
+          <App />
+          <ToastContainer stacked />
+        </CollapsedProvider>
+      </ThemeProvider>
     </React.StrictMode>,
   );
 }

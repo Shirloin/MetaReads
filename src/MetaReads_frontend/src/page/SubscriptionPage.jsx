@@ -1,5 +1,5 @@
 import PageLayout from "../components/Layout/PageLayout";
-import SubscriptionCard from "../components/Subscriptions/Subscription Card";
+import SubscriptionCard from "../components/Subscriptions/SubscriptionCard";
 
 export default function SubscriptionPage() {
   return (
