@@ -19,7 +19,7 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
     let user = User {
         id,
         username: payload.username,
-        password: payload.password,
+        password: payload.password.unwrap_or_default(),
         image: payload.image.unwrap_or_default(),
         money: payload.money.unwrap_or(0),
     };
@@ -86,6 +86,9 @@ fn update_user(payload: UserPayload) -> Result<User, Error> {
                 });
             }
             user.username = payload.username;
+            if let Some(password) = payload.password {
+                user.password = password;
+            }
             if let Some(image) = payload.image {
                 user.image = image;
             }

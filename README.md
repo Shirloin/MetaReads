@@ -183,6 +183,23 @@ create_user({username, password})
 | `password`      | `string` | **Required**.|
 
 Return User or Error
+
+#### Update User
+
+```http
+update_user({id, username, password, image, money})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `username`      | `string` | **Required**.|
+| `password`      | `string` | **Optional**.|
+| `image`      | `string` | **Optional**.|
+| `money`      | `u64` | **Optional**.|
+
+Return User or Error
+
 #### Get User
 
 ```http
@@ -337,6 +354,23 @@ get_library_by_user({user_id})
 | `user_id`      | `Principal` | **Required**.|
 
 Return array of library (user, book)
+
+## Subscription Reference
+
+#### Create Subscription
+
+```http
+create_subscription({plan_id, user_id, frequency})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `plan_id`      | `Principal` | **Required**.|
+| `user_id`      | `Principal` | **Required**.|
+| `frequency`      | `Principal` | **String(Monthly or Yearly)**.|
+
+Return Subscription or Error
+
 
 If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
