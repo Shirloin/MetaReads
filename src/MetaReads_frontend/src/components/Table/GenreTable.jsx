@@ -5,6 +5,8 @@ import CreateGenreModal from "../Modal/Genre/CreateGenreModal";
 import CustomPagination from "./CustomPagination";
 import SearchBar from "../Form/Input/TextField/SearchBar";
 import useGenres from "../Hook/Genre/useGenres";
+import DeleteGenreModal from "../Modal/Genre/DeleteGenreModal";
+import UpdateGenreModal from "../Modal/Genre/UpdateGenreModal";
 
 export default function GenreTable() {
   const [modalState, setModalState] = useState({
@@ -65,6 +67,20 @@ export default function GenreTable() {
         open={modalState.create}
         handleClose={handleCloseCreate}
         fetchData={fetchData}
+        buttonContent={"Create"}
+      />
+      <UpdateGenreModal
+        open={modalState.update}
+        handleClose={handleCloseUpdate}
+        fetchData={fetchData}
+        buttonContent={"Update"}
+        selectedItem={modalState.selectedRow}
+      />
+      <DeleteGenreModal
+        open={modalState.delete}
+        handleClose={handleCloseDelete}
+        fetchData={fetchData}
+        selectedItem={modalState.selectedRow}
       />
       <div className="flex flex-col gap-2 p-4">
         <div className="flex gap-4">

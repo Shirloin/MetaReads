@@ -1,20 +1,23 @@
 import { useState } from "react";
 import { MetaReads_backend } from "../../../../../declarations/MetaReads_backend";
+import { Principal } from "@dfinity/principal";
 
-export const useCreateGenre = () => {
+export const useUpdateGenre = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createGenre = async (name) => {
+  const updateGenre = async (id, name) => {
+    const genre_id = Principal.fromText(id.toString());
     setLoading(true);
     setError(null);
-
     try {
-      await MetaReads_backend.create_genre({
-        id: [],
+      const res = await MetaReads_backend.update_genre({
+        id: [genre_id],
         name: name,
       });
-      return true; // Indicate success
+      console.log(res);
+
+      return true;
     } catch (err) {
       setError(err);
       return false; // Indicate failure
@@ -23,5 +26,5 @@ export const useCreateGenre = () => {
     }
   };
 
-  return { createGenre, loading, error };
+  return { updateGenre, loading, error };
 };

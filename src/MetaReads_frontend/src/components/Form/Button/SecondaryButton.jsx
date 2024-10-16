@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
 
-export default function AlertButton({ onClick, text }) {
+export default function SecondaryButton({ onClick, text }) {
   return (
     <Button
       variant="contained"
       sx={{
-        backgroundColor: "#dc0130",
+        backgroundColor: "#494e5a",
         fontWeight: "600",
         color: "white",
         textTransform: "none",
