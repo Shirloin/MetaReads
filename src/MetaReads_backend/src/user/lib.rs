@@ -67,18 +67,41 @@ fn get_user(id: Principal) -> Result<User, Error> {
     }
 }
 
-#[ic_cdk::query]
-fn update_balance(id: Principal, balance: u64) -> Result<User, Error> {
-    let mut user = match get_user_by_id(&id) {
-        Some(ref user) => user.clone(),
+#[ic_cdk::update]
+fn update_user(payload: UserPayload) -> Result<User, Error> {
+    let id = match payload.id {
+        Some(ref id) => id,
         None => {
             return Err(Error::NotFound {
-                message: "User not found".to_string(),
-            })
+                message: "User ID is missing".to_string(),
+            });
         }
     };
-    update_user_balance(&mut user, balance as i64);
-    Ok(user)
+    match get_user_by_id(&id) {
+        Some(mut user) => {
+            let check_payload = payload.validate();
+            if check_payload.is_err() {
+                return Err(Error::ValidationErrors {
+                    errors: check_payload.err().unwrap().to_string(),
+                });
+            }
+            user.username = payload.username;
+            if let Some(image) = payload.image {
+                user.image = image;
+            }
+
+            if let Some(money) = payload.money {
+                user.money += money;
+            }
+            insert_user(&user);
+            Ok(user)
+        }
+        None => {
+            return Err(Error::NotFound {
+                message: "User not test".to_string(),
+            })
+        }
+    }
 }
 
 pub fn insert_user(user: &User) {
@@ -103,7 +126,21 @@ fn get_user_by_username(username: &String) -> Option<User> {
     })
 }
 
-pub fn update_user_balance(user: &mut User, balance: i64) {
-    user.money += balance;
-    insert_user(&user);
+pub fn add_user_balance(id: &Principal, balance: u64) {
+    match get_user_by_id(&id) {
+        Some(mut user) => {
+            user.money += balance;
+            insert_user(&user);
+        }
+        None => {}
+    }
+}
+pub fn substract_user_balance(id: &Principal, balance: u64) {
+    match get_user_by_id(&id) {
+        Some(mut user) => {
+            user.money -= balance;
+            insert_user(&user);
+        }
+        None => {}
+    }
 }

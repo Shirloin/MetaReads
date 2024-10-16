@@ -65,7 +65,7 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
         page_count: payload.page_count,
         plan: payload.plan,
         views: 0,
-        created_at: time(),
+        created_at: time() / 1_000_000_000,
         updated_at: None,
     };
     add_book_in_genre(&mut genre, &book);
@@ -117,7 +117,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
     };
     match get_book_by_id(&book_id) {
         Some(mut book) => {
-            let check_payload = payload.validate();
+            let check_payload: Result<(), validator::ValidationErrors> = payload.validate();
             if check_payload.is_err() {
                 return Err(Error::ValidationErrors {
                     errors: check_payload.err().unwrap().to_string(),
@@ -155,7 +155,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             book.author = new_author.clone();
             book.genre = new_genre.clone();
             book.plan = payload.plan;
-            book.updated_at = Some(time());
+            book.updated_at = Some(time() / 1_000_000_000);
 
             if new_genre_id != curr_genre.id {
                 delete_book_in_genre(&mut curr_genre, &book.id);
@@ -346,7 +346,7 @@ pub async fn seed_book(title: String, author_id: Principal, genre_id: Principal)
     };
     match create_book(payload).await {
         Ok(book) => return Some(book),
-        Err(error) => {
+        Err(_) => {
             return None;
         }
     }

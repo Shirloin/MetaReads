@@ -1,8 +1,15 @@
 use crate::author::lib::seed_author;
 use crate::book::lib::seed_book;
 use crate::genre::lib::seed_genre;
+use crate::plan::lib::seed_plan;
 
 pub async fn seed_data() {
+    let plans = vec![
+        seed_plan("Basic".to_string(), 10, 100).await,
+        seed_plan("Standard".to_string(), 20, 200).await,
+        seed_plan("Premium".to_string(), 30, 300).await,
+    ];
+
     let authors = vec![
         seed_author("John Doe".to_string()).await,
         seed_author("Shirloin".to_string()).await,

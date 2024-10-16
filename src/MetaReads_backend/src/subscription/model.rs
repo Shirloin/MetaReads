@@ -11,8 +11,8 @@ pub struct Subscription {
     pub id: Principal,
     pub plan: Plan,
     pub user: User,
-    pub subscription_start_date: i64,
-    pub subscription_end_date: i64,
+    pub subscription_start_date: u64,
+    pub subscription_end_date: u64,
 }
 impl Storable for Subscription {
     fn to_bytes(&self) -> Cow<[u8]> {

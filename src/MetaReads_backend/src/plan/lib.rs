@@ -62,3 +62,18 @@ fn insert_plan(plan: &Plan) {
 pub fn get_plan_by_id(id: &Principal) -> Option<Plan> {
     PLAN_STORE.with(|plan_store| plan_store.borrow().get(id))
 }
+
+pub async fn seed_plan(name: String, price_per_month: u64, price_per_year: u64) -> Option<Plan> {
+    let payload = PlanPayload {
+        id: None,
+        name: name,
+        price_per_month: price_per_month,
+        price_per_year: price_per_year,
+    };
+    match create_plan(payload).await {
+        Ok(plan) => return Some(plan),
+        Err(_) => {
+            return None;
+        }
+    }
+}
