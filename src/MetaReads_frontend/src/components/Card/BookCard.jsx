@@ -1,5 +1,7 @@
 import React from "react";
 import { FaBookmark } from "react-icons/fa";
+import CurrencyLogo from "../../../public/assets/Currency Logo.png";
+import PrimaryButton from "../Form/Button/PrimaryButton";
 
 export default function BookCard() {
   return (
@@ -14,7 +16,12 @@ export default function BookCard() {
           <div className="font-bold">A VERY VERY LONG TITLE</div>
           <div className="text-sm">
             <p>Author: Vasang</p>
-            <p>6.969.69</p>
+            <span className="flex gap-2">
+              <div className="flex items-center">
+                <img src={CurrencyLogo} alt="Currency" className="w-5" />
+              </div>
+              <div style={{ color: "#3FF39D" }}> 6.969.69</div>
+            </span>
           </div>
           <div className="transform text-sm opacity-0 transition-transform group-hover:block group-hover:opacity-100">
             <p>Genre: Testing</p>
@@ -30,10 +37,12 @@ export default function BookCard() {
 
         <div className="w-full">
           <div className="flex w-full items-center justify-between">
-            <div className="flex h-6 items-center justify-center bg-neutral-700 p-1">
+            <div className="flex h-auto cursor-pointer items-center justify-center bg-neutral-700 p-3">
               <FaBookmark />
             </div>
-            <div className="h-6 rounded-md bg-[#EFAF21] px-3">Subscribe</div>
+            <div>
+              <PrimaryButton text={"Subscribe"} color={"white"} />
+            </div>
           </div>
         </div>
       </div>

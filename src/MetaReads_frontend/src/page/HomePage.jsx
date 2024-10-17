@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 
 import BookCard from "../components/Card/BookCard";
+import OutlinedButton from "../components/Form/Button/OutlinedButton";
 
 export default function HomePage() {
   return (
@@ -94,13 +95,14 @@ export default function HomePage() {
 
       <div className="flex w-full flex-col gap-8 px-16">
         <div className="flex gap-6 text-white">
-          <div className="w-36 rounded-md border py-3 text-center">Popular</div>
-          <div className="w-36 rounded-md border py-3 text-center">
-            Recent Release
-          </div>
-          <div className="w-36 rounded-md border py-3 text-center">
-            Special Offer
-          </div>
+          {/* Test */}
+          <OutlinedButton
+            text={"Popular"}
+            color={"white"}
+            outlineColor={"#EFAF21"}
+          />
+          <OutlinedButton text={"Recent Release"} color={"white"} />
+          <OutlinedButton text={"Special Offer"} color={"white"} />
         </div>
         <div className="grid grid-cols-4 gap-y-8">
           <BookCard />

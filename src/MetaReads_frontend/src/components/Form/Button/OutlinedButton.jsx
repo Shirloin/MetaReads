@@ -1,15 +1,16 @@
 import { Button } from "@mui/material";
 
-export default function PrimaryButton({ onClick, text, color }) {
+export default function OutlinedButton({ onClick, text, color, outlineColor }) {
   return (
     <Button
-      variant="contained"
+      variant="outlined"
       sx={{
-        backgroundColor: "#EFAF21",
-        fontWeight: 600,
+        fontWeight: 400,
         color: color ? color : "black",
         textTransform: "none",
         fontSize: "15px",
+        outline: "1px solid white",
+        outlineColor: outlineColor,
       }}
       onClick={onClick}
     >
