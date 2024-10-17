@@ -3,25 +3,21 @@ import { ToastError } from "../../Form/Notifications/ErrorNotification";
 import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
 import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { toast } from "react-toastify";
-import GenreForm from "../../Form/Layout/GenreForm";
-import BaseModal from "../BaseModal";
-import { useUpdateGenre } from "../../Hook/Data/Genre/useUpdateGenre";
 
-export default function UpdateGenreModal({
-  open,
-  handleClose,
-  fetchData,
-  selectedItem,
-}) {
-  const { updateGenre, error } = useUpdateGenre();
+import BaseModal from "../BaseModal";
+import { useCreateAuthor } from "../../Hook/Data/Author/useCreateAuthor";
+import AuthorForm from "../../Form/Layout/AuthorForm";
+
+export default function CreateAuthorModal({ open, handleClose, fetchData }) {
+  const { createAuthor, error } = useCreateAuthor();
   const loadingToastId = useRef(null);
 
-  const handleUpdate = async (name) => {
+  const handleCreate = async (name) => {
     loadingToastId.current = ToastLoading("Loading..");
     try {
-      const success = await updateGenre(selectedItem.id, name);
+      const success = await createAuthor(name);
       if (success) {
-        ToastSuccess("Genre Created Successfully");
+        ToastSuccess("Author Created Successfully");
         fetchData();
       } else {
         ToastError(error);
@@ -36,11 +32,10 @@ export default function UpdateGenreModal({
 
   return (
     <BaseModal open={open} handleClose={handleClose}>
-      <GenreForm
-        buttonContent={"Update"}
+      <AuthorForm
+        buttonContent={"Create"}
         handleClose={handleClose}
-        onSubmit={handleUpdate}
-        selectedItem={selectedItem}
+        onSubmit={handleCreate}
       />
     </BaseModal>
   );

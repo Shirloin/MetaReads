@@ -1,17 +1,17 @@
 import BaseTable from "./BaseTable";
 import PrimaryButton from "../Form/Button/PrimaryButton";
-import CreateGenreModal from "../Modal/Genre/CreateGenreModal";
 import CustomPagination from "./CustomPagination";
 import SearchBar from "../Form/Input/TextField/SearchBar";
-import DeleteGenreModal from "../Modal/Genre/DeleteGenreModal";
-import UpdateGenreModal from "../Modal/Genre/UpdateGenreModal";
 import { useModalState } from "../Hook/Ui/useModalState";
 import { useCustomPagination } from "../Hook/Ui/useCustomPagination";
 import { useQuery } from "../Hook/Ui/useQuery";
-import useGenres from "../Hook/Data/Genre/useGenres";
+import useAuthors from "../Hook/Data/Author/useAuthors";
+import CreateAuthorModal from "../Modal/Author/CreateAuthorModal";
+import DeleteAuthorModal from "../Modal/Author/DeleteAuthorModal";
+import UpdateAuthorModal from "../Modal/Author/UpdateAuthorModal";
 
-export default function GenreTable() {
-  const [rows, fetchData] = useGenres();
+export default function AuthorTable() {
+  const [rows, fetchData] = useAuthors();
   const headers = ["Id", "Name", "Option"];
   const {
     modalState,
@@ -28,23 +28,23 @@ export default function GenreTable() {
 
   return (
     <>
-      <CreateGenreModal
+      <CreateAuthorModal
         open={modalState.create}
         handleClose={handleCloseCreate}
         fetchData={fetchData}
         buttonContent={"Create"}
       />
-      <UpdateGenreModal
+      <DeleteAuthorModal
+        open={modalState.delete}
+        handleClose={handleCloseDelete}
+        fetchData={fetchData}
+        selectedItem={modalState.selectedRow}
+      />
+      <UpdateAuthorModal
         open={modalState.update}
         handleClose={handleCloseUpdate}
         fetchData={fetchData}
         buttonContent={"Update"}
-        selectedItem={modalState.selectedRow}
-      />
-      <DeleteGenreModal
-        open={modalState.delete}
-        handleClose={handleCloseDelete}
-        fetchData={fetchData}
         selectedItem={modalState.selectedRow}
       />
       <div className="flex flex-col gap-2 p-4">
@@ -53,7 +53,7 @@ export default function GenreTable() {
             <SearchBar value={query} onChange={handleQueryChange} />
           </div>
           <div className="flex items-center">
-            <PrimaryButton onClick={handleOpenCreate} text={"Add Genre"} />
+            <PrimaryButton onClick={handleOpenCreate} text={"Add Author"} />
           </div>
         </div>
         <BaseTable

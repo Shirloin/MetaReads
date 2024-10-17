@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { MetaReads_backend } from "../../../../../declarations/MetaReads_backend";
+import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
 
-export const useCreateGenre = () => {
+export const useCreateAuthor = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createGenre = async (name) => {
+  const createAuthor = async (name) => {
     setLoading(true);
     setError(null);
 
     try {
-      await MetaReads_backend.create_genre({
+      await MetaReads_backend.create_author({
         id: [],
         name: name,
       });
@@ -23,5 +23,5 @@ export const useCreateGenre = () => {
     }
   };
 
-  return { createGenre, loading, error };
+  return { createAuthor, loading, error };
 };

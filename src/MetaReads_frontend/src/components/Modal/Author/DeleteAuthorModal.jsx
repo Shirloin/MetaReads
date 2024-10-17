@@ -4,22 +4,22 @@ import { toast } from "react-toastify";
 import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
 import { ToastError } from "../../Form/Notifications/ErrorNotification";
-import { useDeleteGenre } from "../../Hook/Data/Genre/useDeleteGenre";
+import { useDeleteAuthor } from "../../Hook/Data/Author/useDeleteAuthor";
 
-export default function DeleteGenreModal({
+export default function DeleteAuthorModal({
   open,
   handleClose,
   fetchData,
   selectedItem,
 }) {
-  const { deleteGenre, error } = useDeleteGenre();
+  const { deleteAuthor, error } = useDeleteAuthor();
   const loadingToastId = useRef(null);
   const handleDelete = async () => {
     loadingToastId.current = ToastLoading("Loading..");
     try {
-      const success = await deleteGenre(selectedItem.id);
+      const success = await deleteAuthor(selectedItem.id);
       if (success) {
-        ToastSuccess("Genre Created Successfully");
+        ToastSuccess("Author Created Successfully");
         fetchData();
       } else {
         ToastError(error);
@@ -37,7 +37,7 @@ export default function DeleteGenreModal({
     <DeleteModal
       open={open}
       handleClose={handleClose}
-      title={"Do you want to delete this genre ?"}
+      title={"Do you want to delete this author ?"}
       handleDelete={handleDelete}
     />
   );
