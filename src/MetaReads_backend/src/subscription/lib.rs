@@ -3,13 +3,15 @@ use crate::{
     error::error::Error,
     helper::helper::generate_unique_id,
     plan::lib::get_plan_by_id,
-    user::lib::{get_user_by_id, substract_user_balance},
+    user::lib::{get_user_by_id, insert_user, substract_user_balance},
+    SUBSCRIPTION_STORE,
 };
+use candid::Principal;
 use ic_cdk::api::time;
 
 #[ic_cdk::update]
 async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscription, Error> {
-    let user = match get_user_by_id(&payload.user_id) {
+    let mut user = match get_user_by_id(&payload.user_id) {
         Some(ref user) => user.clone(),
         None => {
             return Err(Error::NotFound {
@@ -43,16 +45,53 @@ async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscriptio
             message: "Balance not enough".to_string(),
         });
     } else {
-        substract_user_balance(&user.id, cost);
+        user = match substract_user_balance(&user.id, cost) {
+            Some(user) => user,
+            None => user,
+        };
     }
 
     let id = generate_unique_id().await;
     let subscription = Subscription {
         id,
-        plan,
-        user,
+        plan_id: plan.id,
+        user_id: user.id,
         subscription_start_date: start_date,
         subscription_end_date: end_date,
     };
+    insert_subscription(&subscription);
+    insert_user(&user);
     Ok(subscription)
+}
+
+#[ic_cdk::query]
+fn get_all_subscription() -> Vec<Subscription> {
+    SUBSCRIPTION_STORE.with(|subscription_store| {
+        let store = subscription_store.borrow();
+        store
+            .iter()
+            .map(|(_, subscription)| subscription.clone())
+            .collect()
+    })
+}
+
+#[ic_cdk::query]
+fn get_subscription_by_user(user_id: Principal) -> Option<Subscription> {
+    SUBSCRIPTION_STORE.with(|subscription_store| {
+        let store = subscription_store.borrow();
+        for (_, subscription) in store.iter() {
+            if subscription.user_id == user_id {
+                return Some(subscription.clone());
+            }
+        }
+        None
+    })
+}
+
+pub fn insert_subscription(subscription: &Subscription) {
+    SUBSCRIPTION_STORE.with(|subscription_store| {
+        subscription_store
+            .borrow_mut()
+            .insert(subscription.id, subscription.clone());
+    })
 }

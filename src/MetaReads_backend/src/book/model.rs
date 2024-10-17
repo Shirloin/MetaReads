@@ -47,3 +47,9 @@ pub struct BookPayload {
     pub plan: String,
     pub page_count: i64,
 }
+
+#[derive(CandidType, Serialize, Deserialize)]
+pub struct PaginatedBooks {
+    pub books: Vec<Book>,
+    pub total_count: usize,
+}

@@ -22,7 +22,7 @@ use candid::Principal;
 use ic_cdk::api::time;
 use validator::Validate;
 
-use super::model::{Book, BookPayload};
+use super::model::{Book, BookPayload, PaginatedBooks};
 
 #[ic_cdk::update]
 async fn create_book(payload: BookPayload) -> Result<Book, Error> {
@@ -77,14 +77,30 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
 }
 
 #[ic_cdk::query]
-fn get_all_book(page: usize, limit: usize) -> Vec<Book> {
-    return BOOK_STORE.with(|book_store| {
+fn get_all_book(page: usize, limit: usize, query: Option<String>) -> Result<PaginatedBooks, Error> {
+    BOOK_STORE.with(|book_store| {
         let store = book_store.borrow();
-        let books: Vec<Book> = store.iter().map(|(_, book)| book.clone()).collect();
+
+        let mut books: Vec<Book> = store.iter().map(|(_, book)| book.clone()).collect();
+        if let Some(q) = query {
+            books = books
+                .into_iter()
+                .filter(|book| {
+                    book.title.contains(&q)
+                        || book.author.name.contains(&q)
+                        || book.genre.name.contains(&q)
+                        || book.description.contains(&q)
+                })
+                .collect();
+        }
+        let total_count = books.len();
         let start = page * limit;
-        let end = start + limit;
-        books.into_iter().skip(start).take(limit).collect()
-    });
+        let paginated_books = books.into_iter().skip(start).take(limit).collect();
+        Ok(PaginatedBooks {
+            books: paginated_books,
+            total_count,
+        })
+    })
 }
 
 #[ic_cdk::query]
@@ -226,6 +242,24 @@ fn get_book_by_genre(genre_id: Principal) -> Vec<Book> {
         let store = book_store.borrow();
         for (_key, book) in store.iter() {
             if book.genre.id == genre_id {
+                books.push(book.clone());
+            }
+        }
+    });
+    return books;
+}
+
+#[ic_cdk::query]
+fn search_book(query: String) -> Vec<Book> {
+    let mut books: Vec<Book> = Vec::new();
+    BOOK_STORE.with(|book_store| {
+        let store = book_store.borrow();
+        for (_, book) in store.iter() {
+            if book.title.contains(&query)
+                || book.author.name.contains(&query)
+                || book.genre.name.contains(&query)
+                || book.description.contains(&query)
+            {
                 books.push(book.clone());
             }
         }

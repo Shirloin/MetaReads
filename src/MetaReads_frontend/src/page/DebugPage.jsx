@@ -167,6 +167,18 @@ export default function DebugPage() {
     fetchData();
   }, [page]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const user_id = Principal.fromText(
+        "ce4yv-ijra4-grmm4-efniz-3hux5-pvct7-mz2l4-2vqeb-d5vju-3cqah-fia",
+      );
+      const userResponse = await MetaReads_backend.get_user(user_id);
+      console.log("User");
+      console.log(userResponse);
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-10 p-10 text-white">

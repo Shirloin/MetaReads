@@ -4,13 +4,11 @@ use candid::{CandidType, Decode, Encode, Principal};
 use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 
-use crate::{plan::model::Plan, user::model::User};
-
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
 pub struct Subscription {
     pub id: Principal,
-    pub plan: Plan,
-    pub user: User,
+    pub plan_id: Principal,
+    pub user_id: Principal,
     pub subscription_start_date: u64,
     pub subscription_end_date: u64,
 }

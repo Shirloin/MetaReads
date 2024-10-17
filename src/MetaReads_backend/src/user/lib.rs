@@ -22,6 +22,7 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
         password: payload.password.unwrap_or_default(),
         image: payload.image.unwrap_or_default(),
         money: payload.money.unwrap_or(0),
+        subscription: None,
     };
     insert_user(&user);
     Ok(user)
@@ -109,7 +110,9 @@ fn update_user(payload: UserPayload) -> Result<User, Error> {
 
 pub fn insert_user(user: &User) {
     USER_STORE.with(|user_store| {
-        user_store.borrow_mut().insert(user.id, user.clone());
+        user_store
+            .borrow_mut()
+            .insert(user.id.clone(), user.clone());
     });
 }
 
@@ -138,12 +141,17 @@ pub fn add_user_balance(id: &Principal, balance: u64) {
         None => {}
     }
 }
-pub fn substract_user_balance(id: &Principal, balance: u64) {
+pub fn substract_user_balance(id: &Principal, balance: u64) -> Option<User> {
     match get_user_by_id(&id) {
         Some(mut user) => {
-            user.money -= balance;
-            insert_user(&user);
+            if user.money >= balance {
+                user.money -= balance;
+                insert_user(&user);
+                return Some(user.clone());
+            } else {
+                None
+            }
         }
-        None => {}
+        None => None,
     }
 }
