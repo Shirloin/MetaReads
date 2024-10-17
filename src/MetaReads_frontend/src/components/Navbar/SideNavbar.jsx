@@ -7,9 +7,11 @@ import { useCollapsed } from "../../lib/collapsed_provider";
 import { Outlet } from "react-router-dom";
 import UserNavigation from "./UserNavigation";
 import AdminNavigation from "./AdminNavigation";
+import { AuthClient } from "@dfinity/auth-client";
 
 export default function SideNavbar() {
   const { collapsed, setCollapsed } = useCollapsed();
+  
   const hexToRgba = (hex, alpha) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
