@@ -54,7 +54,7 @@ async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscriptio
     let id = generate_unique_id().await;
     let subscription = Subscription {
         id,
-        plan_id: plan.id,
+        plan,
         user_id: user.id,
         subscription_start_date: start_date,
         subscription_end_date: end_date,
