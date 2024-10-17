@@ -5,7 +5,7 @@ import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { toast } from "react-toastify";
 import GenreForm from "../../Form/Layout/GenreForm";
 import BaseModal from "../BaseModal";
-import { useUpdateGenre } from "../../Hook/Genre/useUpdateGenre";
+import { useUpdateGenre } from "../../Hook/Data/Genre/useUpdateGenre";
 
 export default function UpdateGenreModal({
   open,

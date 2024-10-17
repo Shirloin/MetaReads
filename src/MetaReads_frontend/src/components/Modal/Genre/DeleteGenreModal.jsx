@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import { useDeleteGenre } from "../../Hook/Genre/useDeleteGenre";
 import DeleteModal from "../DeleteModal";
 import { toast } from "react-toastify";
 import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
 import { ToastError } from "../../Form/Notifications/ErrorNotification";
+import { useDeleteGenre } from "../../Hook/Data/Genre/useDeleteGenre";
 
 export default function DeleteGenreModal({
   open,

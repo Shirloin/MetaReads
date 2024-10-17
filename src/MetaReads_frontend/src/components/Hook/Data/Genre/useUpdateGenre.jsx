@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MetaReads_backend } from "../../../../../declarations/MetaReads_backend";
 import { Principal } from "@dfinity/principal";
+import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
 
 export const useUpdateGenre = () => {
   const [loading, setLoading] = useState(false);

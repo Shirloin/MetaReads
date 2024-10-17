@@ -1,65 +1,30 @@
-import { useEffect, useState } from "react";
 import BaseTable from "./BaseTable";
 import PrimaryButton from "../Form/Button/PrimaryButton";
 import CreateGenreModal from "../Modal/Genre/CreateGenreModal";
 import CustomPagination from "./CustomPagination";
 import SearchBar from "../Form/Input/TextField/SearchBar";
-import useGenres from "../Hook/Genre/useGenres";
 import DeleteGenreModal from "../Modal/Genre/DeleteGenreModal";
 import UpdateGenreModal from "../Modal/Genre/UpdateGenreModal";
+import { useModalState } from "../Hook/Ui/useModalState";
+import { useCustomPagination } from "../Hook/Ui/useCustomPagination";
+import { useQuery } from "../Hook/Ui/useQuery";
+import useGenres from "../Hook/Data/Genre/useGenres";
 
 export default function GenreTable() {
-  const [modalState, setModalState] = useState({
-    create: false,
-    update: false,
-    delete: false,
-    selectedRow: undefined,
-  });
-
-  const [query, setQuery] = useState("");
-  const [pagination, setPagination] = useState({
-    page: 0,
-    rowsPerPage: 10,
-  });
-
   const [rows, fetchData] = useGenres();
   const headers = ["Id", "Name", "Option"];
-
-  const toggleModal = (type, row = null) => {
-    setModalState((prevState) => ({
-      ...prevState,
-      [type]: !prevState[type],
-      selectedRow: row,
-    }));
-  };
-
-  // Usage in handlers
-  const handleOpenUpdate = (row) => toggleModal("update", row);
-  const handleOpenDelete = (row) => toggleModal("delete", row);
-  const handleOpenCreate = () => toggleModal("create");
-  const handleCloseUpdate = () => toggleModal("update");
-  const handleCloseDelete = () => toggleModal("delete");
-  const handleCloseCreate = () => toggleModal("create");
-
-  const handleChangePage = (event, newPage) => {
-    setPagination({ ...pagination, page: newPage });
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPagination({ page: 0, rowsPerPage: parseInt(event.target.value, 10) });
-  };
-
-  const handleQueryChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const filteredRows = rows.filter((row) =>
-    row.name.toLowerCase().includes(query.toLowerCase()),
-  );
-
-  useEffect(() => {
-    setPagination({ page: 0, rowsPerPage: pagination.rowsPerPage });
-  }, [query]);
+  const {
+    modalState,
+    handleOpenCreate,
+    handleOpenUpdate,
+    handleOpenDelete,
+    handleCloseCreate,
+    handleCloseUpdate,
+    handleCloseDelete,
+  } = useModalState();
+  const { pagination, handleChangePage, handleChangeRowsPerPage } =
+    useCustomPagination();
+  const { query, handleQueryChange, filteredRows } = useQuery(rows);
 
   return (
     <>

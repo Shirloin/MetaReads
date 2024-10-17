@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { ToastError } from "../../Form/Notifications/ErrorNotification";
 import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
-import { useCreateGenre } from "../../Hook/Genre/useCreateGenre";
 import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { toast } from "react-toastify";
 import GenreForm from "../../Form/Layout/GenreForm";
 import BaseModal from "../BaseModal";
+import { useCreateGenre } from "../../Hook/Data/Genre/useCreateGenre";
 
 export default function CreateGenreModal({ open, handleClose, fetchData }) {
   const { createGenre, error } = useCreateGenre();
