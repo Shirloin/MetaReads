@@ -79,8 +79,8 @@ type Result_6 = variant { Ok : User; Err : Error };
 type Result_7 = variant { Ok : PaginatedBooks; Err : Error };
 type Subscription = record {
   id : principal;
+  plan : Plan;
   user_id : principal;
-  plan_id : principal;
   subscription_end_date : nat64;
   subscription_start_date : nat64;
 };
