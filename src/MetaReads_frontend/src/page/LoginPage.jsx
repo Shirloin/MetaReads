@@ -1,6 +1,8 @@
 import React from 'react'
 import { AuthClient } from "@dfinity/auth-client";
 import MetaReadsLogo from "../../public/assets/Meta Reads Full Logo.png";
+import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
+import { Principal } from '@dfinity/principal';
 
 function LoginPage() {
     const days = BigInt(1);
@@ -23,8 +25,17 @@ function LoginPage() {
 
         if (await authClient.isAuthenticated()) {
             // handleAuthenticated(authClient);
-            window.location = "/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
-            console.log("Logged IN!");
+            const internetIdentityId = authClient.getIdentity().getPrincipal();
+            const getUserById = await MetaReads_backend.get_user(internetIdentityId);
+            
+            if (getUserById.Err) {
+                window.location.href = "/register";
+            }
+            else {
+                window.location.href = "/";    
+            }
+            // window.location = "/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
+            // console.log("Logged IN!");
 
         }
         else {

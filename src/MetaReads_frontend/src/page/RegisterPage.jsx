@@ -1,12 +1,16 @@
+import { useState } from "react";
 import MetaReadsLogo from "../../public/assets/Meta Reads Logo.png";
 import PrimaryButton from "../components/Form/Button/PrimaryButton";
 import InputField from "../components/Form/Input/TextField/InputField";
 import { Title } from "../components/Utility/TitleUtility";
+import { useCreateUser } from "../components/Hook/Data/User/useCreateUser";
 
 export default function RegisterPage() {
-  const handleRegister = () => {};
-  const redirectLogin = () => {
-    window.location.href = "/login";
+  const [username, setUsername] = useState("");
+  const { createUser } = useCreateUser();
+  const handleRegister = async () => {
+    await createUser(username);
+    window.location.href = "/";
   };
   return (
     <>
@@ -26,30 +30,15 @@ export default function RegisterPage() {
               <hr className="w-[150px]" />
             </div>
             <div className="flex justify-center gap-2 text-white">
-              Already have an account ?{" "}
-              <div
-                className="cursor-pointer text-blue-400 underline"
-                onClick={redirectLogin}
-              >
-                Login
-              </div>
+              Hello, before you get in, let us know your name
             </div>
           </div>
           <div>
-            <InputField label={"Username"} size={"medium"} />
+            <InputField label={"Username"} onChange={(e) => setUsername(e.target.value)} size={"medium"} />
           </div>
-          <div>
-            <InputField label={"Password"} size={"medium"} type={"password"} />
-          </div>
-          <div>
-            <InputField
-              label={"Confirm Password"}
-              size={"medium"}
-              type={"password"}
-            />
-          </div>
+          
           <div className="flex justify-center">
-            <PrimaryButton text={"Create Account"} />
+            <PrimaryButton onClick={handleRegister} text={"Create Account"} />
           </div>
         </div>
       </div>
