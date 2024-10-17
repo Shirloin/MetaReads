@@ -218,6 +218,18 @@ get_user({id})
 | `id`      | `Principal` | **Required**.|
 
 Return User or Error
+User{
+  id,
+  username, 
+  password,
+  image,
+  money,
+  subscription{
+    plan{
+      name
+    }
+  }
+}
 
 #### Login
 
@@ -377,6 +389,18 @@ create_subscription({plan_id, user_id, frequency})
 | `frequency`      | `Principal` | **String(Monthly or Yearly)**.|
 
 Return Subscription or Error
+
+#### Get Subscription By User
+
+```http
+get_subscription_by_user(user_id)
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `user_id`      | `Principal` | **Required**.|
+
+Return Subscription or None
 
 
 If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
