@@ -57,13 +57,14 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
 #### Get all books
 
 ```http
-get_all_book(page, limit)
+get_all_book(page, limit, query)
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `page`      | `usize` | **Required**.|
 | `limit`      | `usize` | **Required**.|
+| `query`      | `String` | **Optional**.|
 
 Return array of books
 

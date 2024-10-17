@@ -60,6 +60,7 @@ async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscriptio
         subscription_end_date: end_date,
     };
     insert_subscription(&subscription);
+    user.subscription = Some(subscription.clone());
     insert_user(&user);
     Ok(subscription)
 }
