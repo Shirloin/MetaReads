@@ -15,6 +15,7 @@
         "src/MetaReads_frontend/dist"
       ],
       "type": "assets",
+      "package": "MetaReads_frontend",
       "workspace": "MetaReads_frontend"
     }
   },

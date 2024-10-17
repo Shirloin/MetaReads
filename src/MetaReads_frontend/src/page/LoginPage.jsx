@@ -1,5 +1,6 @@
 import React from 'react'
 import { AuthClient } from "@dfinity/auth-client";
+import MetaReadsLogo from "../../public/assets/Meta Reads Full Logo.png";
 
 function LoginPage() {
     const days = BigInt(1);
@@ -22,6 +23,7 @@ function LoginPage() {
 
         if (await authClient.isAuthenticated()) {
             // handleAuthenticated(authClient);
+            window.location = "/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
             console.log("Logged IN!");
 
         }
@@ -35,15 +37,13 @@ function LoginPage() {
         }
     }
 
-    const handleLogout = async () => {
-        const authClient = await AuthClient.create(defaultOptions.createOptions);
-        await authClient.logout();
-    }
-
     return (
-        <div>
-            <button onClick={handleLogin}>Login using Internet Identity</button>
-            <button onClick={handleLogout}>Logout</button>
+        <div className="w-[100vw] h-[100vh] flex flex-col justify-center items-center">
+            <button onClick={handleLogin} className='text-white'>
+                <img src={MetaReadsLogo} alt="Full Logo" width={200} />
+                <div className='text-center'>Login using Internet Identity</div>
+                {/* <button onClick={handleLogout}>Logout</button> */}
+            </button>
         </div>
     )
 }

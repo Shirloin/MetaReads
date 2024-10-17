@@ -11,9 +11,26 @@ import {
   getMenuItemStyle,
 } from "../Utility/StylingUtility";
 import { createUrl } from "../Utility/UrlUtility";
+import { AuthClient } from "@dfinity/auth-client";
 export default function UserNavigation() {
-  const handleLogout = () => {
-    // Add Logout Logic Here
+  const days = BigInt(1);
+  const hours = BigInt(24);
+  const nanoseconds = BigInt(3600000000000);
+  const defaultOptions = {
+      createOptions: {
+          idleOptions: {
+              disableIdle: true,
+          },
+      },
+      loginOptions: {
+          identityProvider: "https://identity.ic0.app/",
+          maxTimeToLive: days * hours * nanoseconds,
+      },
+  };
+  const handleLogout = async () => {
+    const authClient = await AuthClient.create(defaultOptions.createOptions);
+    await authClient.logout();
+    window.location = "/login/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
   };
 
   return (
