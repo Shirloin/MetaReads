@@ -99,7 +99,7 @@ type UserPayload = record {
   id : opt principal;
   money : opt nat64;
   username : text;
-  password : text;
+  password : opt text;
   image : opt text;
 };
 type Vec = vec record {
@@ -129,7 +129,7 @@ service : () -> {
   delete_genre : (principal) -> (Result_2);
   delete_library : (principal) -> (Result_3);
   get_all_author : () -> (vec Author) query;
-  get_all_book : () -> (vec Book) query;
+  get_all_book : (nat64, nat64) -> (vec Book) query;
   get_all_genre : () -> (vec Genre) query;
   get_all_plan : () -> (vec Plan) query;
   get_all_user : () -> (vec User) query;

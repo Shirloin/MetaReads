@@ -77,15 +77,13 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
 }
 
 #[ic_cdk::query]
-fn get_all_book() -> Vec<Book> {
+fn get_all_book(page: usize, limit: usize) -> Vec<Book> {
     return BOOK_STORE.with(|book_store| {
         let store = book_store.borrow();
-        let mut books = Vec::new();
-
-        for (_key, book) in store.iter() {
-            books.push(book.clone());
-        }
-        books
+        let books: Vec<Book> = store.iter().map(|(_, book)| book.clone()).collect();
+        let start = page * limit;
+        let end = start + limit;
+        books.into_iter().skip(start).take(limit).collect()
     });
 }
 

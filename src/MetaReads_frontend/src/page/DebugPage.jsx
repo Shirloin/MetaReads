@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-// import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
+import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
 import { Principal } from "@dfinity/principal";
 
 export default function DebugPage() {
@@ -15,6 +15,8 @@ export default function DebugPage() {
     plan: "Free",
     page_count: 0,
   });
+
+  const [page, setPage] = useState(0);
 
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -146,18 +148,24 @@ export default function DebugPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const booksResponse = await MetaReads_backend.get_all_book();
-      setBooks(booksResponse);
       const genresResponse = await MetaReads_backend.get_all_genre();
       setGenres(genresResponse);
       const authorsResponse = await MetaReads_backend.get_all_author();
       setAuthors(authorsResponse);
-      console.log(booksResponse);
       console.log(genresResponse);
       console.log(authorsResponse);
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const booksResponse = await MetaReads_backend.get_all_book(page, 10);
+      setBooks(booksResponse);
+      console.log(booksResponse);
+    };
+    fetchData();
+  }, [page]);
 
   return (
     <>
@@ -346,6 +354,25 @@ export default function DebugPage() {
               </li>
             ))}
           </ul>
+          <div className="flex gap-2">
+            <h1>Page: {page}</h1>
+            <button
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="rounded-md bg-white p-2 text-black"
+            >
+              Prev
+            </button>
+            <button
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="rounded-md bg-white p-2 text-black"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </>

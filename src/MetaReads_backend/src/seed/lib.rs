@@ -14,6 +14,9 @@ pub async fn seed_data() {
         seed_author("John Doe".to_string()).await,
         seed_author("Shirloin".to_string()).await,
         seed_author("Jane Smith".to_string()).await,
+        seed_author("Windah".to_string()).await,
+        seed_author("Squidward".to_string()).await,
+        seed_author("Asep".to_string()).await,
     ];
 
     let genres = vec![
