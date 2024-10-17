@@ -7,6 +7,8 @@ import LibraryPage from "../page/LibraryPage";
 import SubscriptionPage from "../page/SubscriptionPage";
 import AuthorPage from "../page/Admin/AuthorPage";
 import GenrePage from "../page/Admin/GenrePage";
+import BookPage from "../page/Admin/BookPage";
+import RegisterPage from "../page/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
       // Debug
       {
         path: "/debug",
@@ -43,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/genre",
         element: <GenrePage />,
+      },
+      {
+        path: "/admin/book",
+        element: <BookPage />,
       },
     ],
   },

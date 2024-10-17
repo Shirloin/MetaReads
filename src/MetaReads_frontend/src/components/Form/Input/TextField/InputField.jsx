@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 
-export default function InputField({ value, label, onChange }) {
+export default function InputField({ value, label, onChange, size, type }) {
   return (
     <TextField
       fullWidth
@@ -8,7 +8,8 @@ export default function InputField({ value, label, onChange }) {
       label={label}
       variant="outlined"
       value={value}
-      size="small"
+      type={type ? type : "text"}
+      size={size ? size : "small"}
       onChange={(e) => onChange(e)}
     />
   );
