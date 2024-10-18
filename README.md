@@ -340,13 +340,43 @@ Return Author or Error
 #### Create Library
 
 ```http
-create_library({book_id, user_id})
+create_library({name user_id})
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
+| `name`      | `String` | **Required**.|
+| `user_id`      | `Principal` | **Required**.|
+
+Return Library or Error
+
+#### Insert Book To Library
+
+```http
+insert_book_to_library({id, book_id, user_id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Optional**.|
 | `book_id`      | `Principal` | **Required**.|
 | `user_id`      | `Principal` | **Required**.|
+
+If id is not passed then it will create a new library with default name "..."
+If its passed then it will add book to the library
+
+Return Library or Error
+
+#### Remove Book In Library
+
+```http
+remove_book_in_library({id, book_id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+| `book_id`      | `Principal` | **Required**.|
 
 Return Library or Error
 

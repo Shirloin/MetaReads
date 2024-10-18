@@ -29,6 +29,7 @@ impl Storable for Library {
 
 pub struct LibraryPayload {
     pub id: Option<Principal>,
-    pub book_id: Principal,
+    pub name: String,
+    pub book_id: Option<Principal>,
     pub user_id: Principal,
 }

@@ -1,9 +1,6 @@
-use std::borrow::Borrow;
-
 use candid::Principal;
 
 use crate::{
-    author::lib,
     book::{lib::get_book_by_id, model::Book},
     user::lib::get_user_by_id,
 };
@@ -12,8 +9,37 @@ use super::model::{Library, LibraryPayload};
 use crate::{error::error::Error, helper::helper::generate_unique_id, LIBRARY_STORE};
 
 #[ic_cdk::update]
+async fn create_library(payload: LibraryPayload) -> Result<Library, Error> {
+    let user_id = payload.user_id;
+    let user = match get_user_by_id(&user_id) {
+        Some(ref existing_user) => existing_user.clone(),
+        None => {
+            return Err(Error::NotFound {
+                message: "User not found".to_string(),
+            })
+        }
+    };
+    let id = generate_unique_id().await;
+    let library = Library {
+        id,
+        name: payload.name,
+        user,
+        books: Vec::new(),
+    };
+    insert_library(&library);
+    Ok(library)
+}
+
+#[ic_cdk::update]
 async fn insert_book_to_library(payload: LibraryPayload) -> Result<Library, Error> {
-    let book_id = payload.book_id;
+    let book_id = match payload.book_id {
+        Some(id) => id,
+        None => {
+            return Err(Error::ValidationErrors {
+                errors: "Book ID is missing".to_string(),
+            })
+        }
+    };
     let user_id = payload.user_id;
 
     let book = match get_book_by_id(&book_id) {
@@ -77,16 +103,25 @@ fn remove_book_in_library(payload: LibraryPayload) -> Result<Library, Error> {
             })
         }
     };
-    let mut library = match get_library_by_id(&library_id) {
-        Some(mut library) => library,
+    let book_id = match payload.book_id {
+        Some(id) => id,
+        None => {
+            return Err(Error::ValidationErrors {
+                errors: "Book ID is missing".to_string(),
+            })
+        }
+    };
+    match get_library_by_id(&library_id) {
+        Some(mut library) => {
+            library.books.retain(|book| book.id != book_id);
+            Ok(library)
+        }
         None => {
             return Err(Error::NotFound {
                 message: "Library Not Found".to_string(),
             })
         }
-    };
-    library.books.retain(|book| book.id != payload.book_id);
-    Ok(library)
+    }
 }
 
 #[ic_cdk::update]
