@@ -73,7 +73,7 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
           style={{ backgroundColor: "#202429" }}
         >
           <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-
+          
         </div>
         {libraryList && libraryList.map((library, index) => {
           const filteredBooks = library.bookList.filter((book) =>
