@@ -10,25 +10,55 @@
     width: 97px !important;
 }
 
+/* Inject MUI Accordion */
+.inject-accordion {
+    min-height: 10px !important;
+    margin: 0px !important;
+}
+
+.css-7iurs7-MuiAccordionSummary-content.Mui-expanded, .css-7iurs7-MuiAccordionSummary-content{
+    margin: 5px 0px !important;
+}
+
 /* Custom scrollbar styles */
 .scrollbar-thin {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #EFAF21 transparent !important; /* Firefox */
+    scrollbar-width: thin; 
+    scrollbar-color: #EFAF21 transparent !important; 
 }
   
 .scrollbar-thin::-webkit-scrollbar {
-width: 8px; /* Width of the scrollbar */
+width: 8px; 
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-background: transparent; /* Background of the track */
+background: transparent; 
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-background-color: #EFAF21; /* Color of the thumb */
-border-radius: 10px; /* Round the edges of the scrollbar */
+background-color: #EFAF21; 
+border-radius: 10px; 
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-background-color: #CDAF18; /* Color on hover */
+background-color: #CDAF18;
+}
+
+/* Blur Backgorund */
+.blurred-background {
+    position: relative;
+    backdrop-filter: blur(10px); 
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.resizable-sidebar {
+    position: relative;
+    overflow: auto;
+}
+
+.resizable-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    cursor: ew-resize; 
 }

@@ -4,9 +4,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 import BookCard from "../components/Card/BookCard";
+import OutlinedButton from "../components/Form/Button/OutlinedButton";
+import { dumyBook } from "../components/Model/Model";
 
 export default function HomePage() {
   return (
@@ -74,19 +76,19 @@ export default function HomePage() {
         >
           <div>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
           </div>
         </Swiper>
@@ -94,26 +96,25 @@ export default function HomePage() {
 
       <div className="flex w-full flex-col gap-8 px-16">
         <div className="flex gap-6 text-white">
-          <div className="w-36 rounded-md border py-3 text-center">Popular</div>
-          <div className="w-36 rounded-md border py-3 text-center">
-            Recent Release
-          </div>
-          <div className="w-36 rounded-md border py-3 text-center">
-            Special Offer
-          </div>
+          {/* Test */}
+          <OutlinedButton
+            text={"Popular"}
+            color={"white"}
+            outlineColor={"#EFAF21"}
+          />
+          <OutlinedButton text={"Recent Release"} color={"white"} />
+          <OutlinedButton text={"Special Offer"} color={"white"} />
         </div>
         <div className="grid grid-cols-4 gap-y-8">
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
         </div>
       </div>
     </PageLayout>
