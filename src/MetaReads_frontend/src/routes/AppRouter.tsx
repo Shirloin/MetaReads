@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/register",
+        path: "/register/:internetIdentityId",
         element: <RegisterPage />,
       },
       // // Debug

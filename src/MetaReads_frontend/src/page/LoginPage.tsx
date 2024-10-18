@@ -20,6 +20,14 @@ function LoginPage() {
         },
     };
 
+    type Result<T, E> = 
+    | { Ok: T }
+    | { Err: E };
+
+    function isError<T, E>(result: Result<T, E>): result is { Err: E } {
+        return 'Err' in result;
+    }
+
     const handleLogin = async () => {
         const authClient = await AuthClient.create(defaultOptions.createOptions);
 
@@ -27,19 +35,13 @@ function LoginPage() {
             // handleAuthenticated(authClient);
             const internetIdentityId = authClient.getIdentity().getPrincipal();
             const getUserById = await MetaReads_backend.get_user(internetIdentityId);
-
-            if (getUserById.Err) {
-                // @ts-ignore
-                window.location.href = "/register";
+            if (isError(getUserById)) {
+                window.location.href = "/register/" + internetIdentityId;
             }
             else {
-                // @ts-ignore
                 window.location.href = "/";
             }
-            // window.location = "/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
-            // console.log("Logged IN!");
             // @ts-ignore
-            // window.location = "/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
             console.log("Logged IN!");
 
         }

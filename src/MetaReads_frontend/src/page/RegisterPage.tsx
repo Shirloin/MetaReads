@@ -4,12 +4,22 @@ import PrimaryButton from "../components/Form/Button/PrimaryButton";
 import InputField from "../components/Form/Input/TextField/InputField";
 import { Title } from "../components/Utility/TitleUtility";
 import { useCreateUser } from "../components/Hook/Data/User/useCreateUser";
+import { useParams } from "react-router-dom";
+import { ToastError } from "../components/Form/Notifications/ErrorNotification";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
+  const { internetIdentityId } = useParams();
   const { createUser } = useCreateUser();
   const handleRegister = async () => {
-    await createUser(username);
+
+    try {
+      if (internetIdentityId) {
+        await createUser(internetIdentityId, username);
+      }
+    } catch (error: any) {
+      ToastError(error.message);
+    }
     // @ts-ignore
     window.location.href = "/";
   };
@@ -35,23 +45,11 @@ export default function RegisterPage() {
             </div>
           </div>
           <div>
-            <InputField label={"Username"} size={"medium"} value={"test"} onChange={() => { }} />
+            <InputField label={"Username"} size={"medium"} value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
-          <div>
-            <InputField label={"Password"} size={"medium"} type={"password"} value={"test"} onChange={() => { }} />
-          </div>
-          <div>
-            <InputField
-              label={"Confirm Password"}
-              size={"medium"}
-              type={"password"}
-              value={"test"}
-              onChange={() => { }}
-            />
-          </div >
 
           <div className="flex justify-center">
-            <PrimaryButton text={"Create Account"} onClick={() => { }} />
+            <PrimaryButton text={"Create Account"} onClick={handleRegister} />
           </div >
         </div >
       </div >
