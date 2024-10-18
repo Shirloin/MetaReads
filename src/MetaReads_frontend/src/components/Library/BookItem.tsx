@@ -8,7 +8,7 @@ interface BookItemProps {
   isHovered: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
   sidebarRef: React.RefObject<HTMLDivElement>
 }
 

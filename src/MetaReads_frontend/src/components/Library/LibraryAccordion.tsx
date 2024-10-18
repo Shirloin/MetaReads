@@ -13,7 +13,7 @@ interface LibraryAccordionProps {
   bookList: BookModel[];
   onLibrarySelect: (category: string) => void;
   count: number;
-  handleBookSelect: (book: BookModel) => void;
+  handleBookSelect: (book: BookModel | null) => void;
   selectedBook: BookModel | null;
   sidebarRef: React.RefObject<HTMLDivElement>
 }
@@ -37,11 +37,14 @@ export default function LibraryAccordion({
   };
 
   const handleAccordionClick = () => {
+    handleBookSelect(null);
     onLibrarySelect(libraryName);
   };
 
-  const handleBookClick = (book: BookModel) => {
+  const handleBookClick = (book: BookModel, event: React.MouseEvent) => {
+    event.stopPropagation();
     handleBookSelect(book);
+    onLibrarySelect(libraryName);
   };
   return (
     <div>
@@ -73,12 +76,12 @@ export default function LibraryAccordion({
                 isHovered={hoveredIndex === index}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                onClick={() => handleBookClick(book)}
+                onClick={(event) => handleBookClick(book, event)}
                 sidebarRef={sidebarRef}
               />
             ))
           ) : (
-            <Typography>No books available.</Typography>
+            <></>
           )}
 
         </AccordionDetails>

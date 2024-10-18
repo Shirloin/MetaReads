@@ -14,9 +14,11 @@ export default function LibraryPage() {
   const handleLibrarySelect = (libraryName: string) => {
     setselectedLibrary(libraryName);
   };
-  const handleBookSelect = (book: BookModel) => {
+  const handleBookSelect = (book: BookModel | null) => {
+
     setSelectedBook(book);
   };
+
   return (
     <PageLayout>
       <div className="flex w-full">
