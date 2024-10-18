@@ -1,19 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import CategoryAccordion from "./CategoryAccordion";
+import LibraryAccordion from "./LibraryAccordion";
+import { BookModel, LibraryModel } from "../Props/model";
+import SearchBar from "../Form/Input/TextField/SearchBar";
 
 interface LibrarySidebarProps {
-  selectedCategory: string;
-  handleCategorySelect: (category: string) => void;
+  selectedLibrary: LibraryModel | null;
+  handleLibrarySelect: (library: LibraryModel) => void;
+  libraryList: LibraryModel[] | null;
+  handleBookSelect: (book: BookModel | null) => void;
+  selectedBook: BookModel | null;
 }
 
 const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
-  selectedCategory,
-  handleCategorySelect,
+  selectedLibrary,
+  handleLibrarySelect,
+  libraryList,
+  handleBookSelect,
+  selectedBook
 }) => {
   const [isResizing, setIsResizing] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState("20%");
+  const [sidebarWidth, setSidebarWidth] = useState("30%");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -59,42 +68,33 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
         className="max-h-[100vh] min-h-[100vh] overflow-y-auto"
         style={{ backgroundColor: "#202429" }}
       >
-        <CategoryAccordion
-          categoryName={"Uncategorized"}
-          count={20}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 1"}
-          count={10}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 2"}
-          count={10}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 3"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 4"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Testing"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
+        <div
+          className="sticky top-0 z-10"
+          style={{ backgroundColor: "#202429" }}
+        >
+          <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+
+        </div>
+        {libraryList && libraryList.map((library, index) => {
+          const filteredBooks = library.bookList.filter((book) =>
+            book.title.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+
+          return (
+            <LibraryAccordion
+              key={index}
+              library={library}
+              bookList={filteredBooks}
+              count={filteredBooks.length}
+              selectedLibrary={selectedLibrary}
+              onLibrarySelect={handleLibrarySelect}
+              handleBookSelect={handleBookSelect}
+              selectedBook={selectedBook}
+              sidebarRef={sidebarRef}
+            />
+          );
+        })}
+
       </div>
       <div
         className="resizable-handle"
