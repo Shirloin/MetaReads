@@ -5,16 +5,20 @@ export const useCreateUser = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createUser = async (username) => {
+  const createUser = async (username: string) => {
     setLoading(true);
     setError(null);
 
     try {
       await MetaReads_backend.create_user({
+        id: [],
+        money: [],
+        password: [],
+        image: [],
         username: username
       });
       return true; // Indicate success
-    } catch (err) {
+    } catch (err: any) {
       setError(err);
       return false; // Indicate failure
     } finally {

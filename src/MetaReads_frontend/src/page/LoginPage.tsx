@@ -27,7 +27,7 @@ function LoginPage() {
             // handleAuthenticated(authClient);
             const internetIdentityId = authClient.getIdentity().getPrincipal();
             const getUserById = await MetaReads_backend.get_user(internetIdentityId);
-
+            // @ts-ignore
             if (getUserById.Err) {
                 // @ts-ignore
                 window.location.href = "/register";
