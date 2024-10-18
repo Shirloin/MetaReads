@@ -10,14 +10,14 @@ export const useCreateUser = () => {
     setLoading(true);
     setError(null);
 
-    await MetaReads_backend.create_user({
-      id: [Principal.fromText(internetIdentityId)],
-      username: username,
-      money: [], 
-      password: [], 
-      image: []
-    });
     try {
+      await MetaReads_backend.create_user({
+        id: [Principal.fromText(internetIdentityId)],
+        username: username,
+        money: [], 
+        password: [], 
+        image: []
+      });
       return true; // Indicate success
     } catch (err: any) {
       setError(err);
