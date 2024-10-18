@@ -14,10 +14,9 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
             errors: check_payload.err().unwrap().to_string(),
         });
     }
-    let id = generate_unique_id().await;
 
     let user = User {
-        id,
+        id: payload.id,
         username: payload.username,
         password: payload.password.unwrap_or_default(),
         image: payload.image.unwrap_or_default(),
@@ -70,14 +69,7 @@ fn get_user(id: Principal) -> Result<User, Error> {
 
 #[ic_cdk::update]
 fn update_user(payload: UserPayload) -> Result<User, Error> {
-    let id = match payload.id {
-        Some(ref id) => id,
-        None => {
-            return Err(Error::NotFound {
-                message: "User ID is missing".to_string(),
-            });
-        }
-    };
+    let id = payload.id;
     match get_user_by_id(&id) {
         Some(mut user) => {
             let check_payload = payload.validate();

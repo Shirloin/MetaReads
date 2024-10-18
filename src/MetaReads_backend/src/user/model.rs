@@ -29,9 +29,9 @@ impl Storable for User {
     const BOUND: Bound = Bound::Unbounded;
 }
 
-#[derive(CandidType, Serialize, Deserialize, Default, Validate)]
+#[derive(CandidType, Serialize, Deserialize, Validate)]
 pub struct UserPayload {
-    pub id: Option<Principal>,
+    pub id: Principal,
     #[validate(length(min = 1))]
     pub username: String,
     #[validate(length(min = 5))]
