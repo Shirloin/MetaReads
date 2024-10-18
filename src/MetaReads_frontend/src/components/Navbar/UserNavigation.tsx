@@ -30,8 +30,9 @@ export default function UserNavigation() {
   const handleLogout = async () => {
     const authClient = await AuthClient.create(defaultOptions.createOptions);
     await authClient.logout();
-    // @ts-ignore
-    window.location = "/login/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai";
+    document.cookie = 'identity=; Max-Age=-99999999;';  
+
+    window.location.href = "/login";
   };
 
   return (

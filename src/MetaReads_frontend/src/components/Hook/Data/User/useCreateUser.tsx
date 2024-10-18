@@ -10,9 +10,10 @@ export const useCreateUser = () => {
     setLoading(true);
     setError(null);
 
+    
     try {
-      await MetaReads_backend.create_user({
-        id: [Principal.fromText(internetIdentityId)],
+      const user = await MetaReads_backend.create_user({
+        id: Principal.fromText(internetIdentityId),
         username: username,
         money: [], 
         password: [], 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MetaReadsLogo from "../../public/assets/Meta Reads Logo.png";
 import PrimaryButton from "../components/Form/Button/PrimaryButton";
 import InputField from "../components/Form/Input/TextField/InputField";
@@ -6,23 +6,36 @@ import { Title } from "../components/Utility/TitleUtility";
 import { useCreateUser } from "../components/Hook/Data/User/useCreateUser";
 import { useParams } from "react-router-dom";
 import { ToastError } from "../components/Form/Notifications/ErrorNotification";
+import { ToastLoading } from "../components/Form/Notifications/LoadingNotification";
+import { toast } from "react-toastify";
+import { ToastSuccess } from "../components/Form/Notifications/SuccessNotification";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
+  const loadingToastId = useRef<string | null>(null);
   const { internetIdentityId } = useParams();
   const { createUser } = useCreateUser();
   const handleRegister = async () => {
-
+    // @ts-ignore
+    loadingToastId.current = ToastLoading("Loading..");
     try {
       if (internetIdentityId) {
         await createUser(internetIdentityId, username);
+        ToastSuccess("Register Success");
+        document.cookie = "identity=" + internetIdentityId.toString();
+        window.location.href = "/";
       }
     } catch (error: any) {
       ToastError(error.message);
     }
-    // @ts-ignore
-    window.location.href = "/";
+    finally {
+      if (loadingToastId.current) {
+        toast.dismiss(loadingToastId.current);
+        loadingToastId.current = null;
+      }
+    }
   };
+
   return (
     <>
       <div className="flex h-[100vh] w-[100vw] flex-col items-center justify-center">

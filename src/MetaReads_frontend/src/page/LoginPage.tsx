@@ -30,9 +30,7 @@ function LoginPage() {
 
     const handleLogin = async () => {
         const authClient = await AuthClient.create(defaultOptions.createOptions);
-
         if (await authClient.isAuthenticated()) {
-            // handleAuthenticated(authClient);
             const internetIdentityId = authClient.getIdentity().getPrincipal();
             const getUserById = await MetaReads_backend.get_user(internetIdentityId);
             if (isError(getUserById)) {
@@ -40,28 +38,24 @@ function LoginPage() {
             }
             else {
                 window.location.href = "/";
+                document.cookie = "identity=" + internetIdentityId.toString();
             }
-            // @ts-ignore
-            console.log("Logged IN!");
-
         }
         else {
             authClient.login(defaultOptions.loginOptions).then(async () => {
-                console.log("Asdasd");
-
-                // console.log("LOL");
+                
             })
-
         }
     }
 
     return (
-        <div className="w-[100vw] h-[100vh] flex flex-col justify-center items-center">
-            <button onClick={handleLogin} className='text-white'>
-                <img src={MetaReadsLogo} alt="Full Logo" width={200} />
-                <div className='text-center'>Login using Internet Identity</div>
-                {/* <button onClick={handleLogout}>Logout</button> */}
-            </button>
+        <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+            <div className='w-[20vw] h-[10vw] text-white login-button'>
+                <div onClick={handleLogin} className='flex flex-col w-full h-full items-center justify-center'>
+                    <img src={MetaReadsLogo} alt="Full Logo" width={200} />
+                    <div className='text-center'>Login using Internet Identity</div>
+                </div>
+            </div>
         </div>
     )
 }

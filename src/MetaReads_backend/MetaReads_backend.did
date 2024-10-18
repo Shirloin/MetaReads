@@ -99,7 +99,7 @@ type User = record {
   image : text;
 };
 type UserPayload = record {
-  id : opt principal;
+  id : principal;
   money : opt nat64;
   username : text;
   password : opt text;
