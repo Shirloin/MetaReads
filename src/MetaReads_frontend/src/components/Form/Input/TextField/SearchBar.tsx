@@ -12,16 +12,16 @@ export default function SearchBar({ value: query, onChange }: InputProps) {
         justifyContent: "start",
         gap: "0.5em",
         alignItems: "center",
-        backgroundColor: "#1F2329", // Set background color to black
+        backgroundColor: "#1F2329", 
       }}
     >
       <img src={SearchLogo} alt="looking-glass" height={24} width={24} />
       <div className="flex items-center justify-center">
         <div
           style={{
-            borderLeft: "2px solid #DDE6ED", // Adjust thickness and color
-            height: "30px", // Adjust height as needed
-            margin: "0 10px", // Optional spacing on the left and right
+            borderLeft: "2px solid #DDE6ED", 
+            height: "30px", 
+            margin: "0 10px", 
           }}
         />
       </div>
