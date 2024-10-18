@@ -4,10 +4,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 import BookCard from "../components/Card/BookCard";
 import OutlinedButton from "../components/Form/Button/OutlinedButton";
+import { dumyBook } from "../components/Model/Model";
 
 export default function HomePage() {
   return (
@@ -75,19 +76,19 @@ export default function HomePage() {
         >
           <div>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
             <SwiperSlide className="w-fit">
-              <BookCard />
+              <BookCard data={dumyBook} />
             </SwiperSlide>
           </div>
         </Swiper>
@@ -105,17 +106,15 @@ export default function HomePage() {
           <OutlinedButton text={"Special Offer"} color={"white"} />
         </div>
         <div className="grid grid-cols-4 gap-y-8">
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
-          <BookCard />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
+          <BookCard data={dumyBook} />
         </div>
       </div>
     </PageLayout>
