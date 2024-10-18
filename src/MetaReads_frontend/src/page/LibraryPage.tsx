@@ -30,14 +30,16 @@ export default function LibraryPage() {
           handleBookSelect={handleBookSelect}
           selectedBook={selectedBook}
         />
-        <div className="blurred-background flex w-full flex-col p-5">
+        <div className="blurred-background flex w-full flex-col">
           <div>
             {selectedBook != null && <BookDetail book={selectedBook} />}
             {selectedBook == null && selectedLibrary != null && (
-              <LibraryContent
-                selectedLibrary={selectedLibrary}
-                handleBookSelect={handleBookSelect}
-              ></LibraryContent>
+              <div className="p-5">
+                <LibraryContent
+                  selectedLibrary={selectedLibrary}
+                  handleBookSelect={handleBookSelect}
+                ></LibraryContent>
+              </div>
             )}
             {selectedBook == null && selectedLibrary == null && (
               <>Welcome Page Later</>

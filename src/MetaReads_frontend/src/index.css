@@ -47,7 +47,7 @@ background-color: #CDAF18;
 .blurred-background {
     position: relative;
     backdrop-filter: blur(10px);
-    background: linear-gradient(to bottom, rgba(81, 91, 104, 0.582), rgba(28, 31, 34, 0.5));
+    background: linear-gradient(to bottom, rgba(102, 115, 134, 0.6), rgba(28, 31, 34, 0.5));
 }
 
 

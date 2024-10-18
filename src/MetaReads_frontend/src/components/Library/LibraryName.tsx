@@ -47,7 +47,7 @@ export default function LibraryName({
         fetchData={() => {}}
         selectedItem={id}
       />
-      <div className="flex w-full gap-2 border-b-2 pb-1">
+      <div className="flex w-full gap-2 border-b-2 border-gray-400 pb-1">
         <div className="flex w-full gap-2">
           {modalState.update ? (
             <LibraryForm onSubmit={onSubmit} id={id} name={libraryName} />
