@@ -9,10 +9,10 @@ use crate::{book::model::Book, user::model::User};
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
 pub struct Library {
     pub id: Principal,
-    pub book: Book,
+    pub name: String,
     pub user: User,
+    pub books: Vec<Book>,
 }
-
 impl Storable for Library {
     fn to_bytes(&self) -> Cow<[u8]> {
         Cow::Owned(Encode!(self).unwrap())
@@ -31,10 +31,4 @@ pub struct LibraryPayload {
     pub id: Option<Principal>,
     pub book_id: Principal,
     pub user_id: Principal,
-}
-
-#[derive(CandidType, Deserialize, Serialize)]
-pub struct LibraryResponse {
-    pub library: Library,
-    pub message: String,
 }
