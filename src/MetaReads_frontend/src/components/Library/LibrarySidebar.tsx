@@ -1,17 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import CategoryAccordion from "./CategoryAccordion";
+import LibraryAccordion from "./LibraryAccordion";
+import { BookModel, LibraryModel } from "../Props/model";
 
 interface LibrarySidebarProps {
-  selectedCategory: string;
-  handleCategorySelect: (category: string) => void;
+  selectedLibrary: string;
+  handleLibrarySelect: (library: string) => void;
+  libraryList: LibraryModel[];
+  handleBookSelect: (book: BookModel) => void;
+  selectedBook: BookModel | null;
 }
 
 const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
-  selectedCategory,
-  handleCategorySelect,
+  selectedLibrary,
+  handleLibrarySelect,
+  libraryList,
+  handleBookSelect,
+  selectedBook
 }) => {
   const [isResizing, setIsResizing] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState("20%");
+  const [sidebarWidth, setSidebarWidth] = useState("30%");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
 
@@ -59,42 +66,19 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
         className="max-h-[100vh] min-h-[100vh] overflow-y-auto"
         style={{ backgroundColor: "#202429" }}
       >
-        <CategoryAccordion
-          categoryName={"Uncategorized"}
-          count={20}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 1"}
-          count={10}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 2"}
-          count={10}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 3"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Category 4"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        <CategoryAccordion
-          categoryName={"Testing"}
-          count={5}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
+        {libraryList.map((library, index) => (
+          <LibraryAccordion
+            key={index}
+            libraryName={library.name}
+            bookList={library.bookList}
+            count={library.bookList.length}
+            selectedLibrary={selectedLibrary}
+            onLibrarySelect={handleLibrarySelect}
+            handleBookSelect={handleBookSelect}
+            selectedBook={selectedBook}
+            sidebarRef={sidebarRef}
+          />
+        ))}
       </div>
       <div
         className="resizable-handle"
