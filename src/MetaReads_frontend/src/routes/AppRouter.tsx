@@ -9,6 +9,7 @@ import AuthorPage from "../page/Admin/AuthorPage";
 import GenrePage from "../page/Admin/GenrePage";
 import BookPage from "../page/Admin/BookPage";
 import RegisterPage from "../page/RegisterPage";
+import BookDetailPage from "../page/BookDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/book",
         element: <BookPage />,
+      },
+      {
+        path: "/book/:bookId",
+        element: <BookDetailPage />,
       },
     ],
   },
