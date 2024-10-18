@@ -4,9 +4,9 @@ import { BookModel, LibraryModel } from "../Props/model";
 import SearchBar from "../Form/Input/TextField/SearchBar";
 
 interface LibrarySidebarProps {
-  selectedLibrary: string;
-  handleLibrarySelect: (library: string) => void;
-  libraryList: LibraryModel[];
+  selectedLibrary: LibraryModel | null;
+  handleLibrarySelect: (library: LibraryModel) => void;
+  libraryList: LibraryModel[] | null;
   handleBookSelect: (book: BookModel | null) => void;
   selectedBook: BookModel | null;
 }
@@ -75,8 +75,7 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
           <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
 
         </div>
-        {libraryList.map((library, index) => {
-          // Filter books based on the search query
+        {libraryList && libraryList.map((library, index) => {
           const filteredBooks = library.bookList.filter((book) =>
             book.title.toLowerCase().includes(searchQuery.toLowerCase())
           );
@@ -84,9 +83,9 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
           return (
             <LibraryAccordion
               key={index}
-              libraryName={library.name}
-              bookList={filteredBooks} // Pass the filtered list
-              count={filteredBooks.length} // Update count
+              library={library}
+              bookList={filteredBooks}
+              count={filteredBooks.length}
               selectedLibrary={selectedLibrary}
               onLibrarySelect={handleLibrarySelect}
               handleBookSelect={handleBookSelect}

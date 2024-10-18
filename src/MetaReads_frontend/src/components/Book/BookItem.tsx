@@ -33,7 +33,7 @@ const BookItem: React.FC<BookItemProps> = ({
   return (
     <Tooltip title={showTooltip ? book.title : ""} placement="top" arrow>
       <Typography
-        className="cursor-pointer py-2 pl-4"
+        className="cursor-pointer py-1 pl-4"
         style={{
           display: "flex",
           gap: "8px",

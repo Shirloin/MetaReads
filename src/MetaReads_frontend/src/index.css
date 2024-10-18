@@ -62,3 +62,8 @@ background-color: #CDAF18;
     width: 3px;
     cursor: ew-resize; 
 }
+.no-select {
+    user-select: none; 
+    pointer-events: none; 
+  }
+  

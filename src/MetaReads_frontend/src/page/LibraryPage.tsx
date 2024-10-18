@@ -3,16 +3,18 @@ import PageLayout from "../components/Layout/PageLayout";
 import { Title } from "../components/Utility/TitleUtility";
 import LibrarySidebar from "../components/Library/LibrarySidebar";
 import { BookModel, library1, library2, LibraryModel } from "../components/Props/model";
+import LibraryContent from "../components/Library/LibraryContent";
+import BookDetail from "../components/Book/BookDetail";
 
 export default function LibraryPage() {
   const test1: LibraryModel = library1;
   const test2: LibraryModel = library2;
   const libraryList: LibraryModel[] = [test1, test2, test1, test1, test1];
-  const [selectedLibrary, setselectedLibrary] = React.useState("Uncategorized");
+  const [selectedLibrary, setselectedLibrary] = React.useState<LibraryModel | null>(null);
   const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(null);
 
-  const handleLibrarySelect = (libraryName: string) => {
-    setselectedLibrary(libraryName);
+  const handleLibrarySelect = (library: LibraryModel) => {
+    setselectedLibrary(library);
   };
   const handleBookSelect = (book: BookModel | null) => {
 
@@ -21,7 +23,7 @@ export default function LibraryPage() {
 
   return (
     <PageLayout>
-      <div className="flex w-full">
+      <div className="flex w-full ">
         <LibrarySidebar
           libraryList={libraryList}
           selectedLibrary={selectedLibrary}
@@ -29,12 +31,23 @@ export default function LibraryPage() {
           handleBookSelect={handleBookSelect}
           selectedBook={selectedBook}
         />
-        <div className="blurred-background flex w-full flex-col">
+        <div className="blurred-background flex w-full flex-col p-5 ">
           <div>
-            <Title text={selectedLibrary} />
             {
-              selectedBook && (
-                <Title text={selectedBook.title} />
+              selectedBook != null && (
+                <BookDetail book={selectedBook} />
+              )
+            }
+            {
+              selectedBook == null && selectedLibrary != null && (
+                <LibraryContent selectedLibrary={selectedLibrary}></LibraryContent>
+              )
+            }
+            {
+              selectedBook == null && selectedLibrary == null && (
+                <>
+                  Welcome Page Later
+                </>
               )
             }
           </div>

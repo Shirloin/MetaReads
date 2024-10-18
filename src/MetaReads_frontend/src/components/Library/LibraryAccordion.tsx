@@ -4,14 +4,14 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import { BookModel } from "../Props/model";
-import BookItem from "./BookItem";
+import { BookModel, LibraryModel } from "../Props/model";
+import BookItem from "../Book/BookItem";
 
 interface LibraryAccordionProps {
-  libraryName: string;
-  selectedLibrary: string;
+  library: LibraryModel;
+  selectedLibrary: LibraryModel | null;
   bookList: BookModel[];
-  onLibrarySelect: (category: string) => void;
+  onLibrarySelect: (library: LibraryModel) => void;
   count: number;
   handleBookSelect: (book: BookModel | null) => void;
   selectedBook: BookModel | null;
@@ -19,7 +19,7 @@ interface LibraryAccordionProps {
 }
 
 export default function LibraryAccordion({
-  libraryName,
+  library,
   selectedLibrary,
   bookList,
   onLibrarySelect,
@@ -38,13 +38,13 @@ export default function LibraryAccordion({
 
   const handleAccordionClick = () => {
     handleBookSelect(null);
-    onLibrarySelect(libraryName);
+    onLibrarySelect(library);
   };
 
   const handleBookClick = (book: BookModel, event: React.MouseEvent) => {
     event.stopPropagation();
     handleBookSelect(book);
-    onLibrarySelect(libraryName);
+    onLibrarySelect(library);
   };
   return (
     <div>
@@ -52,7 +52,7 @@ export default function LibraryAccordion({
         <AccordionSummary
           sx={{
             backgroundColor:
-              selectedLibrary === libraryName ? "#2C3E50" : "#14181E",
+              (selectedLibrary && selectedLibrary.name) === library.name ? "#2C3E50" : "#14181E",
             color: "white",
             overflow: "hidden",
             whiteSpace: "nowrap",
@@ -62,7 +62,7 @@ export default function LibraryAccordion({
           expandIcon={<RiArrowDownSFill onClick={handleIconClick} />}
         >
           <div className="flex flex-grow gap-2" style={{ fontSize: "5px" }}>
-            <Typography>{libraryName}</Typography>
+            <Typography>{library.name}</Typography>
             <Typography className="text-gray-400">( {count} )</Typography>
           </div>
         </AccordionSummary>

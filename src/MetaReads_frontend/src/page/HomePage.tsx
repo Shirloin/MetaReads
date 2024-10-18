@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination } from "swiper/modules";
 
-import BookCard from "../components/Card/BookCard";
+import BookCard from "../components/Book/BookCard";
 import OutlinedButton from "../components/Form/Button/OutlinedButton";
 import { dummyBook } from "../components/Props/model";
 
