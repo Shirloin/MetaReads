@@ -1,5 +1,6 @@
 import PageLayout from "../components/Layout/PageLayout";
 import SubscriptionCard from "../components/Subscriptions/SubscriptionCard";
+import { TextGenerateEffect } from "../components/ui/text-generate-effect";
 
 export default function SubscriptionPage() {
   return (
@@ -9,7 +10,7 @@ export default function SubscriptionPage() {
         style={{ gap: "10%" }}
       >
         <div className="text-center text-white">
-          <h1 className="text-3xl font-bold">Unlock Your Reading Potential!</h1>
+          <TextGenerateEffect words={"Unlock Your Reading Potential!"} />
           <p className="mt-4 w-[700px] text-xl font-semibold">
             Pick the best plan today and embark on your reading journey with us!
             Enjoy exclusive benefits and a world of knowledge at your
