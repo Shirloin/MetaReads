@@ -80,7 +80,7 @@ export const dummyBook = createBookModel(dummyBookData);
 
 export const library1: LibraryModel = {
   id: Principal.fromText("aaaaa-aa"),
-  name: "Uncategorized",
+  name: "Uncategorized (dummy)",
   bookList: [
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -91,7 +91,7 @@ export const library1: LibraryModel = {
       description:
         "A thrilling adventure through unknown lands, filled with mystery and excitement.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
       views: 10000,
       pages_count: 12,
     },
@@ -104,7 +104,7 @@ export const library1: LibraryModel = {
       description:
         "A thrilling adventure through unknown lands, filled with mystery and excitement.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
       views: 10000,
       pages_count: 12,
     },
@@ -117,7 +117,7 @@ export const library1: LibraryModel = {
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
       views: 10000,
       pages_count: 12,
     },
@@ -130,7 +130,7 @@ export const library1: LibraryModel = {
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
       views: 10000,
       pages_count: 12,
     },
@@ -143,7 +143,7 @@ export const library1: LibraryModel = {
       description:
         "A chilling tale of survival in a haunted forest where no one can hear you scream.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
       pages_count: 12,
     },
@@ -160,12 +160,51 @@ export const library1: LibraryModel = {
       views: 10000,
       pages_count: 12,
     },
+    {
+      id: Principal.fromText("aaaaa-aa"),
+      title: "The Code Master's Handbook",
+      author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
+      plan: "29.99",
+      genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
+      description:
+        "A comprehensive guide for aspiring developers and seasoned coders alike.",
+      coverImage:
+        "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
+      views: 10000,
+      pages_count: 12,
+    },
+    {
+      id: Principal.fromText("aaaaa-aa"),
+      title: "The Code Master's Handbook",
+      author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
+      plan: "29.99",
+      genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
+      description:
+        "A comprehensive guide for aspiring developers and seasoned coders alike.",
+      coverImage:
+        "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
+      views: 10000,
+      pages_count: 12,
+    },
+    {
+      id: Principal.fromText("aaaaa-aa"),
+      title: "The Code Master's Handbook",
+      author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
+      plan: "29.99",
+      genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
+      description:
+        "A comprehensive guide for aspiring developers and seasoned coders alike.",
+      coverImage:
+        "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
+      views: 10000,
+      pages_count: 12,
+    },
   ],
 };
 
 export const library2: LibraryModel = {
   id: Principal.fromText("aaaaa-aa"),
-  name: "Library 1",
+  name: "Library 1 (dummy)",
   bookList: [
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -176,7 +215,7 @@ export const library2: LibraryModel = {
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://getcovers.com/wp-content/uploads/2020/12/image3.png",
       views: 10000,
       pages_count: 12,
     },
@@ -189,7 +228,7 @@ export const library2: LibraryModel = {
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://th.bing.com/th/id/OIP.7rF2B7fGNp3xdBg41W8P0gAAAA?pid=ImgDet&w=432&h=691&rs=1",
       views: 10000,
       pages_count: 12,
     },
@@ -202,7 +241,7 @@ export const library2: LibraryModel = {
       description:
         "A chilling tale of survival in a haunted forest where no one can hear you scream.",
       coverImage:
-        "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
+        "https://m.media-amazon.com/images/I/81pyW-09QnL._SL1500_.jpg",
       views: 10000,
       pages_count: 12,
     },

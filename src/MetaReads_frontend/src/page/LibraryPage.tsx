@@ -9,7 +9,7 @@ import BookDetail from "../components/Book/BookDetail";
 export default function LibraryPage() {
   const test1: LibraryModel = library1;
   const test2: LibraryModel = library2;
-  const libraryList: LibraryModel[] = [test1, test2, test1, test1, test1];
+  const libraryList: LibraryModel[] = [test1, test2];
   const [selectedLibrary, setselectedLibrary] = React.useState<LibraryModel | null>(null);
   const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(null);
 
@@ -34,7 +34,7 @@ export default function LibraryPage() {
           <div>
             {selectedBook != null && <BookDetail book={selectedBook} />}
             {selectedBook == null && selectedLibrary != null && (
-              <div className="p-5">
+              <div className="">
                 <LibraryContent
                   selectedLibrary={selectedLibrary}
                   handleBookSelect={handleBookSelect}
