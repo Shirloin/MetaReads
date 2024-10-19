@@ -52,7 +52,7 @@ export default function LibraryAccordion({
         <AccordionSummary
           sx={{
             backgroundColor:
-              (selectedLibrary && selectedLibrary.name) === library.name ? "#2C3E50" : "#14181E",
+              (selectedLibrary && selectedLibrary.name) === library.name ? "#484f5a" : "#1E2732",
             color: "white",
             overflow: "hidden",
             whiteSpace: "nowrap",
@@ -61,12 +61,12 @@ export default function LibraryAccordion({
           className="inject-accordion"
           expandIcon={<RiArrowDownSFill onClick={handleIconClick} />}
         >
-          <div className="flex flex-grow gap-2" style={{ fontSize: "5px" }}>
-            <Typography>{library.name}</Typography>
-            <Typography className="text-gray-400">( {count} )</Typography>
+          <div className="flex flex-grow gap-2 ">
+            <Typography className="custom-font-size flex items-center" >{library.name}</Typography>
+            <Typography className="text-gray-400 ">( {count} )</Typography>
           </div>
         </AccordionSummary>
-        <AccordionDetails sx={{ backgroundColor: "transparent", padding: 0 }}>
+        <AccordionDetails sx={{ backgroundColor: "#0e1115", padding: 0 }}>
           {bookList.length > 0 ? (
             bookList.map((book, index) => (
               <BookItem

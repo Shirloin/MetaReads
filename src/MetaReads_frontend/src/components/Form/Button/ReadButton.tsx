@@ -1,20 +1,13 @@
-import { Button } from "@mui/material";
 import { ButtonProps } from "../../Props/buttonProps";
 
-export default function ReadButton({ onClick, text, color }: ButtonProps) {
+export default function GradientButton({ onClick, text, color }: ButtonProps) {
   return (
-    <Button
-      variant="contained"
-      sx={{
-        backgroundColor: "#64C008",
-        fontWeight: 600,
-        color: color ? color : "black",
-        textTransform: "none",
-        fontSize: "15px",
-      }}
-      onClick={onClick}
-    >
-      {text}
-    </Button>
+    <button className="p-[3px] relative" onClick={onClick}>
+      <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-cyan-600 rounded-lg" />
+      <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+        {text}
+      </div>
+    </button>
+
   );
 }
