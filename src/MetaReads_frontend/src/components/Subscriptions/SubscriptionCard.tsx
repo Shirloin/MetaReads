@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import SubscribeButton from "../Form/Button/SubscribeButton";
 import CurrencyLogo from "../../../public/assets/Currency Logo.png";
+import ShimmerButton from "../Form/Button/ShimmerButton";
 
 export default function SubscriptionCard({ title, price, benefits }: {
   title: string, price: string, benefits: string[]
@@ -99,7 +100,7 @@ export default function SubscriptionCard({ title, price, benefits }: {
         <div></div>
       </CardContent>
       <CardActions className="m-4 flex items-center justify-center">
-        <SubscribeButton text={"Select Plan"} onClick={() => { }} />
+        <ShimmerButton text={"Select Plan"} onClick={() => { }} />
       </CardActions>
     </Card>
   );

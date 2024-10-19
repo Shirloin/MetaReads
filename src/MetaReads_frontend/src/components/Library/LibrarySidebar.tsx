@@ -66,14 +66,14 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
     >
       <div
         className="max-h-[100vh] min-h-[100vh] overflow-y-auto"
-        style={{ backgroundColor: "#202429" }}
+        style={{ backgroundColor: "rgba(32, 36, 41, 0.3)" }}
       >
         <div
           className="sticky top-0 z-10"
-          style={{ backgroundColor: "#202429" }}
+          style={{ backgroundColor: "rgba(32, 36, 41, 1)" }}
         >
           <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-          
+
         </div>
         {libraryList && libraryList.map((library, index) => {
           const filteredBooks = library.bookList.filter((book) =>

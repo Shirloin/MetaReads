@@ -4,6 +4,7 @@ import App from "./App";
 import "./index.css";
 import { CollapsedProvider } from "./lib/collapsed_provider";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider2 } from "./components/theme-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,10 +31,12 @@ if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <ThemeProvider theme={darkTheme}>
-        <CollapsedProvider>
-          <App />
-          <ToastContainer stacked />
-        </CollapsedProvider>
+        <ThemeProvider2 defaultTheme="dark" storageKey="vite-ui-theme">
+          <CollapsedProvider>
+            <App />
+            <ToastContainer stacked />
+          </CollapsedProvider>
+        </ThemeProvider2>
       </ThemeProvider>
     </React.StrictMode>,
   );

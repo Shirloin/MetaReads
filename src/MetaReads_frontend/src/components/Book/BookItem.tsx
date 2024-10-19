@@ -38,7 +38,7 @@ const BookItem: React.FC<BookItemProps> = ({
           display: "flex",
           gap: "8px",
           alignItems: "center",
-          backgroundColor: isSelected || isHovered ? "#3f576e" : "transparent",
+          backgroundColor: isSelected || isHovered ? "rgba(63, 87, 110, 0.5)" : "transparent",
           transition: "background-color 0.3s",
           overflow: "hidden",
           whiteSpace: "nowrap",

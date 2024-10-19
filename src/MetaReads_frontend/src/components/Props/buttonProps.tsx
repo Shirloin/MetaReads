@@ -2,7 +2,7 @@
 
 export interface ButtonProps {
     onClick: () => void;
-    text: string;
+    text: any;
     color?: string,
     outlineColor?: string
 }
