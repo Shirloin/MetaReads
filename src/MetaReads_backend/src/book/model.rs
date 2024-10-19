@@ -18,7 +18,7 @@ pub struct Book {
     pub genre: Genre,
     pub plan: String,
     pub views: i64,
-    pub page_count: i64,
+    pub page_count: u64,
     pub created_at: u64,
     pub updated_at: Option<u64>,
 }
@@ -45,7 +45,14 @@ pub struct BookPayload {
     pub author_id: Principal,
     pub genre_id: Principal,
     pub plan: String,
-    pub page_count: i64,
+    pub page_count: u64,
+}
+
+#[derive(CandidType, Serialize, Deserialize, Validate)]
+pub struct PaginateBookPayload {
+    pub page: usize,
+    pub limit: usize,
+    pub query: String,
 }
 
 #[derive(CandidType, Serialize, Deserialize)]

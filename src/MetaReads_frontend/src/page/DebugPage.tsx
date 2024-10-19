@@ -1,10 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
 import { Principal } from "@dfinity/principal";
+import { MdQueryBuilder } from "react-icons/md";
 
 export default function DebugPage() {
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
+  const [query, setQuery] = useState("");
 
   const [book, setBook] = useState({
     title: "",
@@ -18,9 +20,9 @@ export default function DebugPage() {
 
   const [page, setPage] = useState(0);
 
-  const [books, setBooks] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [authors, setAuthors] = useState([]);
+  const [books, setBooks] = useState<any[]>([]);
+  const [genres, setGenres] = useState<any[]>([]);
+  const [authors, setAuthors] = useState<any[]>([]);
 
   const createGenre = async () => {
     try {
@@ -56,7 +58,8 @@ export default function DebugPage() {
         cover_image: book.cover_image,
         author_id: authorIdPrincipal,
         genre_id: genreIdPrincipal,
-        page_count: book.page_count,
+        book_url: "",
+        page_count: BigInt(book.page_count),
         plan: book.plan,
       });
       console.log(response);
@@ -99,7 +102,8 @@ export default function DebugPage() {
         cover_image: book.cover_image,
         author_id: authorIdPrincipal,
         genre_id: genreIdPrincipal,
-        page_count: book.page_count,
+        book_url: "",
+        page_count: BigInt(book.page_count),
         plan: book.plan,
       });
       console.log(response);
@@ -108,7 +112,7 @@ export default function DebugPage() {
     }
   };
 
-  const deleteGenre = async (id) => {
+  const deleteGenre = async (id: []) => {
     console.log("delete genre");
     console.log(id.toString());
     const genre_id = Principal.fromText(id.toString());
@@ -119,7 +123,7 @@ export default function DebugPage() {
       console.log(error);
     }
   };
-  const deleteAuthor = async (id) => {
+  const deleteAuthor = async (id: []) => {
     console.log("delete author");
     console.log(id.toString());
     const author_id = Principal.fromText(id.toString());
@@ -130,7 +134,7 @@ export default function DebugPage() {
       console.log(error);
     }
   };
-  const deleteBook = async (id) => {
+  const deleteBook = async (id: []) => {
     console.log(id.toString());
     const book_id = Principal.fromText(id.toString());
     try {
@@ -141,7 +145,7 @@ export default function DebugPage() {
     }
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBook({ ...book, [name]: value });
   };
@@ -149,20 +153,23 @@ export default function DebugPage() {
   useEffect(() => {
     const fetchData = async () => {
       const genresResponse = await MetaReads_backend.get_all_genre();
-      setGenres(genresResponse);
+      setGenres(genresResponse as any);
       const authorsResponse = await MetaReads_backend.get_all_author();
-      setAuthors(authorsResponse);
+      setAuthors(authorsResponse as any);
       console.log(genresResponse);
-      console.log(authorsResponse);
+      console.log(authorsResponse as any);
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      const booksResponse = await MetaReads_backend.get_all_book(page, 10);
-      setBooks(booksResponse);
-      console.log(booksResponse);
+      const booksResponse = await MetaReads_backend.get_all_book({ page: BigInt(page), limit: BigInt(5), query: query });
+      if ('Ok' in booksResponse) {
+        const data = booksResponse.Ok
+        setBooks(data.books as any);
+        console.log(data.books);
+      }
     };
     fetchData();
   }, [page]);
@@ -261,111 +268,115 @@ export default function DebugPage() {
             ))}
           </ul>
         </div>
-        <div className="flex w-full gap-4">
-          <div className="flex w-full max-w-md flex-col gap-4">
-            <h1 className="text-xl">Create Book</h1>
-            <input
-              onChange={handleOnChange}
-              placeholder="title"
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-              name="title"
-              value={book.title}
-            />
-            <input
-              onChange={handleOnChange}
-              placeholder="description"
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-              name="description"
-              value={book.description}
-            />
-            <input
-              onChange={handleOnChange}
-              placeholder="cover image"
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-              name="cover_image"
-              value={book.cover_image}
-            />
-            <div className="flex w-full flex-col gap-4">
-              <h1 className="text-xl">Select Author</h1>
-              <select
+        <div className="flex flex-col gap-4 w-full">
+          <input type="text" value={query} onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
+          <div className="flex w-full gap-4">
+            <div className="flex w-full max-w-md flex-col gap-4">
+              <h1 className="text-xl">Create Book</h1>
+              <input
+                onChange={handleOnChange}
+                placeholder="title"
                 className="rounded-md p-2 text-black ring-1"
-                value={book.author_id}
-                onChange={(e) =>
-                  setBook({ ...book, author_id: e.target.value })
-                }
-              >
-                <option value="">Select Author</option>
-                {authors.map((author) => (
-                  <option key={author.id} value={author.id.toString()}>
-                    {author.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex w-full flex-col gap-4">
-              <h1 className="text-xl">Select Genre</h1>
-              <select
+                type="text"
+                name="title"
+                value={book.title}
+              />
+              <input
+                onChange={handleOnChange}
+                placeholder="description"
                 className="rounded-md p-2 text-black ring-1"
-                value={book.genre_id}
-                onChange={(e) => setBook({ ...book, genre_id: e.target.value })}
-              >
-                <option value="">Select Genre</option>
-                {genres.map((genre) => (
-                  <option key={genre.id} value={genre.id.toString()}>
-                    {genre.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <input
-              onChange={handleOnChange}
-              placeholder="plan"
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-              name="plan"
-              value={book.plan}
-            />
-            <input
-              onChange={handleOnChange}
-              placeholder="page count"
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-              name="page_count"
-              value={book.page_count}
-            />
-            <button
-              onClick={createBook}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Create Book
-            </button>
-            <button
-              onClick={updateBook}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Update Book
-            </button>
-          </div>
-          <ul className="flex flex-col">
-            {books.map((book, index) => (
-              <li>
-                <h5>{index}</h5>
-                <h5>{book.id.toString()}</h5>
-                <h4>{book.title}</h4>
-                <h4>{book.author.name}</h4>
-                <h4>{book.genre.name}</h4>
-                <button
-                  onClick={() => deleteBook(book.id)}
-                  className="rounded-md bg-red-500 p-2 text-white"
+                type="text"
+                name="description"
+                value={book.description}
+              />
+              <input
+                onChange={handleOnChange}
+                placeholder="cover image"
+                className="rounded-md p-2 text-black ring-1"
+                type="text"
+                name="cover_image"
+                value={book.cover_image}
+              />
+              <div className="flex w-full flex-col gap-4">
+                <h1 className="text-xl">Select Author</h1>
+                <select
+                  className="rounded-md p-2 text-black ring-1"
+                  value={book.author_id}
+                  onChange={(e) =>
+                    setBook({ ...book, author_id: e.target.value })
+                  }
                 >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
+                  <option value="">Select Author</option>
+                  {authors.map((author) => (
+                    <option key={author.id} value={author.id.toString()}>
+                      {author.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex w-full flex-col gap-4">
+                <h1 className="text-xl">Select Genre</h1>
+                <select
+                  className="rounded-md p-2 text-black ring-1"
+                  value={book.genre_id}
+                  onChange={(e) => setBook({ ...book, genre_id: e.target.value })}
+                >
+                  <option value="">Select Genre</option>
+                  {genres.map((genre) => (
+                    <option key={genre.id} value={genre.id.toString()}>
+                      {genre.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <input
+                onChange={handleOnChange}
+                placeholder="plan"
+                className="rounded-md p-2 text-black ring-1"
+                type="text"
+                name="plan"
+                value={book.plan}
+              />
+              <input
+                onChange={handleOnChange}
+                placeholder="page count"
+                className="rounded-md p-2 text-black ring-1"
+                type="text"
+                name="page_count"
+                value={book.page_count}
+              />
+              <button
+                onClick={createBook}
+                className="rounded-md bg-white p-2 font-bold text-black"
+              >
+                Create Book
+              </button>
+              <button
+                onClick={updateBook}
+                className="rounded-md bg-white p-2 font-bold text-black"
+              >
+                Update Book
+              </button>
+            </div>
+            <ul className="flex flex-col">
+              {books.map((book, index) => (
+                <li>
+                  <h5>{index}</h5>
+                  <h5>{book.id.toString()}</h5>
+                  <h4>{book.title}</h4>
+                  <img src={book.cover_image} alt="" />
+                  <h4>{book.author.name}</h4>
+                  <h4>{book.genre.name}</h4>
+                  <button
+                    onClick={() => deleteBook(book.id)}
+                    className="rounded-md bg-red-500 p-2 text-white"
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="flex gap-2">
             <h1>Page: {page}</h1>
             <button

@@ -22,7 +22,7 @@ use candid::Principal;
 use ic_cdk::api::time;
 use validator::Validate;
 
-use super::model::{Book, BookPayload, PaginatedBooks};
+use super::model::{Book, BookPayload, PaginateBookPayload, PaginatedBooks};
 
 #[ic_cdk::update]
 async fn create_book(payload: BookPayload) -> Result<Book, Error> {
@@ -77,25 +77,24 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
 }
 
 #[ic_cdk::query]
-fn get_all_book(page: usize, limit: usize, query: Option<String>) -> Result<PaginatedBooks, Error> {
+fn get_all_book(payload: PaginateBookPayload) -> Result<PaginatedBooks, Error> {
     BOOK_STORE.with(|book_store| {
         let store = book_store.borrow();
 
+        let q = payload.query;
         let mut books: Vec<Book> = store.iter().map(|(_, book)| book.clone()).collect();
-        if let Some(q) = query {
-            books = books
-                .into_iter()
-                .filter(|book| {
-                    book.title.contains(&q)
-                        || book.author.name.contains(&q)
-                        || book.genre.name.contains(&q)
-                        || book.description.contains(&q)
-                })
-                .collect();
-        }
+        books = books
+            .into_iter()
+            .filter(|book| {
+                book.title.contains(&q)
+                    || book.author.name.contains(&q)
+                    || book.genre.name.contains(&q)
+                    || book.description.contains(&q)
+            })
+            .collect();
         let total_count = books.len();
-        let start = page * limit;
-        let paginated_books = books.into_iter().skip(start).take(limit).collect();
+        let start = payload.page * payload.limit;
+        let paginated_books = books.into_iter().skip(start).take(payload.limit).collect();
         Ok(PaginatedBooks {
             books: paginated_books,
             total_count,

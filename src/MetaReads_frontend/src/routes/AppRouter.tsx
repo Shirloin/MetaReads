@@ -10,6 +10,7 @@ import GenrePage from "../page/Admin/GenrePage";
 import BookPage from "../page/Admin/BookPage";
 import RegisterPage from "../page/RegisterPage";
 import BookDetailPage from "../page/BookDetailPage";
+import DebugPage from "../page/DebugPage";
 
 const router = createBrowserRouter([
   {
@@ -37,11 +38,11 @@ const router = createBrowserRouter([
         path: "/register/:internetIdentityId",
         element: <RegisterPage />,
       },
-      // // Debug
-      // {
-      //   path: "/debug",
-      //   element: <DebugPage />,
-      // },
+      // Debug
+      {
+        path: "/debug",
+        element: <DebugPage />,
+      },
       // Admin
       {
         path: "/admin/author",

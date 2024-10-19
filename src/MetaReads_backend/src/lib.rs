@@ -9,7 +9,7 @@ use ic_stable_structures::{DefaultMemoryImpl, StableBTreeMap};
 use seed::lib::seed_data;
 
 use crate::author::model::{Author, AuthorPayload};
-use crate::book::model::{Book, BookPayload, PaginatedBooks};
+use crate::book::model::{Book, BookPayload, PaginateBookPayload, PaginatedBooks};
 use crate::error::error::Error;
 use crate::genre::model::{Genre, GenrePayload};
 use crate::library::model::{Library, LibraryPayload};

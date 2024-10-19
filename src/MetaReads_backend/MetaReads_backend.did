@@ -13,7 +13,7 @@ type Author = record {
     created_at : nat64;
     author : Author;
     genre : record { id : principal; name : text; books : Vec };
-    page_count : int64;
+    page_count : nat64;
   };
 };
 type AuthorPayload = record { id : opt principal; name : text };
@@ -29,7 +29,7 @@ type Book = record {
   created_at : nat64;
   author : Author;
   genre : Genre;
-  page_count : int64;
+  page_count : nat64;
 };
 type BookPayload = record {
   id : opt principal;
@@ -40,7 +40,7 @@ type BookPayload = record {
   genre_id : principal;
   description : text;
   author_id : principal;
-  page_count : int64;
+  page_count : nat64;
 };
 type Error = variant {
   NotFound : record { message : text };
@@ -50,11 +50,22 @@ type Error = variant {
 };
 type Genre = record { id : principal; name : text; books : Vec };
 type GenrePayload = record { id : opt principal; name : text };
-type Library = record { id : principal; book : Book; user : User };
+type Library = record {
+  id : principal;
+  name : text;
+  user : User;
+  books : vec Book;
+};
 type LibraryPayload = record {
   id : opt principal;
+  name : text;
   user_id : principal;
-  book_id : principal;
+  book_id : opt principal;
+};
+type PaginateBookPayload = record {
+  page : nat64;
+  "query" : text;
+  limit : nat64;
 };
 type PaginatedBooks = record { books : vec Book; total_count : nat64 };
 type Plan = record {
@@ -117,7 +128,7 @@ type Vec = vec record {
   created_at : nat64;
   author : Author;
   genre : record { id : principal; name : text; books : Vec };
-  page_count : int64;
+  page_count : nat64;
 };
 service : () -> {
   create_author : (AuthorPayload) -> (Result);
@@ -132,7 +143,7 @@ service : () -> {
   delete_genre : (principal) -> (Result_2);
   delete_library : (principal) -> (Result_3);
   get_all_author : () -> (vec Author) query;
-  get_all_book : (nat64, nat64, opt text) -> (Result_7) query;
+  get_all_book : (PaginateBookPayload) -> (Result_7) query;
   get_all_genre : () -> (vec Genre) query;
   get_all_plan : () -> (vec Plan) query;
   get_all_subscription : () -> (vec Subscription) query;
@@ -144,7 +155,9 @@ service : () -> {
   get_popular_book : () -> (vec Book) query;
   get_subscription_by_user : (principal) -> (opt Subscription) query;
   get_user : (principal) -> (Result_6) query;
+  insert_book_to_library : (LibraryPayload) -> (Result_3);
   login : (text, text) -> (Result_6) query;
+  remove_book_in_library : (LibraryPayload) -> (Result_3);
   search_book : (text) -> (vec Book) query;
   update_author : (GenrePayload) -> (Result);
   update_book : (BookPayload) -> (Result_1);
