@@ -23,6 +23,7 @@ mod genre;
 mod helper;
 mod library;
 mod plan;
+mod read;
 mod seed;
 mod subscription;
 mod user;

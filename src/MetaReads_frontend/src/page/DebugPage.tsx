@@ -24,29 +24,8 @@ export default function DebugPage() {
   const [genres, setGenres] = useState<any[]>([]);
   const [authors, setAuthors] = useState<any[]>([]);
 
-  const createGenre = async () => {
-    try {
-      const response = await MetaReads_backend.create_genre({
-        id: [],
-        name: genre,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const createAuthor = async () => {
-    try {
-      const response = await MetaReads_backend.create_author({
-        id: [],
-        name: author,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const createBook = async () => {
     const authorIdPrincipal = Principal.fromText(book.author_id);
     const genreIdPrincipal = Principal.fromText(book.genre_id);
@@ -67,73 +46,6 @@ export default function DebugPage() {
       console.log(error);
     }
   };
-
-  const updateGenre = async () => {
-    try {
-      const response = await MetaReads_backend.update_genre({
-        id: [],
-        name: genre,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateAuthor = async () => {
-    try {
-      const response = await MetaReads_backend.create_author({
-        id: [],
-        name: author,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const updateBook = async () => {
-    const authorIdPrincipal = Principal.fromText(book.author_id);
-    const genreIdPrincipal = Principal.fromText(book.genre_id);
-    try {
-      const response = await MetaReads_backend.create_book({
-        id: [],
-        title: book.title,
-        description: book.description,
-        cover_image: book.cover_image,
-        author_id: authorIdPrincipal,
-        genre_id: genreIdPrincipal,
-        book_url: "",
-        page_count: BigInt(book.page_count),
-        plan: book.plan,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteGenre = async (id: []) => {
-    console.log("delete genre");
-    console.log(id.toString());
-    const genre_id = Principal.fromText(id.toString());
-    try {
-      const response = await MetaReads_backend.delete_genre(genre_id);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const deleteAuthor = async (id: []) => {
-    console.log("delete author");
-    console.log(id.toString());
-    const author_id = Principal.fromText(id.toString());
-    try {
-      const response = await MetaReads_backend.delete_author(author_id);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const deleteBook = async (id: []) => {
     console.log(id.toString());
     const book_id = Principal.fromText(id.toString());
@@ -147,7 +59,19 @@ export default function DebugPage() {
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setBook({ ...book, [name]: value });
+    if (name === "cover_image") {
+      const data = new FileReader();
+      data.addEventListener('load', () => {
+        if (data.result && typeof data.result === 'string') {
+          setBook({ ...book, [name]: data.result });
+        }
+      });
+      if (e.target.files && e.target.files[0]) {
+        data.readAsDataURL(e.target.files[0]);
+      }
+    } else {
+      setBook({ ...book, [name]: value });
+    }
   };
 
   useEffect(() => {
@@ -190,89 +114,14 @@ export default function DebugPage() {
     <>
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-10 p-10 text-white">
         <div className="text-5xl font-bold text-white">Debug Page</div>
-        <div className="flex w-full gap-4">
-          <div className="flex w-full max-w-md flex-col gap-4">
-            <h1 className="text-xl">Create Genre</h1>
-            <input
-              onChange={(e) => setGenre(e.target.value)}
-              value={genre}
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-            />
-            <button
-              onClick={createGenre}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Create Genre
-            </button>
-            <button
-              onClick={updateGenre}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Update Genre
-            </button>
-          </div>
-          <ul className="flex flex-col">
-            {genres.map((genre, index) => (
-              <li>
-                <h5>{index}</h5>
-                <h5>{genre.id.toString()}</h5>
-                <h4>{genre.name}</h4>
-                <button
-                  onClick={() => deleteGenre(genre.id)}
-                  className="rounded-md bg-red-500 p-2 text-white"
-                >
-                  Delete
-                </button>
-                <p>========================================</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex w-full gap-4">
-          <div className="flex w-full max-w-md flex-col gap-4">
-            <h1 className="text-xl">Create Author</h1>
-            <input
-              onChange={(e) => setAuthor(e.target.value)}
-              value={author}
-              className="rounded-md p-2 text-black ring-1"
-              type="text"
-            />
-            <button
-              onClick={createAuthor}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Create Author
-            </button>
-            <button
-              onClick={updateAuthor}
-              className="rounded-md bg-white p-2 font-bold text-black"
-            >
-              Update Author
-            </button>
-          </div>
-          <ul className="flex flex-col">
-            {authors.map((author, index) => (
-              <li>
-                <h5>{index}</h5>
-                <h5>{author.id.toString()}</h5>
-                <h4>{author.name}</h4>
-                <button
-                  onClick={() => deleteAuthor(author.id)}
-                  className="rounded-md bg-red-500 p-2 text-white"
-                >
-                  Delete
-                </button>
-                <p> ========================================</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+
+
         <div className="flex flex-col gap-4 w-full">
           <input type="text" value={query} onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
           <div className="flex w-full gap-4">
             <div className="flex w-full max-w-md flex-col gap-4">
               <h1 className="text-xl">Create Book</h1>
+              <img className="w-20 h-40" src={book.cover_image} alt="" />
               <input
                 onChange={handleOnChange}
                 placeholder="title"
@@ -293,9 +142,8 @@ export default function DebugPage() {
                 onChange={handleOnChange}
                 placeholder="cover image"
                 className="rounded-md p-2 text-black ring-1"
-                type="text"
+                type="file"
                 name="cover_image"
-                value={book.cover_image}
               />
               <div className="flex w-full flex-col gap-4">
                 <h1 className="text-xl">Select Author</h1>
@@ -351,12 +199,6 @@ export default function DebugPage() {
               >
                 Create Book
               </button>
-              <button
-                onClick={updateBook}
-                className="rounded-md bg-white p-2 font-bold text-black"
-              >
-                Update Book
-              </button>
             </div>
             <ul className="flex flex-col">
               {books.map((book, index) => (
@@ -364,7 +206,7 @@ export default function DebugPage() {
                   <h5>{index}</h5>
                   <h5>{book.id.toString()}</h5>
                   <h4>{book.title}</h4>
-                  <img src={book.cover_image} alt="" />
+                  <img className="w-20 h-40" src={book.cover_image} alt="" />
                   <h4>{book.author.name}</h4>
                   <h4>{book.genre.name}</h4>
                   <button
