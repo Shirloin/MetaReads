@@ -1,6 +1,8 @@
+import { useState } from "react";
 import PageLayout from "../components/Layout/PageLayout";
 import SubscriptionCard from "../components/Subscriptions/SubscriptionCard";
 import { TextGenerateEffect } from "../components/ui/text-generate-effect";
+import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 
 export default function SubscriptionPage() {
   return (
@@ -9,12 +11,27 @@ export default function SubscriptionPage() {
         className="m-16 flex items-center justify-center"
         style={{ gap: "10%" }}
       >
-        <div className="text-center text-white">
-          <TextGenerateEffect words={"Unlock Your Reading Potential!"} />
-          <p className="mt-4 w-[700px] text-xl font-semibold">
-            Pick the best plan today and embark on your reading journey with us!
-            Enjoy exclusive benefits and a world of knowledge at your
-            fingertips.
+        <div className="w-full text-center text-white">
+          <div className="flex justify-center">
+            <TypewriterEffectSmooth
+              words={[
+                { text: "Unlock" },
+                { text: "Your" },
+                { text: "Reading" },
+                { text: "Potential" },
+                { text: "!" },
+              ]}
+            />
+          </div>
+          <p className="flex w-[full] flex-col gap-2 text-xl font-semibold">
+            <div>
+              Pick the best plan today and embark on your reading journey with
+              us!
+            </div>
+            <div>
+              Enjoy exclusive benefits and a world of knowledge at your
+              fingertips.
+            </div>
           </p>
         </div>
       </div>
