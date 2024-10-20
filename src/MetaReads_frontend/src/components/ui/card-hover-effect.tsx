@@ -70,10 +70,10 @@ export const Card = ({
   backgroundImage?: string | null;
 }) => {
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
-  const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    setShowDescription(false);
+    setLoading(true);
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.src = backgroundImage ? backgroundImage : "";
@@ -81,42 +81,39 @@ export const Card = ({
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      canvas.width = img.width;
-      canvas.height = img.height;
-
       if (ctx) {
+        canvas.width = img.width;
+        canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
         const imageData = ctx.getImageData(0, 0, 1, 1).data;
         const red = imageData[0];
         const green = imageData[1];
         const blue = imageData[2];
-        const dominantColor = `rgba(${red}, ${green}, ${blue}, 0.8)`;
-        setDominantColor(dominantColor);
+        setDominantColor(`rgba(${red}, ${green}, ${blue}, 0.8)`);
       }
+      setLoading(false);
     };
   }, [backgroundImage]);
+
   return (
     <div
       className={cn(
         "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-black p-5 group-hover:border-slate-700 dark:border-slate-700",
         className,
       )}
-      style={
-        backgroundImage
-          ? {
-              backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }
-          : {}
-      }
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div
-        className="absolute inset-0 z-30"
+        className="absolute inset-0 z-30 transition-opacity duration-700"
         style={{
-          background: `linear-gradient(to bottom, ${dominantColor}, rgba(0, 0, 0, 0.2))`,
-          padding: 0,
-          margin: 0,
+          background: loading
+            ? "rgba(0, 0, 0, 0.5)"
+            : `linear-gradient(to bottom, ${dominantColor}, rgba(0, 0, 0, 1))`,
+          opacity: loading ? 0.8 : 1,
         }}
       ></div>
 
