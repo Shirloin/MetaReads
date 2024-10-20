@@ -49,7 +49,7 @@ export default function LibraryContent({
     handleBookSelect(data)
   }
   return (
-    <div className="max-h-[100vh] overflow-y-auto overflow-x-hidden " >
+    <div className="max-h-[100vh] overflow-y-auto overflow-x-hidden">
       <div className="p-5">
         <LibraryName
           libraryName={selectedLibrary.name}
@@ -57,7 +57,7 @@ export default function LibraryContent({
           count={selectedLibrary.bookList.length}
         />
       </div>
-      <BentoGrid className="max-w-5xl  mt-8  cursor-pointer ">
+      <BentoGrid className="mt-8 max-w-5xl cursor-pointer">
         {selectedLibrary.bookList.map((book: BookModel, i: number) => (
           <BentoGridItem
             onClick={() => onBookSelected({ data: book })}
@@ -66,7 +66,7 @@ export default function LibraryContent({
             description={<BookDescription data={book} />}
             header={<BookDisplay coverImage={book.coverImage} />}
             // icon={item.icon}
-            className={i % 4 === 1 ? "md:col-span-2" : ""}
+            // className={i % 4 === 1 ? "md:col-span-2" : ""}
           />
         ))}
       </BentoGrid>
