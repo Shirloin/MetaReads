@@ -8,6 +8,7 @@ interface LibraryDashboardProps {
   libraryList: LibraryModel[] | null;
   handleLibrarySelect: (library: LibraryModel | null) => void;
 }
+
 export default function LibraryDashboard({
   libraryList,
   handleLibrarySelect,
@@ -22,21 +23,27 @@ export default function LibraryDashboard({
     onClick: () => {
       handleLibrarySelect(null);
     },
+    backgroundImage: null,
   };
+
   const data = [
     createNewLibrary,
-    ...(libraryList?.map((library) => ({
-      title: library.name,
-      description: (
-        <div className="flex w-full items-center justify-center gap-2">
-          {library.bookList.length}
-          <SiBookstack size={18} />
-        </div>
-      ),
-      onClick: () => {
-        handleLibrarySelect(library);
-      },
-    })) || []),
+    ...(libraryList?.map((library) => {
+      const firstBook = library.bookList[0]; // Get the first book
+      return {
+        title: library.name,
+        description: (
+          <div className="flex w-full items-center justify-center gap-2">
+            {library.bookList.length}
+            <SiBookstack size={18} />
+          </div>
+        ),
+        onClick: () => {
+          handleLibrarySelect(library);
+        },
+        backgroundImage: firstBook ? firstBook.coverImage : null,
+      };
+    }) || []),
   ];
 
   return (

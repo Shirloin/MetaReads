@@ -1,6 +1,6 @@
 import { cn } from "../../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const HoverEffect = ({
   items,
@@ -10,6 +10,7 @@ export const HoverEffect = ({
     title: string;
     description: string | React.ReactNode;
     onClick: () => void;
+    backgroundImage?: string | null;
   }[];
   className?: string;
 }) => {
@@ -24,6 +25,7 @@ export const HoverEffect = ({
     >
       {items.map((item, idx) => (
         <div
+          key={idx}
           className="group relative block h-full w-full p-2"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -46,7 +48,7 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card>
+          <Card backgroundImage={item.backgroundImage}>
             <CardTitle className="text-center text-lg">{item.title}</CardTitle>
             <CardDescription className="text-pretty text-center text-base">
               {item.description}
@@ -61,23 +63,70 @@ export const HoverEffect = ({
 export const Card = ({
   className,
   children,
+  backgroundImage,
 }: {
   className?: string;
   children: React.ReactNode;
+  backgroundImage?: string | null;
 }) => {
+  const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowDescription(false);
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = backgroundImage ? backgroundImage : "";
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const imageData = ctx.getImageData(0, 0, 1, 1).data;
+        const red = imageData[0];
+        const green = imageData[1];
+        const blue = imageData[2];
+        const dominantColor = `rgba(${red}, ${green}, ${blue}, 0.8)`;
+        setDominantColor(dominantColor);
+      }
+    };
+  }, [backgroundImage]);
   return (
     <div
       className={cn(
-        "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-black p-4 group-hover:border-slate-700 dark:border-white/[0.2]",
+        "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-black p-5 group-hover:border-slate-700 dark:border-slate-700",
         className,
       )}
+      style={
+        backgroundImage
+          ? {
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : {}
+      }
     >
+      <div
+        className="absolute inset-0 z-30"
+        style={{
+          background: `linear-gradient(to bottom, ${dominantColor}, rgba(0, 0, 0, 0.2))`,
+          padding: 0,
+          margin: 0,
+        }}
+      ></div>
+
       <div className="relative z-50">
         <div className="p-4">{children}</div>
       </div>
     </div>
   );
 };
+
 export const CardTitle = ({
   className,
   children,
