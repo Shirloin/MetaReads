@@ -1,11 +1,13 @@
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import React, { useState, useEffect, useRef } from "react";
 import LibraryAccordion from "./LibraryAccordion";
 import { BookModel, LibraryModel } from "../Props/model";
 import SearchBar from "../Form/Input/TextField/SearchBar";
+import TopGradientButton from "../Form/Button/TopGradientButton";
 
 interface LibrarySidebarProps {
   selectedLibrary: LibraryModel | null;
-  handleLibrarySelect: (library: LibraryModel) => void;
+  handleLibrarySelect: (library: LibraryModel | null) => void;
   libraryList: LibraryModel[] | null;
   handleBookSelect: (book: BookModel | null) => void;
   selectedBook: BookModel | null;
@@ -16,7 +18,7 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
   handleLibrarySelect,
   libraryList,
   handleBookSelect,
-  selectedBook
+  selectedBook,
 }) => {
   const [isResizing, setIsResizing] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState("30%");
@@ -58,6 +60,11 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
     };
   }, [isResizing]);
 
+  const handleHomeIcon = () => {
+    handleBookSelect(null);
+    handleLibrarySelect(null);
+  };
+
   return (
     <div
       className="resizable-sidebar relative"
@@ -72,29 +79,39 @@ const LibrarySidebar: React.FC<LibrarySidebarProps> = ({
           className="sticky top-0 z-10"
           style={{ backgroundColor: "rgba(32, 36, 41, 1)" }}
         >
-          <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-
-        </div>
-        {libraryList && libraryList.map((library, index) => {
-          const filteredBooks = library.bookList.filter((book) =>
-            book.title.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-
-          return (
-            <LibraryAccordion
-              key={index}
-              library={library}
-              bookList={filteredBooks}
-              count={filteredBooks.length}
-              selectedLibrary={selectedLibrary}
-              onLibrarySelect={handleLibrarySelect}
-              handleBookSelect={handleBookSelect}
-              selectedBook={selectedBook}
-              sidebarRef={sidebarRef}
+          <div className="bg flex gap-2">
+            <SearchBar
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          );
-        })}
+            <div
+              className="hover:ext-white m-1 flex items-center rounded-md bg-[#14181E] p-3 text-gray-200 transition-all hover:bg-[#484F5A]"
+              onClick={handleHomeIcon}
+            >
+              <BsFillGrid3X3GapFill size={25} className="cursor-pointer" />
+            </div>
+          </div>
+        </div>
+        {libraryList &&
+          libraryList.map((library, index) => {
+            const filteredBooks = library.bookList.filter((book) =>
+              book.title.toLowerCase().includes(searchQuery.toLowerCase()),
+            );
 
+            return (
+              <LibraryAccordion
+                key={index}
+                library={library}
+                bookList={filteredBooks}
+                count={filteredBooks.length}
+                selectedLibrary={selectedLibrary}
+                onLibrarySelect={handleLibrarySelect}
+                handleBookSelect={handleBookSelect}
+                selectedBook={selectedBook}
+                sidebarRef={sidebarRef}
+              />
+            );
+          })}
       </div>
       <div
         className="resizable-handle"

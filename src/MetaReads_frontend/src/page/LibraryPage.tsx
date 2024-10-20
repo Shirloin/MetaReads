@@ -5,15 +5,53 @@ import LibrarySidebar from "../components/Library/LibrarySidebar";
 import { BookModel, library1, library2, LibraryModel } from "../components/Props/model";
 import LibraryContent from "../components/Library/LibraryContent";
 import BookDetail from "../components/Book/BookDetail";
+import LibraryDashboard from "../components/Library/LibraryDashboard";
 
 export default function LibraryPage() {
   const test1: LibraryModel = library1;
   const test2: LibraryModel = library2;
-  const libraryList: LibraryModel[] = [test1, test2];
-  const [selectedLibrary, setselectedLibrary] = React.useState<LibraryModel | null>(null);
-  const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(null);
+  const libraryList: LibraryModel[] = [
+    test1,
+    test2,
+    test1,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+    test2,
+    test1,
+    test2,
+  ];
+  const [selectedLibrary, setselectedLibrary] =
+    React.useState<LibraryModel | null>(null);
+  const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(
+    null,
+  );
 
-  const handleLibrarySelect = (library: LibraryModel) => {
+  const handleLibrarySelect = (library: LibraryModel | null) => {
     setselectedLibrary(library);
   };
   const handleBookSelect = (book: BookModel | null) => {
@@ -22,7 +60,7 @@ export default function LibraryPage() {
 
   return (
     <PageLayout>
-      <div className="h-[100vh] w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
+      <div className="relative flex h-[100vh] w-full items-center justify-center bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2]">
         <div className="flex w-full">
           <LibrarySidebar
             libraryList={libraryList}
@@ -43,7 +81,10 @@ export default function LibraryPage() {
                 </div>
               )}
               {selectedBook == null && selectedLibrary == null && (
-                <>Welcome Page Later</>
+                <LibraryDashboard
+                  libraryList={libraryList}
+                  handleLibrarySelect={handleLibrarySelect}
+                />
               )}
             </div>
           </div>

@@ -8,8 +8,16 @@ import SubscribeButton from "../Form/Button/SubscribeButton";
 import CurrencyLogo from "../../../public/assets/Currency Logo.png";
 import ShimmerButton from "../Form/Button/ShimmerButton";
 
-export default function SubscriptionCard({ title, price, benefits }: {
-  title: string, price: string, benefits: string[]
+export default function SubscriptionCard({
+  title,
+  price,
+  benefits,
+  type,
+}: {
+  title: string;
+  price: string;
+  benefits: string[];
+  type?: string;
 }) {
   return (
     <Card
@@ -63,7 +71,7 @@ export default function SubscriptionCard({ title, price, benefits }: {
             sx={{ color: "white", fontSize: "12px" }}
             className="flex justify-center"
           >
-            Per Month
+            Per {type}
           </Typography>
         </div>
         <div className="mb-5 flex justify-center rounded-md">
@@ -75,7 +83,7 @@ export default function SubscriptionCard({ title, price, benefits }: {
             }}
           />
         </div>
-        <div className="max-h-[220px] overflow-y-auto">
+        <div className="max-h-[220px] overflow-y-auto overflow-x-">
           {" "}
           {/* Set a max height and enable vertical scrolling */}
           <ul className="flex flex-col space-y-2">
@@ -100,7 +108,7 @@ export default function SubscriptionCard({ title, price, benefits }: {
         <div></div>
       </CardContent>
       <CardActions className="m-4 flex items-center justify-center">
-        <ShimmerButton text={"Select Plan"} onClick={() => { }} />
+        <ShimmerButton text={"Select Plan"} onClick={() => {}} />
       </CardActions>
     </Card>
   );

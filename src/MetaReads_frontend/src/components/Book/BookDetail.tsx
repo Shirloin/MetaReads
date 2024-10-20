@@ -2,7 +2,7 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { BsBookFill } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { BookModel } from "../Props/model";
-import GradientButton from "../Form/Button/ReadButton";
+import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
 
 interface BookDetailProps {
