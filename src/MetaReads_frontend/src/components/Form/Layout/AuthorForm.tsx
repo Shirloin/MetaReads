@@ -4,7 +4,7 @@ import InputField from "../Input/TextField/InputField";
 import { Title } from "../../Utility/TitleUtility";
 import { ToastError } from "../Notifications/ErrorNotification";
 import SecondaryButton from "../Button/SecondaryButton";
-import { AuthorAndGenreFormProps } from "../../Props/formProps";
+import { ModalFormProps } from "../../Props/formProps";
 
 
 export default function AuthorForm({
@@ -12,7 +12,7 @@ export default function AuthorForm({
   onSubmit,
   selectedItem,
   buttonContent,
-}: AuthorAndGenreFormProps) {
+}: ModalFormProps) {
   const [name, setName] = useState<string>("");
 
   useEffect(() => {

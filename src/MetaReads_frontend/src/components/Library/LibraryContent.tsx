@@ -1,13 +1,14 @@
 import React from "react";
 import { BookDataProps, BookModel, LibraryModel } from "../Props/model";
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
-import LibraryName from "./LibraryName";
+import LibraryHeader from "./LibraryHeader";
 import { Tooltip } from "@mui/material";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 interface LibraryContentProps {
   selectedLibrary: LibraryModel;
   handleBookSelect: (book: BookModel | null) => void;
+  handleLibrarySelect: (library: LibraryModel | null) => void;
   fetchData: () => void;
 }
 
@@ -44,7 +45,8 @@ const BookDescription: React.FC<{ data: BookModel }> = ({ data }) => {
 export default function LibraryContent({
   selectedLibrary,
   handleBookSelect,
-  fetchData
+  fetchData,
+  handleLibrarySelect,
 }: LibraryContentProps
 ) {
   const onBookSelected = ({ data }: BookDataProps) => {
@@ -53,11 +55,11 @@ export default function LibraryContent({
   return (
     <div className="max-h-[100vh] overflow-y-auto overflow-x-hidden">
       <div className="p-5">
-        <LibraryName
-          libraryName={selectedLibrary.name}
-          id={selectedLibrary.id}
+        <LibraryHeader
+          selectedItem={selectedLibrary}
           count={selectedLibrary.bookList.length}
           fetchData={fetchData}
+          handleLibrarySelect={handleLibrarySelect}
         />
       </div>
       <BentoGrid className="mt-8 max-w-5xl cursor-pointer">

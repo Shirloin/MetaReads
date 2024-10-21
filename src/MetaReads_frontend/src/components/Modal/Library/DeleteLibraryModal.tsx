@@ -21,7 +21,7 @@ export default function DeleteLibraryModal({
         // @ts-ignore
         loadingToastId.current = ToastLoading("Loading..");
         try {
-            const success = await deleteLibrary(selectedItem);
+            const success = await deleteLibrary(selectedItem.id);
             if (success) {
                 ToastSuccess("Library Deleted Successfully");
                 fetchData();

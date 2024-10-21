@@ -1,26 +1,28 @@
 import { useState } from "react";
-import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
 import { Principal } from "@dfinity/principal";
+import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
 import { getCookie } from "../../../Utility/IdentityUtility";
 
-export const useCreateLibrary = () => {
-
+export const useUpdateLibrary = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any | null>(null);
 
-  const createLibrary = async (name: string) => {
+  const updateLibrary = async (id: Principal, name: string) => {
+    const library_id: Principal = Principal.fromText(id.toString());
     setLoading(true);
     setError(null);
     const identityCookie = getCookie('identity');
+
     if (identityCookie) {
-      const user_id: Principal = Principal.fromText(identityCookie);
       try {
-        await MetaReads_backend.create_library({
-          id: [],
-          user_id: user_id,
+        const user_id: Principal = Principal.fromText(identityCookie);
+        const res = await MetaReads_backend.update_library({
+          id: [library_id],
           name: [name],
+          user_id: user_id,
           book_id: []
         });
+
         return true; // Indicate success
       } catch (err: any) {
         setError(err);
@@ -30,8 +32,10 @@ export const useCreateLibrary = () => {
       }
     } else {
       console.error('Identity cookie not found.');
+      setLoading(false); // Ensure loading is set to false
+      return false; // Indicate failure
     }
   };
 
-  return { createLibrary, loading, error };
+  return { updateLibrary, loading, error };
 };

@@ -9,11 +9,13 @@ import CreateLibraryModal from "../Modal/Library/CreateLibraryModal";
 interface LibraryDashboardProps {
   libraryList: LibraryModel[] | null;
   handleLibrarySelect: (library: LibraryModel | null) => void;
+  fetchData: () => void
 }
 
 export default function LibraryDashboard({
   libraryList,
   handleLibrarySelect,
+  fetchData
 }: LibraryDashboardProps) {
   const {
     modalState,
@@ -56,7 +58,7 @@ export default function LibraryDashboard({
 
   return (
     <div>
-      <CreateLibraryModal open={modalState.create} handleClose={handleCloseCreate} fetchData={() => { }} />
+      <CreateLibraryModal open={modalState.create} handleClose={handleCloseCreate} fetchData={fetchData} />
       <div className="max-h-[100vh] overflow-y-auto">
         <div className="m-5">
           <Title text="Your Library" />

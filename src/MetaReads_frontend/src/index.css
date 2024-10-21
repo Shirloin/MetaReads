@@ -131,3 +131,6 @@ background-color: #CDAF18;
     pointer-events: none; 
 }
   
+.quantico-font {
+    font-family: 'Quantico', sans-serif;
+}

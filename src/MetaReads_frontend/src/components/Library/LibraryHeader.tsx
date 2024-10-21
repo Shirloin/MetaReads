@@ -8,19 +8,21 @@ import MetaReadsLogo from "../../../public/assets/Meta Reads Logo.png";
 import LibraryForm from "../Form/Layout/LibraryForm";
 import { useModalState } from "../Hook/Ui/useModalState";
 import DeleteLibraryModal from "../Modal/Library/DeleteLibraryModal";
+import { BookModel, LibraryModel } from "../Props/model";
+import UpdateLibraryModal from "../Modal/Library/UpdateLibraryModal";
 
 interface LibraryNameProps {
-  libraryName: string;
-  id: Principal;
+  selectedItem: LibraryModel;
   count: number;
   fetchData: () => void
+  handleLibrarySelect: (library: LibraryModel | null) => void;
 }
 
-export default function LibraryName({
-  libraryName,
-  id,
+export default function LibraryHeader({
+  selectedItem,
   count,
-  fetchData
+  fetchData,
+  handleLibrarySelect
 }: LibraryNameProps) {
   const {
     modalState,
@@ -30,34 +32,25 @@ export default function LibraryName({
     handleCloseDelete,
   } = useModalState();
 
-  const onSubmit = (
-    e:
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.FocusEvent<HTMLInputElement> | null,
-    name: string | undefined,
-  ) => {
-    if (e && "key" in e && e.key !== "Enter") return;
-    // Connect to back end
-    handleCloseUpdate();
-  };
-
+  const afterDeleteAndUpdate = () => {
+    handleLibrarySelect(null);
+    fetchData()
+  }
   return (
     <div>
+      <UpdateLibraryModal open={modalState.update} handleClose={handleCloseUpdate} fetchData={afterDeleteAndUpdate} selectedItem={selectedItem} />
+
       <DeleteLibraryModal
         open={modalState.delete}
         handleClose={handleCloseDelete}
-        fetchData={fetchData}
-        selectedItem={id}
+        fetchData={afterDeleteAndUpdate}
+        selectedItem={selectedItem}
       />
       <div className="flex w-full gap-2 border-b-2 border-gray-400 pb-1">
         <div className="flex w-full gap-2">
-          {modalState.update ? (
-            <LibraryForm onSubmit={onSubmit} name={libraryName} />
-          ) : (
-            <div className="flex items-center text-xl text-white">
-              {libraryName}
-            </div>
-          )}
+          <div className="flex items-center text-xl text-white">
+            {selectedItem.name}
+          </div>
           <div className="flex items-center text-xl text-gray-400">
             ({count})
           </div>
