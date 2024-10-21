@@ -34,9 +34,9 @@ export default function SideNavbar() {
         className="inject-black-border inject-width h-full"
         style={{ position: "fixed", top: 0, left: 0 }}
       >
-        <Menu className="w-100 mb-6 mt-6 flex justify-center align-middle">
+        <Menu className="w-100 mb-6 ml-7 mt-6 flex justify-start align-middle">
           <div className="flex gap-2">
-            <img src={MetaReadsLogo} alt="Full Logo" width={40} />
+            <img src={MetaReadsLogo} alt="Full Logo" width={44} />
 
             {collapsed == false && (
               <div className="quantico-font flex items-center text-[30px] text-white">
