@@ -21,7 +21,7 @@ export default function DeleteGenreModal({
     try {
       const success = await deleteGenre(selectedItem.id);
       if (success) {
-        ToastSuccess("Genre Created Successfully");
+        ToastSuccess("Genre Deleted Successfully");
         fetchData();
       } else {
         ToastError(error);

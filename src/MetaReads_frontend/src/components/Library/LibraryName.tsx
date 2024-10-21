@@ -13,12 +13,14 @@ interface LibraryNameProps {
   libraryName: string;
   id: Principal;
   count: number;
+  fetchData: () => void
 }
 
 export default function LibraryName({
   libraryName,
   id,
   count,
+  fetchData
 }: LibraryNameProps) {
   const {
     modalState,
@@ -31,10 +33,10 @@ export default function LibraryName({
   const onSubmit = (
     e:
       | React.KeyboardEvent<HTMLInputElement>
-      | React.FocusEvent<HTMLInputElement>,
+      | React.FocusEvent<HTMLInputElement> | null,
     name: string | undefined,
   ) => {
-    if ("key" in e && e.key !== "Enter") return;
+    if (e && "key" in e && e.key !== "Enter") return;
     // Connect to back end
     handleCloseUpdate();
   };
@@ -44,13 +46,13 @@ export default function LibraryName({
       <DeleteLibraryModal
         open={modalState.delete}
         handleClose={handleCloseDelete}
-        fetchData={() => {}}
+        fetchData={fetchData}
         selectedItem={id}
       />
       <div className="flex w-full gap-2 border-b-2 border-gray-400 pb-1">
         <div className="flex w-full gap-2">
           {modalState.update ? (
-            <LibraryForm onSubmit={onSubmit} id={id} name={libraryName} />
+            <LibraryForm onSubmit={onSubmit} name={libraryName} />
           ) : (
             <div className="flex items-center text-xl text-white">
               {libraryName}

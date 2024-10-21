@@ -3,10 +3,9 @@ import { useState } from "react";
 
 interface LibraryFormProps {
     name?: string;
-    id?: Principal;
-    onSubmit: (e: React.KeyboardEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>, name: string | undefined) => void;
+    onSubmit: (e: React.KeyboardEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement> | null, name: string | undefined) => void;
 }
-export default function LibraryForm({ name, id, onSubmit }: LibraryFormProps) {
+export default function LibraryForm({ name, onSubmit }: LibraryFormProps) {
     const [editedName, setEditedName] = useState<string | undefined>(name);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +23,7 @@ export default function LibraryForm({ name, id, onSubmit }: LibraryFormProps) {
                 onChange={handleNameChange}
                 onBlur={handleBlurOrEnter}
                 onKeyDown={handleBlurOrEnter}
-                className="bg-transparent text-white text-xl outline-none border-b-2 border-white"
+                className="bg-transparent text-white text-base outline-none border-b-2 border-white w-full"
                 autoFocus
             />
         </div>

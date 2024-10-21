@@ -8,6 +8,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 interface LibraryContentProps {
   selectedLibrary: LibraryModel;
   handleBookSelect: (book: BookModel | null) => void;
+  fetchData: () => void;
 }
 
 const BookDisplay: React.FC<{ coverImage: string }> = ({ coverImage }) => (
@@ -43,6 +44,7 @@ const BookDescription: React.FC<{ data: BookModel }> = ({ data }) => {
 export default function LibraryContent({
   selectedLibrary,
   handleBookSelect,
+  fetchData
 }: LibraryContentProps
 ) {
   const onBookSelected = ({ data }: BookDataProps) => {
@@ -55,6 +57,7 @@ export default function LibraryContent({
           libraryName={selectedLibrary.name}
           id={selectedLibrary.id}
           count={selectedLibrary.bookList.length}
+          fetchData={fetchData}
         />
       </div>
       <BentoGrid className="mt-8 max-w-5xl cursor-pointer">
@@ -65,8 +68,8 @@ export default function LibraryContent({
             title={book.title}
             description={<BookDescription data={book} />}
             header={<BookDisplay coverImage={book.coverImage} />}
-            // icon={item.icon}
-            // className={i % 4 === 1 ? "md:col-span-2" : ""}
+          // icon={item.icon}
+          // className={i % 4 === 1 ? "md:col-span-2" : ""}
           />
         ))}
       </BentoGrid>

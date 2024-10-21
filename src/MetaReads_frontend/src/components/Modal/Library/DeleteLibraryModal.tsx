@@ -6,6 +6,7 @@ import { ToastSuccess } from "../../Form/Notifications/SuccessNotification";
 import { ToastError } from "../../Form/Notifications/ErrorNotification";
 import { useDeleteGenre } from "../../Hook/Data/Genre/useDeleteGenre";
 import { FormModalProps } from "../../Props/modalProps";
+import { useDeleteLibrary } from "../../Hook/Data/Library/useDeleteLibrary";
 
 export default function DeleteLibraryModal({
     open,
@@ -13,11 +14,28 @@ export default function DeleteLibraryModal({
     fetchData,
     selectedItem,
 }: FormModalProps) {
+    const { deleteLibrary, error } = useDeleteLibrary();
+
     const loadingToastId = useRef(null);
     const handleDelete = async () => {
         // @ts-ignore
         loadingToastId.current = ToastLoading("Loading..");
-        // Connect to back end
+        try {
+            const success = await deleteLibrary(selectedItem);
+            if (success) {
+                ToastSuccess("Library Deleted Successfully");
+                fetchData();
+            } else {
+                ToastError(error);
+            }
+        } finally {
+            handleClose();
+
+            if (loadingToastId.current) {
+                toast.dismiss(loadingToastId.current);
+                loadingToastId.current = null;
+            }
+        }
     };
     return (
         <DeleteModal
