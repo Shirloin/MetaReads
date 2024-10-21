@@ -12,7 +12,7 @@ interface CollapsedProviderProps {
 }
 
 export const CollapsedProvider: React.FC<CollapsedProviderProps> = ({ children }) => {
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(true);
 
   const contextValue: CollapsedContextType = {
     collapsed,

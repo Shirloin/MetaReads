@@ -6,8 +6,14 @@ import { BookModel, library1, library2, LibraryModel } from "../components/Props
 import LibraryContent from "../components/Library/LibraryContent";
 import BookDetail from "../components/Book/BookDetail";
 import LibraryDashboard from "../components/Library/LibraryDashboard";
+import { useCollapsed } from "../lib/collapsed_provider";
 
 export default function LibraryPage() {
+  const { setCollapsed } = useCollapsed()
+  React.useEffect(() => {
+    setCollapsed(true)
+  }, [])
+
   const test1: LibraryModel = library1;
   const test2: LibraryModel = library2;
   const libraryList: LibraryModel[] = [

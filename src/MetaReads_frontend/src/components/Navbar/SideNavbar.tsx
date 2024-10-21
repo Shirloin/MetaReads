@@ -20,32 +20,39 @@ export default function SideNavbar() {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
 
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed); // Toggle the collapsed state
+  const toggleSidebar = ({ value }: { value: boolean }) => {
+    setCollapsed(value);
   };
 
   return (
     <div style={{ position: "relative" }} className="h-screen">
+
       <Sidebar
+        onMouseEnter={() => toggleSidebar({ value: false })}
+        onMouseLeave={() => toggleSidebar({ value: true })}
         collapsed={collapsed}
         backgroundColor={hexToRgba("#14181E", 0.7)}
         className="inject-black-border inject-width h-full"
         style={{ position: "fixed", top: 0, left: 0 }}
       >
-        <Menu className="w-100 mb-6 mt-6 flex justify-center align-middle">
-          {collapsed == true && (
+        <Menu className="w-100 mb-6 mt-6 flex justify-center align-middle" >
+          <div className="flex gap-2">
             <img src={MetaReadsLogo} alt="Full Logo" width={40} />
-          )}
-          {collapsed == false && (
-            <img src={MetaReadsFullLogo} alt="Logo" width={200} />
-          )}
+
+            {collapsed == false && (
+              <div style={{ fontFamily: 'Quantico, sans-serif', fontSize: '30px' }} className="text-white flex items-center">
+                Metareads
+              </div>
+
+            )}
+          </div>
         </Menu>
         <UserNavigation />
         <AdminNavigation />
       </Sidebar>
       <Outlet />
-      <div
-        onClick={toggleSidebar}
+      {/* <div
+        onClick={() => toggleSidebar({ value: !collapsed })}
         style={{
           position: "fixed",
           top: "50%",
@@ -78,7 +85,7 @@ export default function SideNavbar() {
             }}
           />
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
