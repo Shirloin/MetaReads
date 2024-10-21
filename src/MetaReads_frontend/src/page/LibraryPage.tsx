@@ -7,50 +7,30 @@ import LibraryContent from "../components/Library/LibraryContent";
 import BookDetail from "../components/Book/BookDetail";
 import LibraryDashboard from "../components/Library/LibraryDashboard";
 import { useCollapsed } from "../lib/collapsed_provider";
+import useLibraries from "../components/Hook/Data/Library/useLibraries";
 
 export default function LibraryPage() {
   const { setCollapsed } = useCollapsed()
+  const [data, fetchData] = useLibraries()
+  const [libraryList, setLibraryList] = React.useState<LibraryModel[]>([]);
   React.useEffect(() => {
     setCollapsed(true)
+    fetchData()
   }, [])
 
-  const test1: LibraryModel = library1;
-  const test2: LibraryModel = library2;
-  const libraryList: LibraryModel[] = [
-    test1,
-    test2,
-    test1,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-    test2,
-    test1,
-    test2,
-  ];
+  React.useEffect(() => {
+    if (data.length > 0) {
+      const test1: LibraryModel = library1;
+      const test2: LibraryModel = library2;
+
+      const updatedLibraryList: LibraryModel[] = [
+        test1,
+        test2,
+        ...data
+      ];
+      setLibraryList(updatedLibraryList);
+    }
+  }, [data]); // Run this effect when `data` changes
   const [selectedLibrary, setselectedLibrary] =
     React.useState<LibraryModel | null>(null);
   const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(
@@ -82,6 +62,8 @@ export default function LibraryPage() {
                 <div className="">
                   <LibraryContent
                     selectedLibrary={selectedLibrary}
+
+                    fetchData={fetchData}
                     handleBookSelect={handleBookSelect}
                   ></LibraryContent>
                 </div>
