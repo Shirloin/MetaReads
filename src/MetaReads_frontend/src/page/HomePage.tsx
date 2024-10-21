@@ -17,7 +17,7 @@ export default function HomePage() {
                 { text: "To" },
                 {
                   text: "Metareads",
-                  className: " text-[#EFAF21] ",
+                  className: " text-[#EFAF21] quantico-font",
                 },
                 { text: "!" },
               ]}
