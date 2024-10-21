@@ -1,12 +1,23 @@
+import { useEffect, useState } from "react";
 import ShimmerButton from "../components/Form/Button/ShimmerButton";
 import PageLayout from "../components/Layout/PageLayout";
 import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
 import { ShootingStars } from "../components/ui/background/shooting-stars";
 import { StarsBackground } from "../components/ui/background/stars-background";
+import { NumberTicker } from "../components/ui/number-ticker";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { motion } from "framer-motion";
 export default function HomePage() {
-  const asd: string = "asd";
+  const [startTicker, setStartTicker] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStartTicker(true);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <PageLayout>
       <BackgroundBeamsWithCollision>
@@ -24,7 +35,36 @@ export default function HomePage() {
               ]}
             />
           </h2>
+
+          {/* Description With  User Count */}
           <motion.div
+            className="mb-4 flex max-w-[90vw] items-center justify-center p-4 text-center text-lg text-white md:max-w-[50vw]"
+            initial={{ y: "2vw", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 3.5 }}
+          >
+            <div
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                lineHeight: "1.6",
+                fontSize: "1.125rem",
+              }}
+            >
+              Explore a universe of stories with{" "}
+              <span style={{ color: "#EFAF21" }} className="quantico-font">
+                Metareads
+              </span>
+              . From timeless classics to thrilling adventures, unlock a world
+              of books with a simple subscription. Join our community of{" "}
+              <strong>
+                {startTicker ? <NumberTicker value={12965} /> : "Loading..."}
+              </strong>{" "}
+              users and discover your next favorite read today!
+            </div>
+          </motion.div>
+
+          {/* Description With No User Count */}
+          {/* <motion.div
             className="mb-4 flex max-w-[90vw] items-center justify-center p-4 text-center text-lg text-white md:max-w-[50vw]"
             initial={{ y: "2vw", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -45,7 +85,7 @@ export default function HomePage() {
               of books with a simple subscription. Join our community and
               discover your next favorite read today!
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <motion.button
             onClick={() => {

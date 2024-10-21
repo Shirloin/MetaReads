@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import SubscribeButton from "../Form/Button/SubscribeButton";
 import CurrencyLogo from "../../../public/assets/Currency Logo.png";
 import ShimmerButton from "../Form/Button/ShimmerButton";
+import { NumberTicker } from "../ui/number-ticker";
 
 export default function SubscriptionCard({
   title,
@@ -63,7 +64,12 @@ export default function SubscriptionCard({
               <div className="flex items-center">
                 <img src={CurrencyLogo} alt="Currency" className="w-6" />
               </div>
-              {price}
+              <NumberTicker
+                value={5}
+                bottomValue={Number(price)}
+                direction="down"
+                decimalPlaces={2}
+              />
             </span>
           </Typography>
           <Typography
@@ -83,7 +89,7 @@ export default function SubscriptionCard({
             }}
           />
         </div>
-        <div className="max-h-[220px] overflow-y-auto overflow-x-">
+        <div className="overflow-x- max-h-[220px] overflow-y-auto">
           {" "}
           {/* Set a max height and enable vertical scrolling */}
           <ul className="flex flex-col space-y-2">
