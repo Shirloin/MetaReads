@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import BaseLayout from "../components/Layout/BaseLayout";
 // import DebugPage from "../page/DebugPage";
 import LoginPage from "../page/LoginPage";
-import HomePage from "../page/HomePage";
+import StorePage from "../page/StorePage";
 import LibraryPage from "../page/LibraryPage";
 import SubscriptionPage from "../page/SubscriptionPage";
 import AuthorPage from "../page/Admin/AuthorPage";
@@ -11,6 +11,8 @@ import BookPage from "../page/Admin/BookPage";
 import RegisterPage from "../page/RegisterPage";
 import BookDetailPage from "../page/BookDetailPage";
 import DebugPage from "../page/DebugPage";
+import Testing from "../page/Testing";
+import HomePage from "../page/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/store",
+        element: <StorePage />,
       },
       {
         path: "/library",
@@ -59,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: "/book/:bookId",
         element: <BookDetailPage />,
+      },
+      {
+        path: "/testing",
+        element: <Testing />,
       },
     ],
   },

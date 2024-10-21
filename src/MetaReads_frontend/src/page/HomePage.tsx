@@ -1,123 +1,42 @@
 import PageLayout from "../components/Layout/PageLayout";
-import TopNavbar from "../components/Navbar/TopNavbar";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Pagination } from "swiper/modules";
-
-import BookCard from "../components/Book/BookCard";
-import OutlinedButton from "../components/Form/Button/OutlinedButton";
-import { dummyBook } from "../components/Props/model";
-
+import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
+import { ShootingStars } from "../components/ui/background/shooting-stars";
+import { StarsBackground } from "../components/ui/background/stars-background";
+import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
+import { motion } from "framer-motion";
 export default function HomePage() {
+  const asd: string = "asd";
   return (
     <PageLayout>
-      <TopNavbar />
-      <div className="w-full px-16">
-        <div className="my-6 w-full overflow-hidden rounded-lg text-white">
-          <Swiper
-            pagination={true}
-            navigation={true}
-            modules={[Pagination]}
-            className="w-full"
-            slidesPerView={1}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            <SwiperSlide className="w-full">
-              <img
-                className="aspect-[4/1] w-full object-cover"
-                src="https://t3.ftcdn.net/jpg/03/21/97/42/360_F_321974259_BnmlxfkknMol8HiQ0dg1bwQizor48uB9.jpg"
-                alt=""
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full">
-              <img
-                className="aspect-[4/1] w-full object-cover"
-                src="https://t3.ftcdn.net/jpg/03/21/97/42/360_F_321974259_BnmlxfkknMol8HiQ0dg1bwQizor48uB9.jpg"
-                alt=""
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full">
-              <img
-                className="aspect-[4/1] w-full object-cover"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLzl3KUOFtEPdAUkK2HPukocZu9lbYk_YYcA&s"
-                alt=""
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full">
-              <img
-                className="aspect-[4/1] w-full object-cover"
-                src="https://as1.ftcdn.net/v2/jpg/04/27/15/08/1000_F_427150821_oQOZiOLP6lnWQdUmUG0YgQiTUsjmaGwE.jpg"
-                alt=""
-              />
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </div>
-      <div className="my-6 flex w-full flex-col gap-4 px-16 text-white">
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-bold">Recommended For You</p>
-          <div className="hidden justify-end gap-3 text-white md:flex">
-            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-50 hover:bg-neutral-500">
-              {"<"}
-            </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-50 hover:bg-neutral-500">
-              {">"}
-            </button>
-          </div>
-        </div>
-        <Swiper
-          className="w-full"
-          slidesPerView={4}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          <div>
-            <SwiperSlide className="w-fit">
-              <BookCard data={dummyBook} />
-            </SwiperSlide>
-            <SwiperSlide className="w-fit">
-              <BookCard data={dummyBook} />
-            </SwiperSlide>
-            <SwiperSlide className="w-fit">
-              <BookCard data={dummyBook} />
-            </SwiperSlide>
-            <SwiperSlide className="w-fit">
-              <BookCard data={dummyBook} />
-            </SwiperSlide>
-            <SwiperSlide className="w-fit">
-              <BookCard data={dummyBook} />
-            </SwiperSlide>
-          </div>
-        </Swiper>
-      </div>
+      <BackgroundBeamsWithCollision>
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="relative z-20 text-center font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">
+            <TypewriterEffectSmooth
+              words={[
+                { text: "Welcome" },
+                { text: "To" },
+                {
+                  text: "Metareads",
+                  className: " text-[#EFAF21] ",
+                },
+                { text: "!" },
+              ]}
+            />
+          </h2>
 
-      <div className="flex w-full flex-col gap-8 px-16">
-        <div className="flex gap-6 text-white">
-          {/* Test */}
-          <OutlinedButton
-            text={"Popular"}
-            color={"white"}
-            outlineColor={"#EFAF21"}
-            onClick={() => { }}
-          />
-          <OutlinedButton text={"Recent Release"} color={"white"} onClick={() => { }} />
-          <OutlinedButton text={"Special Offer"} color={"white"} onClick={() => { }} />
+          <motion.button
+            initial={{ y: "2vw", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 3.5 }}
+            className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-neutral-400 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-neutral-50 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          >
+            Discover New Worlds
+          </motion.button>
         </div>
-        <div className="grid grid-cols-4 gap-y-8">
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-          <BookCard data={dummyBook} />
-        </div>
-      </div>
+
+        <ShootingStars />
+        <StarsBackground />
+      </BackgroundBeamsWithCollision>
     </PageLayout>
   );
 }

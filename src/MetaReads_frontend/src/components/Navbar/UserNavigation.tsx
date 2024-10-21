@@ -1,3 +1,4 @@
+import { AiFillHome } from "react-icons/ai";
 import StoreLogo from "../../../public/assets/Store Logo.png";
 import LibraryLogo from "../../../public/assets/Library Logo.png";
 import SubscriptionLogo from "../../../public/assets/Subscription Logo.png";
@@ -30,7 +31,7 @@ export default function UserNavigation() {
   const handleLogout = async () => {
     const authClient = await AuthClient.create(defaultOptions.createOptions);
     await authClient.logout();
-    document.cookie = 'identity=; Max-Age=-99999999;';  
+    document.cookie = "identity=; Max-Age=-99999999;";
 
     window.location.href = "/login";
   };
@@ -46,6 +47,13 @@ export default function UserNavigation() {
     >
       <MenuItem
         style={getMenuItemStyle("/")}
+        icon={<AiFillHome size={22} />}
+        component={<Link to={createUrl("/")} />}
+      >
+        Home
+      </MenuItem>
+      <MenuItem
+        style={getMenuItemStyle("/store")}
         icon={
           <img
             src={StoreLogo}
