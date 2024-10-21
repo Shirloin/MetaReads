@@ -1,4 +1,4 @@
-export interface AuthorAndGenreFormProps {
+export interface ModalFormProps {
     handleClose: () => void;
     onSubmit: (name: string) => void;
     selectedItem?: { name: string };

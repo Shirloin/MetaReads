@@ -61,8 +61,8 @@ export default function LibraryPage() {
               {selectedBook == null && selectedLibrary != null && (
                 <div className="">
                   <LibraryContent
+                    handleLibrarySelect={handleLibrarySelect}
                     selectedLibrary={selectedLibrary}
-
                     fetchData={fetchData}
                     handleBookSelect={handleBookSelect}
                   ></LibraryContent>
@@ -70,6 +70,7 @@ export default function LibraryPage() {
               )}
               {selectedBook == null && selectedLibrary == null && (
                 <LibraryDashboard
+                  fetchData={fetchData}
                   libraryList={libraryList}
                   handleLibrarySelect={handleLibrarySelect}
                 />

@@ -5,24 +5,21 @@ import { ToastLoading } from "../../Form/Notifications/LoadingNotification";
 import { toast } from "react-toastify";
 import LibraryForm from "../../Form/Layout/LibraryForm";
 import BaseModal from "../BaseModal";
-import { useCreateLibrary } from "../../Hook/Data/Library/useCreateLibrary";
+import { useUpdateLibrary } from "../../Hook/Data/Library/useUpdateLibrary";
 import { FormModalProps } from "../../Props/modalProps";
-import SecondaryButton from "../../Form/Button/SecondaryButton";
-import PrimaryButton from "../../Form/Button/PrimaryButton";
-import { Title } from "../../Utility/TitleUtility";
 
-export default function CreateLibraryModal({ open, handleClose, fetchData }: FormModalProps) {
-    const { createLibrary, error } = useCreateLibrary();
+export default function UpdateLibraryModal({ open, handleClose, fetchData, selectedItem }: FormModalProps) {
+    const { updateLibrary, error } = useUpdateLibrary();
     const loadingToastId = useRef(null);
 
 
-    const handleCreate = async (name: string) => {
+    const handleUpdate = async (name: string) => {
         // @ts-ignores
         loadingToastId.current = ToastLoading("Loading..");
         try {
-            const success = await createLibrary(name);
+            const success = await updateLibrary(selectedItem.id, name);
             if (success) {
-                ToastSuccess("Library Created Successfully");
+                ToastSuccess("Library Updated Successfully");
                 fetchData();
             } else {
                 ToastError(error);
@@ -48,9 +45,10 @@ export default function CreateLibraryModal({ open, handleClose, fetchData }: For
                         </div>
                     </div>
                     <LibraryForm
-                        buttonContent={"Create"}
+                        buttonContent={"Update"}
                         handleClose={handleClose}
-                        onSubmit={handleCreate} />
+                        selectedItem={selectedItem}
+                        onSubmit={handleUpdate} />
                 </div>
 
             </div>
