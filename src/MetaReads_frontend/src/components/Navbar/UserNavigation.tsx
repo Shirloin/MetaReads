@@ -64,7 +64,7 @@ export default function UserNavigation() {
             }}
           />
         }
-        component={<Link to={createUrl("/")} />}
+        component={<Link to={createUrl("/store")} />}
       >
         Store
       </MenuItem>
