@@ -1,11 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
+import { canisterId, createActor } from "../../../declarations/MetaReads_frontend";
+import { MetaReads_frontend } from "../../../declarations/MetaReads_frontend";
 import { Principal } from "@dfinity/principal";
 import { MdQueryBuilder } from "react-icons/md";
+import { AuthClient } from "@dfinity/auth-client";
 
 export default function DebugPage() {
-  const [author, setAuthor] = useState("");
-  const [genre, setGenre] = useState("");
+  const [authClient, setAuthClient] = useState<AuthClient | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [query, setQuery] = useState("");
 
   const [book, setBook] = useState({
@@ -73,6 +76,43 @@ export default function DebugPage() {
       setBook({ ...book, [name]: value });
     }
   };
+
+  useEffect(() => {
+    if (!isAuthenticated || !authClient) {
+      return;
+    }
+    (async () => {
+      const identity = authClient.getIdentity();
+      const assetActor = createActor(canisterId, {
+        agentOptions: { identity: identity },
+      });
+
+      const foobar = [...new TextEncoder().encode("foobar")];
+
+      const update = await assetActor.store({
+        key: "/foobar.txt",
+        content: foobar,
+        sha256: [],
+        content_type: "text/plain",
+        content_encoding: "identity",
+      }); console.log(update)
+
+      const get = await assetActor.get({
+        key: "/foobar.txt",
+        accept_encodings: ["identity"],
+      });
+      console.log(get)
+      debugger;
+    })();
+  }, [setAuthClient, setIsAuthenticated, isAuthenticated]);
+
+  useEffect(() => {
+    (async () => {
+      const authClient = await AuthClient.create();
+      setAuthClient(authClient);
+      setIsAuthenticated(await authClient.isAuthenticated());
+    })();
+  }, [setAuthClient, setIsAuthenticated]);
 
   useEffect(() => {
     const fetchData = async () => {

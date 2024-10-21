@@ -19,10 +19,11 @@ async fn create_library(payload: LibraryPayload) -> Result<Library, Error> {
             })
         }
     };
+
     let id = generate_unique_id().await;
     let library = Library {
         id,
-        name: payload.name,
+        name: payload.name.unwrap_or_else(|| "...".to_string()),
         user,
         books: Vec::new(),
     };
@@ -91,6 +92,32 @@ async fn insert_book_to_library(payload: LibraryPayload) -> Result<Library, Erro
             })
         }
     }
+}
+
+#[ic_cdk::update]
+async fn update_library(payload: LibraryPayload) -> Result<Library, Error> {
+    let library_id = match payload.id {
+        Some(ref id) => id,
+        None => {
+            return Err(Error::ValidationErrors {
+                errors: "Library ID is missing".to_string(),
+            })
+        }
+    };
+
+    let mut library = match get_library_by_id(&library_id) {
+        Some(mut library) => library,
+        None => {
+            return Err(Error::NotFound {
+                message: "Library Not Found".to_string(),
+            })
+        }
+    };
+    if let Some(name) = payload.name {
+        library.name = name;
+    }
+    insert_library(&library);
+    Ok(library)
 }
 
 #[ic_cdk::update]

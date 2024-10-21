@@ -58,7 +58,7 @@ type Library = record {
 };
 type LibraryPayload = record {
   id : opt principal;
-  name : text;
+  name : opt text;
   user_id : principal;
   book_id : opt principal;
 };
@@ -162,6 +162,7 @@ service : () -> {
   update_author : (GenrePayload) -> (Result);
   update_book : (BookPayload) -> (Result_1);
   update_genre : (GenrePayload) -> (Result_2);
+  update_library : (LibraryPayload) -> (Result_3);
   update_plan : (PlanPayload) -> (Result_4);
   update_user : (UserPayload) -> (Result_6);
 }
