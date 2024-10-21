@@ -3,6 +3,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { LibraryModel } from "../Props/model";
 import { HoverEffect } from "../ui/card-hover-effect";
 import { Title } from "../Utility/TitleUtility";
+import { useModalState } from "../Hook/Ui/useModalState";
+import CreateLibraryModal from "../Modal/Library/CreateLibraryModal";
 
 interface LibraryDashboardProps {
   libraryList: LibraryModel[] | null;
@@ -13,6 +15,12 @@ export default function LibraryDashboard({
   libraryList,
   handleLibrarySelect,
 }: LibraryDashboardProps) {
+  const {
+    modalState,
+    handleOpenCreate,
+    handleCloseCreate,
+  } = useModalState();
+
   const createNewLibrary = {
     title: "Add New Library",
     description: (
@@ -21,7 +29,7 @@ export default function LibraryDashboard({
       </div>
     ),
     onClick: () => {
-      handleLibrarySelect(null);
+      handleOpenCreate();
     },
     backgroundImage: null,
   };
@@ -47,12 +55,15 @@ export default function LibraryDashboard({
   ];
 
   return (
-    <div className="max-h-[100vh] overflow-y-auto">
-      <div className="m-5">
-        <Title text="Your Library" />
-      </div>
-      <div className="mx-auto max-w-5xl px-8">
-        <HoverEffect items={data} className="cursor-pointer" />
+    <div>
+      <CreateLibraryModal open={modalState.create} handleClose={handleCloseCreate} fetchData={() => { }} />
+      <div className="max-h-[100vh] overflow-y-auto">
+        <div className="m-5">
+          <Title text="Your Library" />
+        </div>
+        <div className="mx-auto max-w-5xl px-8">
+          <HoverEffect items={data} className="cursor-pointer" />
+        </div>
       </div>
     </div>
   );
