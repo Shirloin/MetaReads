@@ -243,6 +243,13 @@ login({username, password})
 
 Return User or Error
 
+#### Get User Count
+
+```http
+get_user_count()
+```
+Return number or Error
+
 
 ## Genre Reference
 

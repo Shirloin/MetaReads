@@ -37,7 +37,7 @@ async fn insert_book_to_library(payload: LibraryPayload) -> Result<Library, Erro
         Some(id) => id,
         None => {
             return Err(Error::ValidationErrors {
-                errors: "Book ID is missing".to_string(),
+                message: "Book ID is missing".to_string(),
             })
         }
     };
@@ -100,7 +100,7 @@ async fn update_library(payload: LibraryPayload) -> Result<Library, Error> {
         Some(ref id) => id,
         None => {
             return Err(Error::ValidationErrors {
-                errors: "Library ID is missing".to_string(),
+                message: "Library ID is missing".to_string(),
             })
         }
     };
@@ -126,7 +126,7 @@ fn remove_book_in_library(payload: LibraryPayload) -> Result<Library, Error> {
         Some(ref id) => id,
         None => {
             return Err(Error::ValidationErrors {
-                errors: "Library ID is missing".to_string(),
+                message: "Library ID is missing".to_string(),
             })
         }
     };
@@ -134,7 +134,7 @@ fn remove_book_in_library(payload: LibraryPayload) -> Result<Library, Error> {
         Some(id) => id,
         None => {
             return Err(Error::ValidationErrors {
-                errors: "Book ID is missing".to_string(),
+                message: "Book ID is missing".to_string(),
             })
         }
     };

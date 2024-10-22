@@ -17,13 +17,13 @@ async fn create_genre(payload: GenrePayload) -> Result<Genre, Error> {
     let check_payload = payload.validate();
     if check_payload.is_err() {
         return Err(Error::ValidationErrors {
-            errors: check_payload.err().unwrap().to_string(),
+            message: check_payload.err().unwrap().to_string(),
         });
     }
 
     if let Some(_) = get_genre_by_name(&payload.name) {
         return Err(Error::ValidationErrors {
-            errors: "Genre already exists!".to_string(),
+            message: "Genre already exists!".to_string(),
         });
     }
 
@@ -67,7 +67,7 @@ fn update_genre(payload: GenrePayload) -> Result<Genre, Error> {
             let check_payload = payload.validate();
             if check_payload.is_err() {
                 return Err(Error::ValidationErrors {
-                    errors: check_payload.err().unwrap().to_string(),
+                    message: check_payload.err().unwrap().to_string(),
                 });
             }
             genre.name = payload.name;

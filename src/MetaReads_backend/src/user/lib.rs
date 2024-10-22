@@ -11,7 +11,13 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
     let check_payload = payload.validate();
     if check_payload.is_err() {
         return Err(Error::ValidationErrors {
-            errors: check_payload.err().unwrap().to_string(),
+            message: check_payload.err().unwrap().to_string(),
+        });
+    }
+
+    if get_user_by_username(&payload.username).is_some() || payload.username == "vasang" {
+        return Err(Error::ValidationErrors {
+            message: "Username already exists!".to_string(),
         });
     }
 
@@ -75,7 +81,7 @@ fn update_user(payload: UserPayload) -> Result<User, Error> {
             let check_payload = payload.validate();
             if check_payload.is_err() {
                 return Err(Error::ValidationErrors {
-                    errors: check_payload.err().unwrap().to_string(),
+                    message: check_payload.err().unwrap().to_string(),
                 });
             }
             user.username = payload.username;
@@ -98,6 +104,15 @@ fn update_user(payload: UserPayload) -> Result<User, Error> {
             })
         }
     }
+}
+
+#[ic_cdk::query]
+fn get_user_count() -> Result<u64, Error> {
+    let user_count = USER_STORE.with(|user_store| {
+        let store = user_store.borrow();
+        store.len() as u64
+    });
+    Ok(user_count)
 }
 
 pub fn insert_user(user: &User) {

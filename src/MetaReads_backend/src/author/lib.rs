@@ -17,13 +17,13 @@ async fn create_author(payload: AuthorPayload) -> Result<Author, Error> {
     let check_payload = payload.validate();
     if check_payload.is_err() {
         return Err(Error::ValidationErrors {
-            errors: check_payload.err().unwrap().to_string(),
+            message: check_payload.err().unwrap().to_string(),
         });
     }
 
     if let Some(_) = get_author_by_name(&payload.name) {
         return Err(Error::ValidationErrors {
-            errors: "Author already exists!".to_string(),
+            message: "Author already exists!".to_string(),
         });
     }
 
@@ -66,7 +66,7 @@ fn update_author(payload: AuthorPayload) -> Result<Author, Error> {
             let check_payload = payload.validate();
             if check_payload.is_err() {
                 return Err(Error::ValidationErrors {
-                    errors: check_payload.err().unwrap().to_string(),
+                    message: check_payload.err().unwrap().to_string(),
                 });
             }
             author.name = payload.name;

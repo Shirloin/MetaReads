@@ -29,7 +29,7 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
     let check_payload = payload.validate();
     if check_payload.is_err() {
         return Err(Error::ValidationErrors {
-            errors: check_payload.err().unwrap().to_string(),
+            message: check_payload.err().unwrap().to_string(),
         });
     }
 
@@ -133,7 +133,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             let check_payload: Result<(), validator::ValidationErrors> = payload.validate();
             if check_payload.is_err() {
                 return Err(Error::ValidationErrors {
-                    errors: check_payload.err().unwrap().to_string(),
+                    message: check_payload.err().unwrap().to_string(),
                 });
             }
 
