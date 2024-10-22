@@ -1,8 +1,12 @@
-"use client";
+import { FaCrown } from "react-icons/fa";
+("use client");
 import React, { useState } from "react";
 import { cn } from "../../lib/utils";
 import { FaBookmark } from "react-icons/fa";
 import PrimaryButton from "../Form/Button/PrimaryButton";
+import { BookModel } from "../Props/model";
+import { Link } from "react-router-dom";
+import TagIconPlan from "../Subscriptions/TagIconPlan";
 
 export const Card = React.memo(
   ({
@@ -24,12 +28,12 @@ export const Card = React.memo(
         hovered !== null && hovered !== index && "scale-[0.98] blur-sm",
       )}
     >
+      <TagIconPlan plan={card.plan} />
       <img
-        src={card.src}
+        src={card.coverImage}
         alt={card.title}
         className="absolute inset-0 object-cover object-fill"
       />
-
       <div
         className={cn(
           "absolute inset-0 flex items-end bg-black/50 px-4 py-8 transition-opacity duration-300",
@@ -51,19 +55,21 @@ type Card = {
   src: string;
 };
 
-export function FocusCards({ cards }: { cards: Card[] }) {
+export function FocusCards({ books }: { books: BookModel[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <div className="mx-auto grid w-full grid-cols-1 gap-10 pb-8 md:grid-cols-3 lg:grid-cols-6">
-      {cards.map((card, index) => (
-        <Card
-          key={card.title}
-          card={card}
-          index={index}
-          hovered={hovered}
-          setHovered={setHovered}
-        />
+      {books.map((book, index) => (
+        <Link to={"/book/" + book.id.toString()}>
+          <Card
+            key={book.title}
+            card={book}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
+          />
+        </Link>
       ))}
     </div>
   );

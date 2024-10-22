@@ -7,7 +7,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css"; // Ensure the styles are imported
 import BookCard from "../components/Book/BookCard";
 import OutlinedButton from "../components/Form/Button/OutlinedButton";
-import { dummyBook } from "../components/Props/model";
+import { books, dummyBook, recommendedBooks } from "../components/Props/model";
 import { FocusCards } from "../components/ui/focus-cards";
 
 export default function StorePage() {
@@ -92,39 +92,8 @@ export default function StorePage() {
         <div className="my-6 flex w-full flex-col gap-4 px-16 text-white">
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold">Recommended For You</p>
-            <div className="hidden justify-end gap-3 text-white md:flex">
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-50 hover:bg-neutral-500">
-                {"<"}
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-neutral-50 hover:bg-neutral-500">
-                {">"}
-              </button>
-            </div>
           </div>
-          <Swiper
-            className="w-full"
-            slidesPerView={4}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            <div>
-              <SwiperSlide className="w-fit">
-                <BookCard data={dummyBook} />
-              </SwiperSlide>
-              <SwiperSlide className="w-fit">
-                <BookCard data={dummyBook} />
-              </SwiperSlide>
-              <SwiperSlide className="w-fit">
-                <BookCard data={dummyBook} />
-              </SwiperSlide>
-              <SwiperSlide className="w-fit">
-                <BookCard data={dummyBook} />
-              </SwiperSlide>
-              <SwiperSlide className="w-fit">
-                <BookCard data={dummyBook} />
-              </SwiperSlide>
-            </div>
-          </Swiper>
+          <FocusCards books={recommendedBooks} />
         </div>
 
         <div className="flex w-full flex-col gap-8 px-16">
@@ -147,7 +116,7 @@ export default function StorePage() {
               onClick={() => {}}
             />
           </div>
-          <FocusCards cards={cards} />
+          <FocusCards books={books} />
           {/* <div className="grid grid-cols-4 gap-y-8">
           <BookCard data={dummyBook} />
           <BookCard data={dummyBook} />
