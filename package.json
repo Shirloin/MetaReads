@@ -25,6 +25,7 @@
     "@react-three/drei": "^9.114.6",
     "@react-three/fiber": "^8.17.10",
     "clsx": "^2.1.1",
+    "firebase": "^11.0.0",
     "framer-motion": "^11.11.9",
     "mini-svg-data-uri": "^1.4.4",
     "queue-microtask": "^1.2.3",
@@ -39,6 +40,7 @@
     "ts-interface-checker": "^1.0.2"
   },
   "devDependencies": {
+    "@types/firebase": "^3.2.1",
     "@types/node": "^22.7.7",
     "@types/react": "^18.3.11",
     "@types/react-router-dom": "^5.3.3"
