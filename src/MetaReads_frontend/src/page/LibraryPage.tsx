@@ -12,7 +12,7 @@ import useLibraries from "../components/Hook/Data/Library/useLibraries";
 export default function LibraryPage() {
   const { setCollapsed } = useCollapsed()
   const [data, fetchData] = useLibraries()
-  const [libraryList, setLibraryList] = React.useState<LibraryModel[]>([]);
+  const [libraryList, setLibraryList] = React.useState<LibraryModel[] | []>([]);
   React.useEffect(() => {
     setCollapsed(true)
     fetchData()
@@ -29,6 +29,8 @@ export default function LibraryPage() {
         ...data
       ];
       setLibraryList(updatedLibraryList);
+    } else {
+      setLibraryList([]);
     }
   }, [data]); // Run this effect when `data` changes
   const [selectedLibrary, setselectedLibrary] =

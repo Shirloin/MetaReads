@@ -12,16 +12,20 @@ import { BookModel, LibraryModel } from "../Props/model";
 import UpdateLibraryModal from "../Modal/Library/UpdateLibraryModal";
 
 interface LibraryNameProps {
+  libraryName: string
   selectedItem: LibraryModel;
   count: number;
-  fetchData: () => void
+  fetchData: () => void,
+  updateDisplayName: (name: string) => void,
   handleLibrarySelect: (library: LibraryModel | null) => void;
 }
 
 export default function LibraryHeader({
+  libraryName,
   selectedItem,
   count,
   fetchData,
+  updateDisplayName,
   handleLibrarySelect
 }: LibraryNameProps) {
   const {
@@ -32,25 +36,34 @@ export default function LibraryHeader({
     handleCloseDelete,
   } = useModalState();
 
-  const afterDeleteAndUpdate = () => {
+  const onDelete = () => {
     handleLibrarySelect(null);
     fetchData()
   }
+  const onUpdate = (name: string) => {
+    updateDisplayName(name)
+    handleCloseUpdate();
+    fetchData()
+  }
+
+
   return (
     <div>
-      <UpdateLibraryModal open={modalState.update} handleClose={handleCloseUpdate} fetchData={afterDeleteAndUpdate} selectedItem={selectedItem} />
-
       <DeleteLibraryModal
         open={modalState.delete}
         handleClose={handleCloseDelete}
-        fetchData={afterDeleteAndUpdate}
+        fetchData={onDelete}
         selectedItem={selectedItem}
       />
       <div className="flex w-full gap-2 border-b-2 border-gray-400 pb-1">
         <div className="flex w-full gap-2">
-          <div className="flex items-center text-xl text-white">
-            {selectedItem.name}
-          </div>
+          {modalState.update ? (
+            <UpdateLibraryModal selectedItem={selectedItem} handleCloseUpdate={onUpdate} />
+          ) : (
+            <div className="flex items-center text-xl text-white">
+              {libraryName}
+            </div>
+          )}
           <div className="flex items-center text-xl text-gray-400">
             ({count})
           </div>
@@ -78,6 +91,6 @@ export default function LibraryHeader({
           <img src={MetaReadsLogo} alt="Full Logo" width={36} />
         </div>
       </div>
-    </div>
+    </div >
   );
 }
