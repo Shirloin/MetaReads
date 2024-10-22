@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BookDataProps, BookModel, LibraryModel } from "../Props/model";
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 import LibraryHeader from "./LibraryHeader";
@@ -52,10 +52,20 @@ export default function LibraryContent({
   const onBookSelected = ({ data }: BookDataProps) => {
     handleBookSelect(data)
   }
+  const [libraryName, setLibraryName] = useState<string>("")
+  const updateDisplayName = (name: string) => {
+    setLibraryName(name)
+  }
+  useEffect(() => {
+    updateDisplayName(selectedLibrary.name)
+  }, [selectedLibrary])
+
   return (
     <div className="max-h-[100vh] overflow-y-auto overflow-x-hidden">
       <div className="p-5">
         <LibraryHeader
+          updateDisplayName={updateDisplayName}
+          libraryName={libraryName}
           selectedItem={selectedLibrary}
           count={selectedLibrary.bookList.length}
           fetchData={fetchData}
