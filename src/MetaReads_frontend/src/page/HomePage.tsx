@@ -7,6 +7,7 @@ import { StarsBackground } from "../components/ui/background/stars-background";
 import { NumberTicker } from "../components/ui/number-ticker";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { motion } from "framer-motion";
+import { World } from "../components/ui/globe";
 export default function HomePage() {
   const [startTicker, setStartTicker] = useState(false);
 
@@ -38,28 +39,35 @@ export default function HomePage() {
 
           {/* Description With  User Count */}
           <motion.div
-            className="mb-4 flex max-w-[90vw] items-center justify-center p-4 text-center text-lg text-white md:max-w-[50vw]"
+            className="flex max-w-[90vw] items-center justify-center text-center text-lg text-white md:max-w-[50vw]"
             initial={{ y: "2vw", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 3.5 }}
           >
-            <div
-              style={{
-                fontFamily: "Roboto, sans-serif",
-                lineHeight: "1.6",
-                fontSize: "1.125rem",
-              }}
-            >
-              Explore a universe of stories with{" "}
-              <span style={{ color: "#EFAF21" }} className="quantico-font">
-                Metareads
-              </span>
-              . From timeless classics to thrilling adventures, unlock a world
-              of books with a simple subscription. Join our community of{" "}
-              <strong>
-                {startTicker ? <NumberTicker value={12965} /> : "Loading..."}
-              </strong>{" "}
-              users and discover your next favorite read today!
+            <div>
+              <div className="h-[40vh] w-full flex justify-center">
+                <div className="w-[400px] h-[300px]">
+                  <World/>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  lineHeight: "1.6",
+                  fontSize: "1.125rem",
+                }}
+              >
+                Explore a universe of stories with{" "}
+                <span style={{ color: "#EFAF21" }} className="quantico-font">
+                  Metareads
+                </span>
+                . From timeless classics to thrilling adventures, unlock a world
+                of books with a simple subscription. Join our community of{" "}
+                <strong>
+                  {startTicker ? <NumberTicker value={12965} /> : "Loading..."}
+                </strong>{" "}
+                users around the world and discover your next favorite read today!
+              </div>
             </div>
           </motion.div>
 
@@ -103,6 +111,8 @@ export default function HomePage() {
         <ShootingStars />
         <StarsBackground />
       </BackgroundBeamsWithCollision>
+
+
     </PageLayout>
   );
 }

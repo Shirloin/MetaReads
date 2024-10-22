@@ -22,7 +22,7 @@ export default function RegisterPage() {
       if (internetIdentityId) {
         await createUser(internetIdentityId, username);
         ToastSuccess("Register Success");
-        document.cookie = "identity=" + internetIdentityId.toString();
+        document.cookie = `identity=${internetIdentityId}; path=/; expires=${new Date(Date.now() + 86400e3).toUTCString()}`;
         window.location.href = "/";
       }
     } catch (error: any) {
