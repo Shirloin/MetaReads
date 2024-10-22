@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { FocusCards } from "../components/ui/focus-cards";
+import { books } from "../components/Props/model";
 
 export default function Testing() {
   const cards = [
@@ -36,7 +37,7 @@ export default function Testing() {
     <PageLayout>
       <div className="relative max-h-[100vh] w-full overflow-y-auto bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2]">
         <TopNavbar />
-        <FocusCards cards={cards} />
+        <FocusCards books={books} />
       </div>
     </PageLayout>
   );
