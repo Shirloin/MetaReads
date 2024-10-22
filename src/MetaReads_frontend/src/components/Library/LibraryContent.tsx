@@ -5,6 +5,7 @@ import LibraryHeader from "./LibraryHeader";
 import { Tooltip } from "@mui/material";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
+import { DirectionAwareHover } from "../ui/direction-aware-hover";
 interface LibraryContentProps {
   selectedLibrary: LibraryModel;
   handleBookSelect: (book: BookModel | null) => void;
@@ -72,7 +73,8 @@ export default function LibraryContent({
           handleLibrarySelect={handleLibrarySelect}
         />
       </div>
-      <BentoGrid className="mt-8 max-w-5xl cursor-pointer">
+      {/* Old Display */}
+      {/* <BentoGrid className="mt-8 max-w-5xl cursor-pointer">
         {selectedLibrary.bookList.map((book: BookModel, i: number) => (
           <BentoGridItem
             onClick={() => onBookSelected({ data: book })}
@@ -84,7 +86,19 @@ export default function LibraryContent({
           // className={i % 4 === 1 ? "md:col-span-2" : ""}
           />
         ))}
-      </BentoGrid>
+      </BentoGrid> */}
+
+      {/* New Display */}
+      <div className=" relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-5">
+        {selectedLibrary.bookList.map((book: BookModel, i: number) => (
+          <DirectionAwareHover key={i} imageUrl={book.coverImage} onClick={() => onBookSelected({ data: book })}>
+            <p className="font-bold text-xl">{book.title}</p>
+            <BookDescription data={book} />
+          </DirectionAwareHover>
+        ))}
+      </div>
+
     </div>
   );
 }
+

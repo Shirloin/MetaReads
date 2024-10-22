@@ -24,8 +24,8 @@ export default function LibraryPage() {
       const test2: LibraryModel = library2;
 
       const updatedLibraryList: LibraryModel[] = [
-        // test1,
-        // test2,
+        test1,
+        test2,
         ...data
       ];
       setLibraryList(updatedLibraryList);
