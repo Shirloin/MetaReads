@@ -4,9 +4,10 @@ import App from "./App";
 import "./index.css";
 import { CollapsedProvider } from "./lib/collapsed_provider";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { ThemeProvider2 } from "./components/theme-provider";
+import { ThemeProvider2 } from "./lib/theme-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./lib/user_provider";
 
 // Create a dark theme using MUI's createTheme
 const darkTheme = createTheme({
@@ -32,10 +33,12 @@ if (rootElement) {
     <React.StrictMode>
       <ThemeProvider theme={darkTheme}>
         <ThemeProvider2 defaultTheme="dark" storageKey="vite-ui-theme">
-          <CollapsedProvider>
-            <App />
-            <ToastContainer stacked />
-          </CollapsedProvider>
+          <UserProvider>
+            <CollapsedProvider>
+              <App />
+              <ToastContainer stacked />
+            </CollapsedProvider>
+          </UserProvider>
         </ThemeProvider2>
       </ThemeProvider>
     </React.StrictMode>,

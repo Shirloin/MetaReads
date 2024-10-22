@@ -45,11 +45,11 @@ export default function HomePage() {
             transition={{ duration: 0.8, delay: 3.5 }}
           >
             <div>
-              <div className="h-[40vh] w-full flex justify-center">
+              {/* <div className="h-[40vh] w-full flex justify-center">
                 <div className="w-[400px] h-[300px]">
                   <World/>
                 </div>
-              </div>
+              </div> */}
               <div
                 style={{
                   fontFamily: "Roboto, sans-serif",

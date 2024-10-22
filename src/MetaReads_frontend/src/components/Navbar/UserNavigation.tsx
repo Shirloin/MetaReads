@@ -13,7 +13,9 @@ import {
 } from "../Utility/StylingUtility";
 import { createUrl } from "../Utility/UrlUtility";
 import { AuthClient } from "@dfinity/auth-client";
+import { useUser } from "../../lib/user_provider";
 export default function UserNavigation() {
+  const { user, loading } = useUser();
   const days = BigInt(1);
   const hours = BigInt(24);
   const nanoseconds = BigInt(3600000000000);
@@ -68,19 +70,24 @@ export default function UserNavigation() {
       >
         Store
       </MenuItem>
-      <MenuItem
-        style={getMenuItemStyle("/library")}
-        icon={
-          <img
-            src={LibraryLogo}
-            alt="Library Logo"
-            style={{ width: "22px", height: "22px" }}
-          />
-        }
-        component={<Link to={createUrl("/library")} />}
-      >
-        Library
-      </MenuItem>
+      {
+        user && (
+          <MenuItem
+            style={getMenuItemStyle("/library")}
+            icon={
+              <img
+                src={LibraryLogo}
+                alt="Library Logo"
+                style={{ width: "22px", height: "22px" }}
+              />
+            }
+            component={<Link to={createUrl("/library")} />}
+          >
+            Library
+          </MenuItem>
+        )
+      }
+
       <MenuItem
         style={getMenuItemStyle("/subscriptions")}
         icon={

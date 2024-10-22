@@ -13,6 +13,7 @@ import BookDetailPage from "../page/BookDetailPage";
 import DebugPage from "../page/DebugPage";
 import Testing from "../page/Testing";
 import HomePage from "../page/HomePage";
+import { AdminProtectedRoute, UserProtectedRoute } from "./ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/library",
-        element: <LibraryPage />,
+        element: (
+          <UserProtectedRoute>
+            <LibraryPage />
+          </UserProtectedRoute>
+        ),
       },
       {
         path: "/subscriptions",
@@ -52,15 +57,27 @@ const router = createBrowserRouter([
       // Admin
       {
         path: "/admin/author",
-        element: <AuthorPage />,
+        element: (
+          <AdminProtectedRoute>
+            <AuthorPage />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "/admin/genre",
-        element: <GenrePage />,
+        element: (
+          <AdminProtectedRoute>
+            <GenrePage />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "/admin/book",
-        element: <BookPage />,
+        element: (
+          <AdminProtectedRoute>
+            <BookPage />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "/book/:bookId",
