@@ -1,22 +1,43 @@
 import { useEffect, useState } from "react";
 import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
-import { BaseTableColumnProps } from "../../../Props/tabeProps";
+import {
+  BaseTableColumnBooksProps,
+  BaseTableColumnProps,
+} from "../../../Props/tabeProps";
 import { GenreModel } from "../../../Props/model";
+import { Principal } from "@dfinity/principal";
 
-function createData({ id, name, option }: BaseTableColumnProps) {
-  return { id, name, option };
+function createData(data: BaseTableColumnBooksProps) {
+  const { id, title, book_url, plan, cover_image, page_count, option } = data;
+  return { id, title, book_url, plan, cover_image, page_count, option };
 }
 
-const useGenres = () => {
-  const [rows, setRows] = useState<BaseTableColumnProps[]>([]);
+const useBooks = () => {
+  const [rows, setRows] = useState<BaseTableColumnBooksProps[]>([]);
   const fetchData = async () => {
     try {
-      const genresResponse: GenreModel[] =
-        await MetaReads_backend.get_all_genre();
-      const genreRows = genresResponse.map((genre: GenreModel) =>
-        createData({ id: genre.id, name: genre.name, option: "Options" }),
+      const booksResponse: any = await MetaReads_backend.get_all_book({
+        page: BigInt(0),
+        limit: BigInt(100),
+        query: "",
+      });
+
+      const bookRows: BaseTableColumnBooksProps[] = booksResponse.Ok.books.map(
+        (book: any) =>
+          createData({
+            id: Principal.fromText(book.id.toString()),
+            title: book.title,
+            book_url: book.book_url,
+            plan: book.plan,
+            page_count: book.page_count,
+            cover_image: book.cover_image,
+            option: "Options",
+          }),
       );
-      setRows(genreRows);
+
+      console.log(booksResponse);
+
+      setRows(bookRows);
     } catch (error) {
       console.error("Error fetching genres:", error);
     }
@@ -28,4 +49,4 @@ const useGenres = () => {
   return [rows, fetchData] as const;
 };
 
-export default useGenres;
+export default useBooks;

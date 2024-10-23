@@ -28,6 +28,8 @@ const useAuthors = () => {
           }),
       );
 
+      console.log(authorRows);
+
       setRows(authorRows);
     } catch (error) {
       console.error("Error fetching authors:", error);

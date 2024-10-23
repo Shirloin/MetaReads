@@ -36,13 +36,13 @@ export function CreateBookModal({
 
   const handleCreate = async (
     title: string,
-    author: AuthorModel,
+    author: Principal,
     book_url: string,
     plan: string,
-    genre: GenreModel,
+    genre: Principal,
     description: string,
     coverImage: string,
-    pages_count: number,
+    pages_count: any,
   ) => {
     // @ts-ignore
     loadingToastId.current = ToastLoading("Loading..");

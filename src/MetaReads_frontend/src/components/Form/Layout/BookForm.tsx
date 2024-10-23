@@ -16,10 +16,10 @@ interface ModalFormProps {
   handleClose: () => void;
   onSubmit: (
     title: string,
-    author: AuthorModel,
+    author: Principal,
     book_url: string,
     plan: string,
-    genre: GenreModel,
+    genre: Principal,
     description: string,
     coverImage: string,
     pages_count: number,
@@ -70,6 +70,37 @@ export default function BookForm({
 
   const print = () => {
     console.log(Principal.fromText(data.genre));
+  };
+
+  const handleSubmit = async () => {
+    if (!data.title || data.title.trim() === "") {
+      ToastError("Title can't be empty");
+    } else if (!data.author || data.author.trim() === "") {
+      ToastError("Author can't be empty");
+    } else if (!data.book_url || data.book_url.trim() === "") {
+      ToastError("Book url can't be empty");
+    } else if (!data.plan || data.plan.trim() === "") {
+      ToastError("Plan can't be empty");
+    } else if (!data.genre || data.genre.trim() === "") {
+      ToastError("Genre can't be empty");
+    } else if (!data.description || data.description.trim() === "") {
+      ToastError("Description can't be empty");
+    } else if (!data.coverImage || data.coverImage.trim() === "") {
+      ToastError("Cover Image can't be empty");
+    } else if (!data.pages_count) {
+      ToastError("Pages Count can't be empty");
+    } else {
+      onSubmit(
+        data.title,
+        Principal.fromText(data.author),
+        data.book_url,
+        data.plan,
+        Principal.fromText(data.genre),
+        data.description,
+        data.coverImage,
+        data.pages_count,
+      );
+    }
   };
 
   return (
@@ -128,7 +159,7 @@ export default function BookForm({
       </div>
       <div className="flex w-full justify-center gap-3">
         <SecondaryButton text={"Cancel"} onClick={handleClose} />
-        <PrimaryButton text={buttonContent} onClick={print} />
+        <PrimaryButton text={buttonContent} onClick={handleSubmit} />
       </div>
     </>
   );

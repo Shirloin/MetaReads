@@ -4,16 +4,25 @@ import CustomPagination from "./CustomPagination";
 import SearchBar from "../Form/Input/TextField/SearchBar";
 import { useModalState } from "../Hook/Ui/useModalState";
 import { useCustomPagination } from "../Hook/Ui/useCustomPagination";
-import { useQuery } from "../Hook/Ui/useQuery";
+import { useQuery, useQueryBook } from "../Hook/Ui/useQuery";
 import DeleteAuthorModal from "../Modal/Author/DeleteAuthorModal";
 import UpdateAuthorModal from "../Modal/Author/UpdateAuthorModal";
 import useAuthors from "../Hook/Data/Author/useAuthors";
 import { CreateAuthorModal } from "../Modal/Author/CreateAuthorModal";
 import { CreateBookModal } from "../Modal/Book/CreateBookModal";
+import useBooks from "../Hook/Data/Book/useBooks";
+import DeleteBookModal from "../Modal/Book/DeleteBookModal";
 
 export default function BookTable() {
-  const [rows, fetchData] = useAuthors();
-  const headers = ["Title", "Url", "Plan", "Cover Image", "Pages Count","Options"];
+  const [rows, fetchData] = useBooks();
+  const headers = [
+    "Title",
+    "Url",
+    "Plan",
+    "Cover Image",
+    "Pages Count",
+    "Options",
+  ];
   const {
     modalState,
     handleOpenCreate,
@@ -25,7 +34,7 @@ export default function BookTable() {
   } = useModalState();
   const { pagination, handleChangePage, handleChangeRowsPerPage } =
     useCustomPagination();
-  const { query, handleQueryChange, filteredRows } = useQuery(rows);
+  const { query, handleQueryChange } = useQueryBook(rows);
 
   return (
     <>
@@ -34,7 +43,7 @@ export default function BookTable() {
         handleClose={handleCloseCreate}
         fetchData={fetchData}
       />
-      <DeleteAuthorModal
+      <DeleteBookModal
         open={modalState.delete}
         handleClose={handleCloseDelete}
         fetchData={fetchData}
@@ -56,16 +65,13 @@ export default function BookTable() {
           </div>
         </div>
         <BaseTable
-          rows={filteredRows.slice(
-            pagination.page * pagination.rowsPerPage,
-            pagination.page * pagination.rowsPerPage + pagination.rowsPerPage,
-          )}
+          rows={rows}
           headers={headers}
           handleOpenDelete={handleOpenDelete}
           handleOpenUpdate={handleOpenUpdate}
         />
         <CustomPagination
-          count={filteredRows.length}
+          count={3}
           rowsPerPage={pagination.rowsPerPage}
           page={pagination.page}
           handleChangePage={handleChangePage}

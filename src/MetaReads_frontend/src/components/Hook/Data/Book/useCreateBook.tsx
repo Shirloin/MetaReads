@@ -9,10 +9,10 @@ export const useCreateBook = () => {
 
   const createBook = async (
     title: string,
-    author: AuthorModel,
+    author: Principal,
     book_url: string,
     plan: string,
-    genre: GenreModel,
+    genre: Principal,
     description: string,
     coverImage: string,
     pages_count: number,
@@ -28,8 +28,8 @@ export const useCreateBook = () => {
         cover_image: coverImage,
         description: description,
         plan: plan,
-        author_id: author.id,
-        genre_id: genre.id,
+        author_id: author,
+        genre_id: genre,
         page_count: BigInt(pages_count),
       });
       return true; // Indicate success
