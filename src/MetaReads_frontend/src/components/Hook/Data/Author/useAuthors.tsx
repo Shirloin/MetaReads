@@ -16,14 +16,16 @@ const useAuthors = () => {
     try {
       // Assuming this returns a correct structure
       const authorResponse = await MetaReads_backend.get_all_author();
+      console.log(authorResponse[0].id.toString());
 
       // If authorResponse is not already of type AuthorModel[], you might need to adjust here
-      const authorRows: BaseTableColumnProps[] = authorResponse.map((authorData) =>
-        createData({
-          id: Principal.fromText(authorData.id.toString()),
-          name: authorData.name,
-          option: "Options"
-        })
+      const authorRows: BaseTableColumnProps[] = authorResponse.map(
+        (authorData) =>
+          createData({
+            id: Principal.fromText(authorData.id.toString()),
+            name: authorData.name,
+            option: "Options",
+          }),
       );
 
       setRows(authorRows);

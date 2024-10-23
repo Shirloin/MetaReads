@@ -9,10 +9,11 @@ import DeleteAuthorModal from "../Modal/Author/DeleteAuthorModal";
 import UpdateAuthorModal from "../Modal/Author/UpdateAuthorModal";
 import useAuthors from "../Hook/Data/Author/useAuthors";
 import { CreateAuthorModal } from "../Modal/Author/CreateAuthorModal";
+import { CreateBookModal } from "../Modal/Book/CreateBookModal";
 
 export default function BookTable() {
   const [rows, fetchData] = useAuthors();
-  const headers = ["Id", "Name", "Option"];
+  const headers = ["Title", "Url", "Plan", "Cover Image", "Pages Count","Options"];
   const {
     modalState,
     handleOpenCreate,
@@ -28,7 +29,7 @@ export default function BookTable() {
 
   return (
     <>
-      <CreateAuthorModal
+      <CreateBookModal
         open={modalState.create}
         handleClose={handleCloseCreate}
         fetchData={fetchData}
@@ -51,7 +52,7 @@ export default function BookTable() {
             <SearchBar value={query} onChange={handleQueryChange} />
           </div>
           <div className="flex items-center">
-            <PrimaryButton onClick={handleOpenCreate} text={"Add Author"} />
+            <PrimaryButton onClick={handleOpenCreate} text={"Add Book"} />
           </div>
         </div>
         <BaseTable
