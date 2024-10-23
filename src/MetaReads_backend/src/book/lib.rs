@@ -93,8 +93,9 @@ fn get_all_book(payload: PaginateBookPayload) -> Result<PaginatedBooks, Error> {
             })
             .collect();
         let total_count = books.len();
-        let start = payload.page * payload.limit;
-        let paginated_books = books.into_iter().skip(start).take(payload.limit).collect();
+        // let start = payload.page * payload.limit;
+        // let paginated_books = books.into_iter().skip(start).take(payload.limit).collect();
+        let paginated_books = books.into_iter().collect();
         Ok(PaginatedBooks {
             books: paginated_books,
             total_count,

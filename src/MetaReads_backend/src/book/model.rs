@@ -50,8 +50,8 @@ pub struct BookPayload {
 
 #[derive(CandidType, Serialize, Deserialize, Validate)]
 pub struct PaginateBookPayload {
-    pub page: usize,
-    pub limit: usize,
+    // pub page: usize,
+    // pub limit: usize,
     pub query: String,
 }
 
