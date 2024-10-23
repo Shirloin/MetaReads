@@ -13,6 +13,7 @@ import BookDetailPage from "../page/BookDetailPage";
 import DebugPage from "../page/DebugPage";
 import Testing from "../page/Testing";
 import HomePage from "../page/HomePage";
+import ReadPage from "../page/ReadPage";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/book/:bookId",
         element: <BookDetailPage />,
+      },
+      {
+        path: "/read/:bookId",
+        element: <ReadPage />,
       },
       {
         path: "/testing",
