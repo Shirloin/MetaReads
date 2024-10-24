@@ -12,9 +12,10 @@ import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import { fullScreenPlugin } from "@react-pdf-viewer/full-screen";
 import "@react-pdf-viewer/full-screen/lib/styles/index.css";
 import { searchPlugin } from "@react-pdf-viewer/search";
-
+import ReactDOM from "react-dom";
 import "@react-pdf-viewer/search/lib/styles/index.css";
 import { Header } from "../components/PDFReader/Header";
+import ShimmerButton from "../components/Form/Button/ShimmerButton";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
@@ -45,32 +46,32 @@ const ReadPage = () => {
 
   const highlightPluginInstance = highlightPlugin({
     trigger: Trigger.TextSelection,
-    renderHighlightContent: ({ selectedText, cancel }) => (
-      <div style={{ backgroundColor: "black", padding: "5px" }}>
-        <span>{selectedText}</span>
-        <button onClick={cancel}>Cancel</button>
-        Selected
-      </div>
-    ),
     renderHighlightTarget: ({ toggle, selectedText }) => {
       setSelectedText(selectedText);
-      return (
+      return ReactDOM.createPortal(
         <div
-          style={{ position: "absolute", background: "purple" }}
+          style={{
+            position: "fixed",
+            top: 60,
+            right: 20,
+            zIndex: 9999,
+          }}
           onClick={toggle}
         >
           <span
             style={{
               color: "black",
-              position: "absolute",
-              bottom: "0",
-              left: "0",
-              backgroundColor: "red",
             }}
           >
-            test
+            <ShimmerButton
+              text={"Summarize"}
+              onClick={() => {
+                // Show Something
+              }}
+            />
           </span>
-        </div>
+        </div>,
+        document.body,
       );
     },
   });
