@@ -14,6 +14,7 @@ use crate::error::error::Error;
 use crate::genre::model::{Genre, GenrePayload};
 use crate::library::model::{Library, LibraryPayload};
 use crate::plan::model::{Plan, PlanPayload};
+use crate::read::model::{Read, ReadPayload};
 use crate::subscription::model::{Subscription, SubscriptionPayload};
 use crate::user::model::{User, UserPayload};
 mod author;
@@ -36,6 +37,7 @@ type BookStore = StableBTreeMap<Principal, Book, Memory>;
 type LibraryStore = StableBTreeMap<Principal, Library, Memory>;
 type PlanStore = StableBTreeMap<Principal, Plan, Memory>;
 type SubscriptionStore = StableBTreeMap<Principal, Subscription, Memory>;
+type ReadStore = StableBTreeMap<Principal, Read, Memory>;
 
 thread_local! {
     static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> =
@@ -70,6 +72,10 @@ thread_local! {
     pub static SUBSCRIPTION_STORE: RefCell<SubscriptionStore> =
     RefCell::new(StableBTreeMap::init(
         MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(6)))
+    ));
+    pub static READ_STORE: RefCell<ReadStore> =
+    RefCell::new(StableBTreeMap::init(
+        MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(7)))
     ));
 }
 

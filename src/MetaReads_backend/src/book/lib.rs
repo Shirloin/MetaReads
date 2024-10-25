@@ -16,6 +16,7 @@ use crate::{
     },
     helper::helper::generate_unique_id,
     library::lib::{delete_book_in_library, update_book_in_library},
+    read::lib::{delete_book_in_read, update_book_in_read},
     BOOK_STORE,
 };
 use candid::Principal;
@@ -185,6 +186,7 @@ fn update_book(payload: BookPayload) -> Result<Book, Error> {
             }
 
             update_book_in_library(&book);
+            update_book_in_read(&book);
 
             insert_book(&book);
             Ok(book)
@@ -203,6 +205,7 @@ fn delete_book(id: Principal) -> Result<Book, Error> {
             delete_book_in_genre(&mut book.genre, &book.id);
             delete_book_in_author(&mut book.author, &book.id);
             delete_book_in_library(&id);
+            delete_book_in_read(&id);
             Ok(book)
         }
         None => Err(Error::NotFound {
