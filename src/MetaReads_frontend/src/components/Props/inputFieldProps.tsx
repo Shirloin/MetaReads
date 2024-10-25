@@ -18,3 +18,10 @@ export interface InputBookProps {
   size?: "small" | "medium";
   type?: string;
 }
+
+export interface InputFileProps {
+  name: string;
+  onChange: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => void;
+}

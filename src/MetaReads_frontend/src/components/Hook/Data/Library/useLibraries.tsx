@@ -3,7 +3,10 @@ import { MetaReads_backend } from "../../../../../../declarations/MetaReads_back
 import { Principal } from "@dfinity/principal";
 import { getCookie } from "../../../Utility/IdentityUtility";
 import { LibraryModel, BookModel } from "../../../Props/model";
-import { Library, Book } from "../../../../../../declarations/MetaReads_backend/MetaReads_backend.did";
+import {
+  Library,
+  Book,
+} from "../../../../../../declarations/MetaReads_backend/MetaReads_backend.did";
 
 const useLibraries = () => {
   const [data, setDatas] = useState<LibraryModel[]>([]);
@@ -21,23 +24,27 @@ const useLibraries = () => {
       name: book.genre.name,
     },
     description: book.description,
-    coverImage: book.cover_image,
+    cover_image: book.cover_image,
     views: Number(book.views),
     pages_count: Number(book.page_count),
+    book_url: book.book_url,
   });
 
   const fetchData = async () => {
     try {
-      const identityCookie = getCookie('identity');
+      const identityCookie = getCookie("identity");
       if (identityCookie) {
         const user_id: Principal = Principal.fromText(identityCookie);
-        const librariesResponse: Library[] = await MetaReads_backend.get_library_by_user(user_id);
+        const librariesResponse: Library[] =
+          await MetaReads_backend.get_library_by_user(user_id);
 
-        const mappedLibraries: LibraryModel[] = librariesResponse.map(library => ({
-          id: library.id,
-          name: library.name,
-          bookList: library.books.map(mapBookToBookModel),
-        }));
+        const mappedLibraries: LibraryModel[] = librariesResponse.map(
+          (library) => ({
+            id: library.id,
+            name: library.name,
+            bookList: library.books.map(mapBookToBookModel),
+          }),
+        );
 
         setDatas(mappedLibraries);
       }

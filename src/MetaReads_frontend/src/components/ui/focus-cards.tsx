@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { cn } from "../../lib/utils";
 import { FaBookmark } from "react-icons/fa";
 import PrimaryButton from "../Form/Button/PrimaryButton";
-import { BookDataProps, BookModel } from "../Props/model";
+import { BookDataProps, BookModel, BookModelProps } from "../Props/model";
 import { Link } from "react-router-dom";
 import TagIconPlan from "../Subscriptions/TagIconPlan";
+import { BaseTableColumnBooksProps } from "../Props/tabeProps";
 
 export const Card = React.memo(
   ({
@@ -37,7 +38,7 @@ export const Card = React.memo(
     >
       <TagIconPlan plan={card.plan} />
       <img
-        src={card.coverImage}
+        src={card.cover_image}
         alt={card.title}
         className="absolute inset-0 object-cover object-fill"
       />
@@ -72,8 +73,8 @@ export function FocusCards({ books, handleBookSelect }: FocusCardsProps) {
 
   return (
     <div className="mx-auto grid w-full grid-cols-1 gap-10 pb-8 md:grid-cols-3 lg:grid-cols-6">
-      {books.map((book, index) => (
-        <div>
+      {books.map((book: BookModel, index) => (
+        <Link to={`/book/${book.id}`}>
           <Card
             card={book}
             index={index}
@@ -81,7 +82,7 @@ export function FocusCards({ books, handleBookSelect }: FocusCardsProps) {
             setHovered={setHovered}
             handleBookSelect={handleBookSelect}
           />
-        </div>
+        </Link>
       ))}
     </div>
   );

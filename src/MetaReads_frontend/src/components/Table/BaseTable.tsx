@@ -49,7 +49,7 @@ export default function BaseTable({
                           },
                         }}
                       >
-                        {Object.entries(row).map(([key, cell], cellIndex) => {
+                        {Object.entries(row).map(([key, cell]: any, cellIndex) => {
                           // Skip rendering the "id" field
                           if (key === "id") return null;
 
@@ -72,7 +72,7 @@ export default function BaseTable({
                             );
                           }
 
-                          return <DataCell key={cellIndex}>{cell}</DataCell>;
+                          return <DataCell key={cellIndex}>{cellIndex === 0 ? <img src={cell as string} className="w-[120px] h-[200px]" alt="Book Cover"/> : cell.toString()}</DataCell>;
                         })}
                       </TableRow>
                     ))}

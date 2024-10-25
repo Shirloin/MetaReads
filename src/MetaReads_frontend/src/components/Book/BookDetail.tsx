@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BookModel } from "../Props/model";
 import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
+import { Link } from "react-router-dom";
 
 interface BookDetailProps {
   book: BookModel;
@@ -14,10 +15,10 @@ export default function BookDetail({ book }: BookDetailProps) {
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
   useEffect(() => {
-    setShowDescription(false)
+    setShowDescription(false);
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = book.coverImage;
+    img.src = book.cover_image;
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
@@ -35,15 +36,15 @@ export default function BookDetail({ book }: BookDetailProps) {
         setDominantColor(dominantColor);
       }
     };
-  }, [book.coverImage]);
+  }, [book.cover_image]);
 
   return (
     <div className="relative text-white">
       <div className="h-[500px]">
         <div
-          className="relative h-[500px] flex items-end justify-start"
+          className="relative flex h-[500px] items-end justify-start"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%), url(${book.coverImage})`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%), url(${book.cover_image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -56,38 +57,52 @@ export default function BookDetail({ book }: BookDetailProps) {
             }}
           ></div>
 
-          <div className="relative flex items-end justify-start w-full max-w-5xl px-4 pb-4 ml-10">
-            <img src={book.coverImage} alt="" className="h-[300px] z-10" />
+          <div className="relative ml-10 flex w-full max-w-5xl items-end justify-start px-4 pb-4">
+            <img src={book.cover_image} alt="" className="z-10 h-[300px]" />
 
-            <div className="ml-6 z-10 flex flex-col gap-2">
+            <div className="z-10 ml-6 flex flex-col gap-2">
               <h2 className="text-4xl font-bold">{book.title}</h2>
               <div className="font-normal">
-                <p className="text-lg mt-2">Author: {book.author.name}</p>
+                <p className="mt-2 text-lg">Author: {book.author.name}</p>
                 <p className="text-lg">Genre: {book.genre.name}</p>
                 <p className="text-lg">Pages: {book.pages_count}</p>
                 <p className="text-lg">Views: {book.views}</p>
-                <p className="text-lg flex gap-2 items-center">Total Reading Time: 14 hours</p>
+                <p className="flex items-center gap-2 text-lg">
+                  Total Reading Time: 14 hours
+                </p>
               </div>
               <div className="flex gap-6">
-                <GradientButton text={<div className="flex gap-2"><div className="flex items-center"><BsBookFill /> </div>Read</div>} onClick={() => { }} />
-                <TopGradientButton text={"More Information"} onClick={() => setShowDescription(!showDescription)} />
+                <Link to={`/read/${book.id}`}>
+                  <GradientButton
+                    text={
+                      <div className="flex gap-2">
+                        <div className="flex items-center">
+                          <BsBookFill />{" "}
+                        </div>
+                        Read
+                      </div>
+                    }
+                    onClick={() => {}}
+                  />
+                </Link>
+
+                <TopGradientButton
+                  text={"More Information"}
+                  onClick={() => setShowDescription(!showDescription)}
+                />
               </div>
             </div>
           </div>
         </div>
 
         <div
-          className={`fixed top-0 right-0 h-[500px] w-[400px] bg-slate-600 text-white p-6 transform transition-transform duration-500 ease-in-out
-            ${showDescription ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`fixed right-0 top-0 h-[500px] w-[400px] transform bg-slate-600 p-6 text-white transition-transform duration-500 ease-in-out ${showDescription ? "translate-x-0" : "translate-x-full"}`}
         >
-          <h3 className="text-2xl font-bold mb-4 underline">Description</h3>
+          <h3 className="mb-4 text-2xl font-bold underline">Description</h3>
           <p>{book.description}</p>
         </div>
-
       </div>
-      <div>
-        Recommended For you
-      </div>
+      <div>Recommended For you</div>
     </div>
   );
 }

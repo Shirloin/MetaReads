@@ -13,7 +13,7 @@ export default function BookCardImageFocused({
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = data.coverImage;
+    img.src = data.cover_image;
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
@@ -30,7 +30,7 @@ export default function BookCardImageFocused({
         setDominantColor(`rgba(${red}, ${green}, ${blue}, 0.8)`);
       }
     };
-  }, [data.coverImage]);
+  }, [data.cover_image]);
 
   const onCardClick = () => {
     handleBookSelect(data);
@@ -44,7 +44,7 @@ export default function BookCardImageFocused({
     >
       <div
         className="absolute inset-0 bg-cover bg-center transition duration-300 group-hover:blur-md"
-        style={{ backgroundImage: `url(${data.coverImage})` }}
+        style={{ backgroundImage: `url(${data.cover_image})` }}
       ></div>
 
       <div className="relative z-10 flex h-full flex-col justify-between p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-white bg-opacity-20 rounded-md">

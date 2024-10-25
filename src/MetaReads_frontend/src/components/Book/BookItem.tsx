@@ -49,7 +49,7 @@ const BookItem: React.FC<BookItemProps> = ({
       >
         <div>
           <img
-            src={book.coverImage}
+            src={book.cover_image}
             alt={book.title}
             style={{ height: "30px", width: "20px", objectFit: "cover" }}
           />

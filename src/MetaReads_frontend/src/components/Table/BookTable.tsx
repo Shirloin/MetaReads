@@ -17,10 +17,10 @@ import UpdateBookModal from "../Modal/Book/UpdateBookModal";
 export default function BookTable() {
   const [rows, fetchData] = useBooks();
   const headers = [
+    "Cover Image",
     "Title",
     "Url",
     "Plan",
-    "Cover Image",
     "Pages Count",
     "Options",
   ];

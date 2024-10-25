@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AuthorModel, GenreModel } from "../../Props/model";
 
 export const useQuery = (rows: { name: string }[]) => {
   const [query, setQuery] = useState<string>("");
@@ -24,10 +25,13 @@ export const useQuery = (rows: { name: string }[]) => {
 export const useQueryBook = (
   rows: {
     title: string;
-    book_url: string;
+    author: AuthorModel;
     plan: string;
+    genre: GenreModel;
+    description: string;
     cover_image: string;
-    page_count: number;
+    views: number;
+    pages_count: number;
   }[],
 ) => {
   const [query, setQuery] = useState<string>("");
