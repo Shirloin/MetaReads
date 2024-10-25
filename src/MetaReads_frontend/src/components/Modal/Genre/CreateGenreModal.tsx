@@ -8,7 +8,11 @@ import BaseModal from "../BaseModal";
 import { useCreateGenre } from "../../Hook/Data/Genre/useCreateGenre";
 import { FormModalProps } from "../../Props/modalProps";
 
-export default function CreateGenreModal({ open, handleClose, fetchData }: FormModalProps) {
+export default function CreateGenreModal({
+  open,
+  handleClose,
+  fetchData,
+}: FormModalProps) {
   const { createGenre, error } = useCreateGenre();
   const loadingToastId = useRef(null);
 
