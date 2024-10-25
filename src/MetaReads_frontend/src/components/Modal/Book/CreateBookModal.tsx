@@ -12,16 +12,17 @@ import { useCreateBook } from "../../Hook/Data/Book/useCreateBook";
 import { Principal } from "@dfinity/principal";
 import { AuthorModel, GenreModel } from "../../Props/model";
 import BookForm from "../../Form/Layout/BookForm";
+import useFirebaseStorage from "../../Hook/Firebase/useFirebaseStorage";
 
 interface BookModel {
   id: Principal;
   title: string;
   author: AuthorModel;
-  book_url: string;
+  book_url: File | null;
   plan: string;
   genre: GenreModel;
   description: string;
-  coverImage: string;
+  coverImage: File | null;
   views: number;
   pages_count: number;
 }
@@ -33,36 +34,44 @@ export function CreateBookModal({
 }: FormModalProps) {
   const { createBook, error } = useCreateBook();
   const loadingToastId = useRef<string | null>(null);
+  
+  const { uploadBookFile, uploadBookCover } = useFirebaseStorage();
 
   const handleCreate = async (
     title: string,
     author: Principal,
-    book_url: string,
+    book_url: File | null,
     plan: string,
     genre: Principal,
     description: string,
-    coverImage: string,
+    coverImage: File | null,
     pages_count: any,
   ) => {
     // @ts-ignore
     loadingToastId.current = ToastLoading("Loading..");
 
     try {
-      const success = await createBook(
-        title,
-        author,
-        book_url,
-        plan,
-        genre,
-        description,
-        coverImage,
-        pages_count,
-      );
-      if (success) {
-        ToastSuccess("Book Created Successfully");
-        fetchData();
-      } else {
-        ToastError(error);
+      if (book_url && coverImage) {
+        const currentTime = new Date().getTime().toString();
+        const pdf_url = await uploadBookFile(book_url, currentTime + " - " + title);
+        const book_cover = await uploadBookCover(coverImage, currentTime + " - " + title);
+        const success = await createBook(
+          title,
+          author,
+          pdf_url,
+          plan,
+          genre,
+          description,
+          book_cover,
+          pages_count,
+        );
+        if (success) {
+          ToastSuccess("Book Created Successfully");
+          fetchData();
+          handleClose();
+        } else {
+          ToastError(error);
+        }
       }
     } finally {
       if (loadingToastId.current) {

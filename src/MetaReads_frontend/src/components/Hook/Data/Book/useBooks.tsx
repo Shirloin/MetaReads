@@ -8,8 +8,8 @@ import { BookModel, BookModelProps, GenreModel } from "../../../Props/model";
 import { Principal } from "@dfinity/principal";
 
 function createData(data: BaseTableColumnBooksProps) {
-  const { id, title, book_url, plan, cover_image, page_count, option } = data;
-  return { id, title, book_url, plan, cover_image, page_count, option };
+  const { cover_image, id, title, book_url, plan, pages_count, option } = data;
+  return { cover_image, id, title, book_url, plan, pages_count, option };
 }
 
 const useBooks = () => {
@@ -29,11 +29,11 @@ const useBooks = () => {
       const bookRows: BookModel[] = books.map((book: any) =>
         createData({
           id: Principal.fromText(book.id.toString()),
+          cover_image: book.cover_image,
           title: book.title,
           book_url: book.book_url,
           plan: book.plan,
-          page_count: book.page_count,
-          cover_image: book.cover_image,
+          pages_count: book.page_count,
           option: "Options",
         }),
       );

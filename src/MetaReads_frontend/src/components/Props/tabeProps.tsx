@@ -12,6 +12,6 @@ export interface BaseTableColumnBooksProps {
   book_url: string;
   plan: string;
   cover_image: string;
-  page_count: number;
+  pages_count: number;
   option: string;
 }

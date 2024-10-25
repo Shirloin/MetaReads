@@ -10,6 +10,7 @@ import { FormModalProps } from "../../Props/modalProps";
 import BookForm from "../../Form/Layout/BookForm";
 import { Principal } from "@dfinity/principal";
 import { useUpdateBook } from "../../Hook/Data/Book/useUpdateBook";
+import useFirebaseStorage from "../../Hook/Firebase/useFirebaseStorage";
 
 export default function UpdateBookModal({
   open,
@@ -19,36 +20,43 @@ export default function UpdateBookModal({
 }: FormModalProps) {
   const { updateBook, error } = useUpdateBook();
   const loadingToastId = useRef(null);
+  const { uploadBookFile, uploadBookCover } = useFirebaseStorage();
 
   const handleUpdate = async (
     title: string,
     author: Principal,
-    book_url: string,
+    book_url: File | null,
     plan: string,
     genre: Principal,
     description: string,
-    coverImage: string,
+    coverImage: File | null,
     pages_count: any,
   ) => {
     // @ts-ignore
     loadingToastId.current = ToastLoading("Loading..");
     try {
-      const success = await updateBook(
-        selectedItem.id,
-        title,
-        author,
-        book_url,
-        plan,
-        genre,
-        description,
-        coverImage,
-        pages_count,
-      );
-      if (success) {
-        ToastSuccess("Author Created Successfully");
-        fetchData();
-      } else {
-        ToastError(error);
+      if (book_url && coverImage) {
+        const currentTime = new Date().getTime().toString();
+        const pdf_url = await uploadBookFile(book_url, currentTime + " - " + title);
+        const book_cover = await uploadBookCover(coverImage, currentTime + " - " + title);
+        const success = await updateBook(
+          selectedItem.id,
+          title,
+          author,
+          pdf_url,
+          plan,
+          genre,
+          description,
+          book_cover,
+          pages_count,
+        );
+        if (success) {
+          ToastSuccess("Author Created Successfully");
+          fetchData();
+          handleClose();
+        } else {
+          ToastError(error);
+        }
       }
     } finally {
       if (loadingToastId.current) {
