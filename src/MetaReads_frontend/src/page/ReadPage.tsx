@@ -45,9 +45,7 @@ const ReadPage = () => {
     }
   }, [isDocumentLoaded]);
 
-  useEffect(() => {
-    console.log(selectedText);
-  }, [selectedText]);
+
 
   const addNewCard = (text: string) => {
     const newCard = {
@@ -59,13 +57,41 @@ const ReadPage = () => {
     setCards((prevCards) => [...prevCards, newCard]);
   };
 
-  const summarizeText = async (text: string) => {
+  const summarizeText = async () => {
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+
+      const response = await fetch('http://91.108.111.225:6468/summarize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: selectedText
+        })
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      const text = data.text;
+
       addNewCard(text);
+
+    } catch (error) {
+      console.error('Failed to fetch summary text:', error);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
+
   const highlightPluginInstance = highlightPlugin({
     trigger: Trigger.TextSelection,
     renderHighlightTarget: ({ toggle, selectedText }) => {
@@ -89,7 +115,7 @@ const ReadPage = () => {
               text={loading ? "Summarizing..." : "Summarize"} // Change button text
               onClick={() => {
                 if (selectedText && !loading) {
-                  summarizeText(selectedText); // Trigger summarization
+                  summarizeText();
                 }
               }}
             />
