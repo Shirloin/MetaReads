@@ -16,6 +16,9 @@ import ReactDOM from "react-dom";
 import "@react-pdf-viewer/search/lib/styles/index.css";
 import { Header } from "../components/PDFReader/Header";
 import ShimmerButton from "../components/Form/Button/ShimmerButton";
+import { cn } from "../lib/utils";
+import { CardStack } from "../components/ui/card-stack";
+import { CircularProgress, Skeleton } from "@mui/material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
@@ -24,6 +27,8 @@ const ReadPage = () => {
   const [pageInput, setPageInput] = useState<number>(1);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
+  const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false); // New loading state
   const searchPluginInstance = searchPlugin();
   const fullScreenPluginInstance = fullScreenPlugin();
   const pageNavigationPluginInstance = pageNavigationPlugin();
@@ -44,6 +49,23 @@ const ReadPage = () => {
     console.log(selectedText);
   }, [selectedText]);
 
+  const addNewCard = (text: string) => {
+    const newCard = {
+      id: cards.length + 1, // Unique ID for each card
+      name: `Summarized Text - ${cards.length + 1}`,
+      // designation: "AI Summarizer",
+      content: <p>{text}</p>,
+    };
+    setCards((prevCards) => [...prevCards, newCard]);
+  };
+
+  const summarizeText = async (text: string) => {
+    setLoading(true);
+    setTimeout(() => {
+      addNewCard(text);
+      setLoading(false);
+    }, 1000);
+  };
   const highlightPluginInstance = highlightPlugin({
     trigger: Trigger.TextSelection,
     renderHighlightTarget: ({ toggle, selectedText }) => {
@@ -64,14 +86,16 @@ const ReadPage = () => {
             }}
           >
             <ShimmerButton
-              text={"Summarize"}
+              text={loading ? "Summarizing..." : "Summarize"} // Change button text
               onClick={() => {
-                // Show Something
+                if (selectedText && !loading) {
+                  summarizeText(selectedText); // Trigger summarization
+                }
               }}
             />
           </span>
         </div>,
-        document.body,
+        document.body
       );
     },
   });
@@ -84,7 +108,7 @@ const ReadPage = () => {
     "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/20000-Leagues-Under-the-Sea.pdf?alt=media&token=007762dc-f73b-439b-bd75-c993514d6866";
 
   const handlePageInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const value = e.target.value;
     const pageNumber = parseInt(value, 10);
@@ -133,6 +157,23 @@ const ReadPage = () => {
           />
         </Worker>
       </div>
+      {
+        cards.length > 0 && (
+          <>
+            {
+              loading == false ? (
+                <div className="fixed bottom-2 right-4 flex items-center justify-center z-10">
+                  <CardStack items={cards} />
+                </div>
+              ) : (
+                <div className="fixed bottom-2 right-4 flex items-center justify-center z-10 w-[300px] h-[300px]">
+                  <CircularProgress />
+                </div>
+              )
+            }
+          </>
+        )
+      }
     </div>
   );
 };
