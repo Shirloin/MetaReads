@@ -37,7 +37,7 @@ const ReadPage = () => {
       );
 
       const book = booksResponse.Ok;
-      console.log(book.book_url);
+      // console.log(book.book_url);
       setDetailBook(book);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -70,8 +70,6 @@ const ReadPage = () => {
     }
   }, [isDocumentLoaded]);
 
-
-
   const addNewCard = (text: string) => {
     const newCard = {
       id: cards.length + 1,
@@ -85,32 +83,26 @@ const ReadPage = () => {
     setLoading(true);
 
     try {
-
-      const response = await fetch('http://91.108.111.225:6468/summarize', {
-        method: 'POST',
+      const response = await fetch("http://91.108.111.225:6468/summarize", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: selectedText
-        })
+          text: selectedText,
+        }),
       });
 
-      const result = await response.json();
-      console.log(result);
-
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
-
-      const text = data.text;
+      const text = await response.text(); 
+      console.log(text);
 
       addNewCard(text);
-
     } catch (error) {
-      console.error('Failed to fetch summary text:', error);
+      console.error("Failed to fetch summary text:", error);
     } finally {
       setLoading(false);
     }
