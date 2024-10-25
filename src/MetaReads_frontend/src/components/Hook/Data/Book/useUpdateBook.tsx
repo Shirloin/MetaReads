@@ -1,37 +1,22 @@
 import { useState } from "react";
 import { Principal } from "@dfinity/principal";
 import { MetaReads_backend } from "../../../../../../declarations/MetaReads_backend";
-import { AuthorModel, GenreModel } from "../../../Props/model";
 
 export const useUpdateBook = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any | null>(null);
 
-  interface BookModel {
-    id: Principal;
-    title: string;
-    author: AuthorModel;
-    book_url: string;
-    plan: string;
-    genre: GenreModel;
-    description: string;
-    coverImage: string;
-    views: number;
-    pages_count: number;
-  }
-
-  const updateBook = async ({
-    id,
-    title,
-    author,
-    book_url,
-    plan,
-    genre,
-    description,
-    coverImage,
-    views,
-    pages_count,
-  }: BookModel) => {
+  const updateBook = async (
+    id: Principal,
+    title: string,
+    author: Principal,
+    book_url: string,
+    plan: string,
+    genre: Principal,
+    description: string,
+    coverImage: string,
+    pages_count: number,
+  ) => {
     const book_id: Principal = Principal.fromText(id.toString());
     setLoading(true);
     setError(null);
@@ -43,8 +28,8 @@ export const useUpdateBook = () => {
         cover_image: coverImage,
         description: description,
         plan: plan,
-        author_id: author.id,
-        genre_id: genre.id,
+        author_id: author,
+        genre_id: genre,
         page_count: BigInt(pages_count),
       });
       console.log(res);

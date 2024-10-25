@@ -12,6 +12,7 @@ import { CreateAuthorModal } from "../Modal/Author/CreateAuthorModal";
 import { CreateBookModal } from "../Modal/Book/CreateBookModal";
 import useBooks from "../Hook/Data/Book/useBooks";
 import DeleteBookModal from "../Modal/Book/DeleteBookModal";
+import UpdateBookModal from "../Modal/Book/UpdateBookModal";
 
 export default function BookTable() {
   const [rows, fetchData] = useBooks();
@@ -49,7 +50,7 @@ export default function BookTable() {
         fetchData={fetchData}
         selectedItem={modalState.selectedRow}
       />
-      <UpdateAuthorModal
+      <UpdateBookModal
         open={modalState.update}
         handleClose={handleCloseUpdate}
         fetchData={fetchData}
