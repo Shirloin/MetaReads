@@ -367,22 +367,29 @@ pub fn delete_book_related_to_genre(genre_id: &Principal) {
     });
 }
 
-pub async fn seed_book(title: String, author_id: Principal, genre_id: Principal) -> Option<Book> {
+pub async fn seed_book(
+    title: String,
+    description: String,
+    cover_image: String,
+    author_id: Principal,
+    genre_id: Principal,
+    page_count: u64,
+    book_url: String,
+    plan: String,
+) -> Option<Book> {
     let payload = BookPayload {
         id: None,
         title,
-        description: "A journey through space and time.".to_string(),
-        cover_image: "https://images.unsplash.com/photo-1729275146209-0a4584d4d23b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8".to_string(),
+        description,
+        cover_image,
         author_id,
         genre_id,
-        page_count: 0,
-        book_url: "Book Url".to_string(),
-        plan: "Free".to_string(),
+        page_count,
+        book_url,
+        plan,
     };
     match create_book(payload).await {
-        Ok(book) => return Some(book),
-        Err(_) => {
-            return None;
-        }
+        Ok(book) => Some(book),
+        Err(_) => None,
     }
 }

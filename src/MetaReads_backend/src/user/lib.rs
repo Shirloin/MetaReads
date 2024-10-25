@@ -15,7 +15,7 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
         });
     }
 
-    if get_user_by_username(&payload.username).is_some() || payload.username == "vasang" {
+    if get_user_by_username(&payload.username).is_some() {
         return Err(Error::ValidationErrors {
             message: "Username already exists!".to_string(),
         });
