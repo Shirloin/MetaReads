@@ -39,51 +39,54 @@ export const CardStack = ({
     };
 
     return (
-        <div className="relative">
-            <div className="relative h-80 w-60 md:h-60 md:w-96">
-                {cards.map((card, index) => {
-                    return (
-                        <motion.div
-                            key={card.id}
-                            className="absolute dark:bg-black bg-white h-60 w-60 md:h-60 md:w-96 rounded-3xl p-4 shadow-xl border border-neutral-200 dark:border-white/[0.1] shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between"
-                            style={{
-                                transformOrigin: "top center",
-                            }}
-                            animate={{
-                                top: index * -CARD_OFFSET,
-                                scale: 1 - index * SCALE_FACTOR, // Decrease scale for cards that are behind
-                                zIndex: cards.length - index, // Decrease z-index for the cards that are behind
-                            }}
-                        >
-                            <div className="font-normal text-neutral-700 dark:text-neutral-200 max-h-70 overflow-y-auto">
-                                {card.content}
-                            </div>
-                            <div>
-                                <p className="text-neutral-500 font-medium dark:text-white">
-                                    {card.name}
-                                </p>
-                                <p className="text-neutral-400 font-normal dark:text-neutral-200">
-                                    {card.designation}
-                                </p>
-                            </div>
-                        </motion.div>
-                    );
-                })}
-            </div>
-            <div className="mt-4 flex justify-center space-x-4">
-                <button
-                    className="px-4 py-2 dark:bg-black text-white rounded-md"
-                    onClick={handlePrev}
+      <div className="relative">
+        <div className="relative h-80 w-60 md:h-60 md:w-96">
+          {cards
+            .slice()
+            .reverse()
+            .map((card, index) => {
+              return (
+                <motion.div
+                  key={card.id}
+                  className="absolute flex h-60 w-60 flex-col justify-between rounded-3xl border border-neutral-200 bg-white p-4 shadow-xl shadow-black/[0.1] dark:border-white/[0.1] dark:bg-black dark:shadow-white/[0.05] md:h-60 md:w-96"
+                  style={{
+                    transformOrigin: "top center",
+                  }}
+                  animate={{
+                    top: index * -CARD_OFFSET,
+                    scale: 1 - index * SCALE_FACTOR, // Decrease scale for cards that are behind
+                    zIndex: cards.length - index, // Decrease z-index for the cards that are behind
+                  }}
                 >
-                    Prev
-                </button>
-                <button
-                    className="px-4 py-2 dark:bg-black text-white rounded-md"
-                    onClick={handleNext}
-                >
-                    Next
-                </button>
-            </div>
+                  <div className="max-h-70 overflow-y-auto font-normal text-neutral-700 dark:text-neutral-200">
+                    {card.content}
+                  </div>
+                  <div>
+                    <p className="font-medium text-neutral-500 dark:text-white">
+                      {card.name}
+                    </p>
+                    <p className="font-normal text-neutral-400 dark:text-neutral-200">
+                      {card.designation}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
         </div>
+        <div className="mt-4 flex justify-center space-x-4">
+          <button
+            className="rounded-md px-4 py-2 text-white dark:bg-black"
+            onClick={handlePrev}
+          >
+            Prev
+          </button>
+          <button
+            className="rounded-md px-4 py-2 text-white dark:bg-black"
+            onClick={handleNext}
+          >
+            Next
+          </button>
+        </div>
+      </div>
     );
 };
