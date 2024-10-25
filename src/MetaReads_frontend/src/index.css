@@ -134,3 +134,21 @@ background-color: #CDAF18;
 .quantico-font {
     font-family: 'Quantico', sans-serif;
 }
+
+/* Inject react-pdf-viewer search bar */
+.rpv-core__icon {
+    stroke: white;
+    stroke-width: 3px;
+}
+
+.rpv-search__popover,
+.rpv-core__popover-body {
+    background-color: #373637 !important;
+    color: white;
+}
+
+.rpv-core__textbox,
+.rpv-core__button {
+    background-color: #121212 !important;
+    color: white;
+}
