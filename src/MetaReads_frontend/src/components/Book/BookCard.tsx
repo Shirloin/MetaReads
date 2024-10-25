@@ -8,7 +8,7 @@ export default function BookCard({ data }: BookDataProps) {
     <div className="group relative z-10 h-[350px] w-[203px] overflow-hidden rounded-md bg-white">
       <img
         className="h-full w-full object-cover transition-transform duration-300"
-        src={data.coverImage}
+        src={data.cover_image}
         alt={data.title}
       />
       <div className="absolute bottom-0 z-30 flex w-full translate-y-40 flex-col justify-between bg-black/60 px-2 py-4 text-white transition-all duration-150 ease-in group-hover:h-full group-hover:translate-y-0">

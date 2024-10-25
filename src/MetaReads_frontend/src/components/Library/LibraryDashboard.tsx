@@ -51,7 +51,7 @@ export default function LibraryDashboard({
         onClick: () => {
           handleLibrarySelect(library);
         },
-        backgroundImage: firstBook ? firstBook.coverImage : null,
+        backgroundImage: firstBook ? firstBook.cover_image : null,
       };
     }) || []),
   ];

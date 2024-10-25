@@ -10,7 +10,7 @@ export interface BookModel {
   cover_image: string;
   views: number;
   pages_count: number;
-  book_url: string
+  book_url: string;
 }
 
 export interface BookModelProps {
@@ -62,7 +62,8 @@ export const createBookModel = ({
   plan,
   genre,
   description,
-  coverImage,
+  cover_image,
+  book_url,
 }: BookModel): BookModel => {
   return {
     id,
@@ -71,9 +72,10 @@ export const createBookModel = ({
     plan,
     genre,
     description,
-    coverImage,
+    cover_image,
     views: 10000,
     pages_count: 12,
+    book_url,
   };
 };
 
@@ -85,10 +87,11 @@ export const dummyBookData: BookModel = {
   genre: { id: Principal.fromText("aaaaa-aa"), name: "Testing" }, // Updated to GenreModel
   description:
     "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quisquam cupiditate velit officiis molestias hic.",
-  coverImage:
+  cover_image:
     "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
   views: 10000,
   pages_count: 12,
+  book_url: "hahiahi",
 };
 
 export const dummyBook = createBookModel(dummyBookData);
@@ -102,494 +105,11 @@ export const recommendedBooks: BookModel[] = [
     genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
     description:
       "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
+    cover_image:
       "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
     views: 10000,
     pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Love and Destiny",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Haha hihi",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Dark Woods",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Mark Turner" }, // Updated to AuthorModel
-    plan: "premium",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
-    description:
-      "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
-    views: 10000,
-    pages_count: 12,
-  },
-];
-
-export const books: BookModel[] = [
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure gen 0",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Love and Destiny",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Haha hihi",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Dark Woods",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Mark Turner" }, // Updated to AuthorModel
-    plan: "premium",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
-    description:
-      "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure gen 0",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Love and Destiny",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Haha hihi",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Dark Woods",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Mark Turner" }, // Updated to AuthorModel
-    plan: "premium",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
-    description:
-      "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure gen 0",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Love and Destiny",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Haha hihi",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Dark Woods",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Mark Turner" }, // Updated to AuthorModel
-    plan: "premium",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
-    description:
-      "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure gen 0",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Mysterious Adventure",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "John Doe" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
-    description:
-      "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Love and Destiny",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "Haha hihi",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Sophia Green" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
-    description:
-      "A heartwarming story about love, fate, and the choices that shape our lives.",
-    coverImage:
-      "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Dark Woods",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Mark Turner" }, // Updated to AuthorModel
-    plan: "premium",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
-    description:
-      "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "basic",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
-  },
-  {
-    id: Principal.fromText("aaaaa-aa"),
-    title: "The Code Master's Handbook",
-    author: { id: Principal.fromText("aaaaa-aa"), name: "Alex Johnson" }, // Updated to AuthorModel
-    plan: "free",
-    genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
-    description:
-      "A comprehensive guide for aspiring developers and seasoned coders alike.",
-    coverImage:
-      "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
-    views: 10000,
-    pages_count: 12,
+    book_url: "hahahihi",
   },
 ];
 
@@ -605,10 +125,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
       description:
         "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-      coverImage:
+      cover_image:
         "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -618,10 +139,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Adventure" }, // Updated to GenreModel
       description:
         "A thrilling adventure through unknown lands, filled with mystery and excitement.",
-      coverImage:
+      cover_image:
         "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -631,10 +153,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
-      coverImage:
+      cover_image:
         "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -644,10 +167,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
-      coverImage:
+      cover_image:
         "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -657,10 +181,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
       description:
         "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-      coverImage:
+      cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -670,10 +195,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
       description:
         "A comprehensive guide for aspiring developers and seasoned coders alike.",
-      coverImage:
+      cover_image:
         "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -683,10 +209,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
       description:
         "A comprehensive guide for aspiring developers and seasoned coders alike.",
-      coverImage:
+      cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -696,10 +223,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
       description:
         "A comprehensive guide for aspiring developers and seasoned coders alike.",
-      coverImage:
+      cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -709,10 +237,11 @@ export const library1: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
       description:
         "A comprehensive guide for aspiring developers and seasoned coders alike.",
-      coverImage:
+      cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
   ],
 };
@@ -729,9 +258,11 @@ export const library2: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
-      coverImage: "https://getcovers.com/wp-content/uploads/2020/12/image3.png",
+      cover_image:
+        "https://getcovers.com/wp-content/uploads/2020/12/image3.png",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -741,10 +272,11 @@ export const library2: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Romance" }, // Updated to GenreModel
       description:
         "A heartwarming story about love, fate, and the choices that shape our lives.",
-      coverImage:
+      cover_image:
         "https://th.bing.com/th/id/OIP.7rF2B7fGNp3xdBg41W8P0gAAAA?pid=ImgDet&w=432&h=691&rs=1",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -754,10 +286,11 @@ export const library2: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Horror" }, // Updated to GenreModel
       description:
         "A chilling tale of survival in a haunted forest where no one can hear you scream.",
-      coverImage:
+      cover_image:
         "https://m.media-amazon.com/images/I/81pyW-09QnL._SL1500_.jpg",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
     {
       id: Principal.fromText("aaaaa-aa"),
@@ -767,10 +300,11 @@ export const library2: LibraryModel = {
       genre: { id: Principal.fromText("aaaaa-aa"), name: "Technology" }, // Updated to GenreModel
       description:
         "A comprehensive guide for aspiring developers and seasoned coders alike.",
-      coverImage:
+      cover_image:
         "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
       views: 10000,
       pages_count: 12,
+      book_url: "hahahihi",
     },
   ],
 };

@@ -10,9 +10,6 @@ import OutlinedButton from "../components/Form/Button/OutlinedButton";
 import {
   BookModel,
   BookModelProps,
-  books,
-  dummyBook,
-  recommendedBooks,
 } from "../components/Props/model";
 import { FocusCards } from "../components/ui/focus-cards";
 import StoreContent from "../components/Store/StoreContent";

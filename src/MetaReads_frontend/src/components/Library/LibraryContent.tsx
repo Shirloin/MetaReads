@@ -91,7 +91,7 @@ export default function LibraryContent({
       {/* New Display */}
       <div className=" relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-5">
         {selectedLibrary.bookList.map((book: BookModel, i: number) => (
-          <DirectionAwareHover key={i} imageUrl={book.coverImage} onClick={() => onBookSelected({ data: book })}>
+          <DirectionAwareHover key={i} imageUrl={book.cover_image} onClick={() => onBookSelected({ data: book })}>
             <p className="font-bold text-xl">{book.title}</p>
             <BookDescription data={book} />
           </DirectionAwareHover>
