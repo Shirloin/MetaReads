@@ -439,6 +439,63 @@ get_subscription_by_user(user_id)
 
 Return Subscription or None
 
+## Read Reference
+
+#### Create Read
+
+```http
+create_read({user_id, book_id, page_history, total_read_duration})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `user_id`      | `Principal` | **Required**.|
+| `book_id`      | `Principal` | **Required**.|
+| `page_history`      | `u64` | **Optional**.|
+| `total_read_duration`      | `u64` | **Optional**.|
+
+Return Read or Error
+
+#### Update Read
+
+```http
+update_read({id, user_id, book_id, page_history, total_read_duration})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Optional**.|
+| `user_id`      | `Principal` | **Required**.|
+| `book_id`      | `Principal` | **Required**.|
+| `page_history`      | `u64` | **Optional**.|
+| `total_read_duration`      | `u64` | **Optional**.|
+
+Return Read or Error
+
+#### Get Read By User
+
+```http
+get_read(user_id)
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `user_id`      | `Principal` | **Required**.|
+
+Return Array of Read List
+#### Delete Read
+
+```http
+delete_read(id)
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Principal` | **Required**.|
+
+Return Read or Error
+
+
 
 If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
