@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { cn } from "../../lib/utils";
 import { FaBookmark } from "react-icons/fa";
 import PrimaryButton from "../Form/Button/PrimaryButton";
-import { BookModel } from "../Props/model";
+import { BookDataProps, BookModel } from "../Props/model";
 import { Link } from "react-router-dom";
 import TagIconPlan from "../Subscriptions/TagIconPlan";
 
@@ -14,15 +14,22 @@ export const Card = React.memo(
     index,
     hovered,
     setHovered,
+    handleBookSelect,
   }: {
     card: any;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+    handleBookSelect?: (book: BookModel | null) => void;
   }) => (
     <div
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
+      onClick={() => {
+        console.log("test");
+
+        handleBookSelect!(card);
+      }}
       className={cn(
         "relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-gray-100 transition-all duration-300 ease-out dark:bg-neutral-900",
         hovered !== null && hovered !== index && "scale-[0.98] blur-sm",
@@ -55,21 +62,26 @@ type Card = {
   src: string;
 };
 
-export function FocusCards({ books }: { books: BookModel[] }) {
+interface FocusCardsProps {
+  books: BookModel[];
+  handleBookSelect?: (book: BookModel | null) => void;
+}
+
+export function FocusCards({ books, handleBookSelect }: FocusCardsProps) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <div className="mx-auto grid w-full grid-cols-1 gap-10 pb-8 md:grid-cols-3 lg:grid-cols-6">
       {books.map((book, index) => (
-        <Link to={"/book/" + book.id.toString()}>
+        <div>
           <Card
-            key={book.title}
             card={book}
             index={index}
             hovered={hovered}
             setHovered={setHovered}
+            handleBookSelect={handleBookSelect}
           />
-        </Link>
+        </div>
       ))}
     </div>
   );
