@@ -18,17 +18,42 @@ import { Header } from "../components/PDFReader/Header";
 import ShimmerButton from "../components/Form/Button/ShimmerButton";
 import { cn } from "../lib/utils";
 import { CardStack } from "../components/ui/card-stack";
-import { CircularProgress, Skeleton } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
+import { BookModel } from "../components/Props/model";
+import { Principal } from "@dfinity/principal";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
 const ReadPage = () => {
+  const { bookId } = useParams<{ bookId: string }>();
+  const [detailBook, setDetailBook] = useState<BookModel | undefined>();
+
+  const fetchData = async () => {
+    try {
+      const booksResponse: any = await MetaReads_backend.get_book(
+        Principal.fromText(bookId as string),
+      );
+
+      const book = booksResponse.Ok;
+      console.log(book.book_url);
+      setDetailBook(book);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const [selectedText, setSelectedText] = useState<string | undefined>();
   const [pageInput, setPageInput] = useState<number>(1);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(false); // New loading state
+  const [loading, setLoading] = useState<boolean>(false);
   const searchPluginInstance = searchPlugin();
   const fullScreenPluginInstance = fullScreenPlugin();
   const pageNavigationPluginInstance = pageNavigationPlugin();
@@ -51,9 +76,8 @@ const ReadPage = () => {
 
   const addNewCard = (text: string) => {
     const newCard = {
-      id: cards.length + 1, // Unique ID for each card
+      id: cards.length + 1,
       name: `Summarized Text - ${cards.length + 1}`,
-      // designation: "AI Summarizer",
       content: <p>{text}</p>,
     };
     setCards((prevCards) => [...prevCards, newCard]);
@@ -66,6 +90,7 @@ const ReadPage = () => {
       setLoading(false);
     }, 1000);
   };
+
   const highlightPluginInstance = highlightPlugin({
     trigger: Trigger.TextSelection,
     renderHighlightTarget: ({ toggle, selectedText }) => {
@@ -86,16 +111,16 @@ const ReadPage = () => {
             }}
           >
             <ShimmerButton
-              text={loading ? "Summarizing..." : "Summarize"} // Change button text
+              text={loading ? "Summarizing..." : "Summarize"}
               onClick={() => {
                 if (selectedText && !loading) {
-                  summarizeText(selectedText); // Trigger summarization
+                  summarizeText(selectedText);
                 }
               }}
             />
           </span>
         </div>,
-        document.body
+        document.body,
       );
     },
   });
@@ -104,11 +129,9 @@ const ReadPage = () => {
     pageNavigationPluginInstance;
   const { ShowSearchPopover } = searchPluginInstance;
   const { EnterFullScreen } = fullScreenPluginInstance;
-  const book =
-    "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/20000-Leagues-Under-the-Sea.pdf?alt=media&token=007762dc-f73b-439b-bd75-c993514d6866";
 
   const handlePageInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const value = e.target.value;
     const pageNumber = parseInt(value, 10);
@@ -117,64 +140,62 @@ const ReadPage = () => {
 
   useEffect(() => {
     if (pageInput !== undefined) {
-      handleJumpToPage();
+      jumpToPage(pageInput);
     }
   }, [pageInput]);
 
-  const handleJumpToPage = () => {
-    if (pageInput && pageInput > 0) {
-      jumpToPage(pageInput);
-    }
-  };
-
   return (
-    <div className="flex h-screen flex-col text-white">
-      <Header
-        jumpToNextPage={jumpToNextPage}
-        jumpToPreviousPage={jumpToPreviousPage}
-        CurrentPageLabel={CurrentPageLabel}
-        handlePageInputChange={handlePageInputChange}
-        zoomLevel={zoomLevel}
-        handleZoom={handleZoom}
-        ShowSearchPopover={ShowSearchPopover}
-        EnterFullScreen={EnterFullScreen}
-      />
-      <div className="flex-grow overflow-auto">
-        <Worker
-          workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
-        >
-          <Viewer
-            theme={"dark"}
-            fileUrl={book}
-            onDocumentLoad={() => setIsDocumentLoaded(true)}
-            plugins={[
-              pageNavigationPluginInstance,
-              zoomPluginInstance,
-              highlightPluginInstance,
-              fullScreenPluginInstance,
-              searchPluginInstance,
-            ]}
+    <>
+      {detailBook ? (
+        <div className="flex h-screen flex-col text-white">
+          <Header
+            jumpToNextPage={jumpToNextPage}
+            jumpToPreviousPage={jumpToPreviousPage}
+            CurrentPageLabel={CurrentPageLabel}
+            handlePageInputChange={handlePageInputChange}
+            zoomLevel={zoomLevel}
+            handleZoom={handleZoom}
+            ShowSearchPopover={ShowSearchPopover}
+            EnterFullScreen={EnterFullScreen}
           />
-        </Worker>
-      </div>
-      {
-        cards.length > 0 && (
-          <>
-            {
-              loading == false ? (
-                <div className="fixed bottom-2 right-4 flex items-center justify-center z-10">
+          <div className="flex-grow overflow-auto">
+            <Worker
+              workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+            >
+              <Viewer
+                theme={"dark"}
+                fileUrl={detailBook.book_url}
+                onDocumentLoad={() => setIsDocumentLoaded(true)}
+                plugins={[
+                  pageNavigationPluginInstance,
+                  zoomPluginInstance,
+                  highlightPluginInstance,
+                  fullScreenPluginInstance,
+                  searchPluginInstance,
+                ]}
+              />
+            </Worker>
+          </div>
+          {cards.length > 0 && (
+            <>
+              {!loading ? (
+                <div className="fixed bottom-2 right-4 z-10 flex items-center justify-center">
                   <CardStack items={cards} />
                 </div>
               ) : (
-                <div className="fixed bottom-2 right-4 flex items-center justify-center z-10 w-[300px] h-[300px]">
+                <div className="fixed bottom-2 right-4 z-10 flex h-[300px] w-[300px] items-center justify-center">
                   <CircularProgress />
                 </div>
-              )
-            }
-          </>
-        )
-      }
-    </div>
+              )}
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="flex h-screen items-center justify-center">
+          <CircularProgress />
+        </div>
+      )}
+    </>
   );
 };
 

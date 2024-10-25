@@ -6,13 +6,7 @@ import {
 } from "../../../Props/tabeProps";
 import { BookModel, BookModelProps, GenreModel } from "../../../Props/model";
 import { Principal } from "@dfinity/principal";
-
-function createData(data: BaseTableColumnBooksProps) {
-  const { id, title, book_url, plan, cover_image, page_count, option } = data;
-  return { id, title, book_url, plan, cover_image, page_count, option };
-}
-
-const useBooks = () => {
+const useStoreBooks = () => {
   const [rows, setRows] = useState<BookModel[]>([]);
 
   const fetchData = async () => {
@@ -26,17 +20,20 @@ const useBooks = () => {
       // Directly destructure to get books and total_count from booksResponse.Ok
       const { books } = booksResponse.Ok;
 
-      const bookRows: BookModel[] = books.map((book: any) =>
-        createData({
+      const bookRows: BookModel[] = books.map((book: any) => {
+        return {
           id: Principal.fromText(book.id.toString()),
           title: book.title,
-          book_url: book.book_url,
+          author: book.author,
           plan: book.plan,
-          page_count: book.page_count,
+          genre: book.genre,
+          description: book.description,
           cover_image: book.cover_image,
-          option: "Options",
-        }),
-      );
+          views: book.views,
+          pages_count: book.pages_count,
+          book_url: book.book_url,
+        };
+      });
 
       setRows(bookRows);
     } catch (error) {
@@ -51,4 +48,4 @@ const useBooks = () => {
   return [rows, fetchData] as const;
 };
 
-export default useBooks;
+export default useStoreBooks;

@@ -7,9 +7,20 @@ export interface BookModel {
   plan: string;
   genre: GenreModel;
   description: string;
-  coverImage: string;
+  cover_image: string;
   views: number;
   pages_count: number;
+  book_url: string
+}
+
+export interface BookModelProps {
+  id: Principal;
+  title: string;
+  book_url: string;
+  plan: string;
+  cover_image: string;
+  page_count: number;
+  option: string;
 }
 
 export interface LibraryModel {

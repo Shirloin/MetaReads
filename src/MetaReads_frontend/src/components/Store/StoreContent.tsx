@@ -4,14 +4,26 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css"; // Ensure the styles are imported
 import OutlinedButton from "../Form/Button/OutlinedButton";
-import { BookModel, books, recommendedBooks } from "../Props/model";
+import { BookModel, BookModelProps, books } from "../Props/model";
 import { FocusCards } from "../ui/focus-cards";
+import useBooks from "../Hook/Data/Book/useBooks";
+import { useEffect, useState } from "react";
+import useStoreBooks from "../Hook/Data/Book/useStoreBooks";
 
 interface StoreContentProps {
   handleBookSelect: (book: BookModel | null) => void;
 }
 
 export default function StoreContent({ handleBookSelect }: StoreContentProps) {
+  const [rows, fetchData] = useStoreBooks();
+  const [recommendedBooks, setRecommendedBooks] = useState<BookModel[]>();
+
+  useEffect(() => {
+    console.log(rows);
+
+    const firstFiveRows = rows.slice(0, 6);
+    setRecommendedBooks(firstFiveRows);
+  }, [rows]);
   return (
     <>
       <div className="w-full px-16">
@@ -65,7 +77,7 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
         <div className="flex items-center justify-between">
           <p className="text-lg font-bold">Recommended For You</p>
         </div>
-        <FocusCards books={recommendedBooks} />
+        {recommendedBooks && <FocusCards books={recommendedBooks} />}
       </div>
 
       <div className="flex w-full flex-col gap-8 px-16">
@@ -88,7 +100,9 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
             onClick={() => {}}
           />
         </div>
-        <FocusCards books={books} handleBookSelect={handleBookSelect} />
+        {rows && (
+          <FocusCards books={rows} handleBookSelect={handleBookSelect} />
+        )}
       </div>
     </>
   );

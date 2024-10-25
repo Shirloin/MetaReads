@@ -9,6 +9,7 @@ import BookCard from "../components/Book/BookCard";
 import OutlinedButton from "../components/Form/Button/OutlinedButton";
 import {
   BookModel,
+  BookModelProps,
   books,
   dummyBook,
   recommendedBooks,
@@ -17,9 +18,12 @@ import { FocusCards } from "../components/ui/focus-cards";
 import StoreContent from "../components/Store/StoreContent";
 import { useEffect, useState } from "react";
 import BookDetail from "../components/Book/BookDetail";
+import useBooks from "../components/Hook/Data/Book/useBooks";
+import { Principal } from "@dfinity/candid/lib/cjs/idl";
 
 export default function StorePage() {
   const [selectedBook, setSelectedBook] = useState<BookModel | null>(null);
+
   useEffect(() => {
     console.log(selectedBook);
   }, [selectedBook]);
