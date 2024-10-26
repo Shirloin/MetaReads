@@ -58,7 +58,10 @@ function LoginPage() {
   return (
     <div className="relative flex h-[100vh] w-[100vw] items-center justify-center">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          fetchUserData();
+          navigate("/");
+        }}
         className="absolute left-4 top-4 z-[999] rounded-md bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
       >
         Back

@@ -10,6 +10,7 @@ import { ToastLoading } from "../components/Form/Notifications/LoadingNotificati
 import { toast } from "react-toastify";
 import { ToastSuccess } from "../components/Form/Notifications/SuccessNotification";
 import { useUser } from "../lib/user_provider";
+import { StarsBackground } from "../components/ui/background/stars-background";
 
 export default function RegisterPage() {
   const { getUserById: fetchUserData } = useUser();
@@ -43,7 +44,7 @@ export default function RegisterPage() {
     <>
       <div className="flex h-[100vh] w-[100vw] flex-col items-center justify-center">
         <div
-          className="flex w-[30%] flex-col gap-10 rounded-md px-4 py-10"
+          className="z-[999] flex w-[30%] flex-col gap-10 rounded-md px-4 py-10"
           style={{ backgroundColor: "#14181E" }}
         >
           <div className="flex flex-col gap-2">
@@ -73,6 +74,7 @@ export default function RegisterPage() {
             <PrimaryButton text={"Create Account"} onClick={handleRegister} />
           </div>
         </div>
+        <StarsBackground />
       </div>
     </>
   );
