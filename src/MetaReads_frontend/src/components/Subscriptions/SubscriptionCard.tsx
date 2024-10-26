@@ -16,12 +16,14 @@ export default function SubscriptionCard({
   benefits,
   type,
   isActive,
+  onClick,
 }: {
   title: string;
   price: string;
   benefits: string[];
   type?: string;
   isActive?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <Card
@@ -122,7 +124,10 @@ export default function SubscriptionCard({
         {isActive == true ? (
           <LitupButton text="Active Plan" />
         ) : (
-          <ShimmerButton text={"Select Plan"} onClick={() => {}} />
+          <ShimmerButton
+            text={"Select Plan"}
+            onClick={onClick ? onClick : () => {}}
+          />
         )}
       </CardActions>
     </Card>

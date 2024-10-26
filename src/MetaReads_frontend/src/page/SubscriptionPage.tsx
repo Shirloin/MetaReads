@@ -5,10 +5,14 @@ import { TextGenerateEffect } from "../components/ui/text-generate-effect";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Tabs } from "../components/ui/tabs";
 import useGetAllPlan from "../components/Hook/Plan/useGetAllPlan";
+import { useUser } from "../lib/user_provider";
+import useCreateSubscription from "../components/Hook/Data/Subscription/useCreateSubscription";
 
 export default function SubscriptionPage() {
   const [activePlan, setActivePlan] = useState<boolean>(false);
   const [data, fetchData] = useGetAllPlan();
+  const { createSubscription } = useCreateSubscription();
+  const { user } = useUser();
   const benefits = {
     Free: ["Access to limited books", "Basic reader features"],
     Standard: [
@@ -24,12 +28,8 @@ export default function SubscriptionPage() {
       "Personalized recommendations",
     ],
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  console.log(user?.id.toString());
+
   const renderSubscriptionCards = (isYearly: boolean) =>
     data.map((plan) => (
       <SubscriptionCard
@@ -42,6 +42,13 @@ export default function SubscriptionPage() {
         }
         benefits={benefits[plan.name as keyof typeof benefits]}
         type={isYearly ? "Year" : "Month"}
+        onClick={() => {
+          createSubscription(
+            user ? user.id.toString() : "",
+            plan.id.toString(),
+            isYearly ? "Yearly" : "Monthly",
+          );
+        }}
       />
     ));
 
