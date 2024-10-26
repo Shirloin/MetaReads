@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PageLayout from "../components/Layout/PageLayout";
 import SubscriptionCard from "../components/Subscriptions/SubscriptionCard";
-import { TextGenerateEffect } from "../components/ui/text-generate-effect";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Tabs } from "../components/ui/tabs";
 import useGetAllPlan from "../components/Hook/Plan/useGetAllPlan";
@@ -15,13 +14,17 @@ export default function SubscriptionPage() {
   const [activePlan, setActivePlan] = useState<boolean>(false);
   const navigate = useNavigate();
   const [data] = useGetAllPlan();
-  const { createSubscription } = useCreateSubscription();
   const { user, getUserById } = useUser();
   const { modalState, handleOpenCreate, handleCloseCreate } = useModalState();
-  const [selectedPlanId, setSelectedPlanId] = useState<string>("");
-  const [selectedPlanType, setSelectedPlanType] = useState<
-    "Monthly" | "Yearly"
-  >("Monthly");
+
+  // Combine selected plan details into a single state object
+  const [selectedPlan, setSelectedPlan] = useState<{
+    id: string;
+    type: "Monthly" | "Yearly";
+    price: string;
+    benefits: string[];
+  } | null>(null);
+
   const benefits = {
     Free: ["Access to limited books", "Basic reader features"],
     Standard: [
@@ -37,7 +40,7 @@ export default function SubscriptionPage() {
       "Personalized recommendations",
     ],
   };
-  // console.log(user?.id.toString());
+
   const renderSubscriptionCards = (isYearly: boolean) =>
     data.map((plan) => (
       <SubscriptionCard
@@ -54,9 +57,16 @@ export default function SubscriptionPage() {
           if (user == null) {
             navigate("/login");
           } else {
+            // Set the combined selected plan details
+            setSelectedPlan({
+              id: plan.id.toString(),
+              type: isYearly ? "Yearly" : "Monthly",
+              price: isYearly
+                ? plan.price_per_year.toString()
+                : plan.price_per_month.toString(),
+              benefits: benefits[plan.name as keyof typeof benefits],
+            });
             handleOpenCreate();
-            setSelectedPlanId(plan.id.toString());
-            setSelectedPlanType(isYearly ? "Yearly" : "Monthly");
           }
         }}
       />
@@ -101,8 +111,10 @@ export default function SubscriptionPage() {
           handleClose={handleCloseCreate}
           fetchData={getUserById}
           userId={user ? user.id.toString() : ""}
-          planId={selectedPlanId}
-          isYearly={selectedPlanType}
+          planId={selectedPlan ? selectedPlan.id : ""}
+          isYearly={selectedPlan ? selectedPlan.type : "Monthly"}
+          price={selectedPlan ? selectedPlan.price : ""}
+          benefits={selectedPlan ? selectedPlan.benefits : []} 
         />
         <div
           className="m-16 flex items-center justify-center overflow-y-auto"
