@@ -7,12 +7,21 @@ import { Tabs } from "../components/ui/tabs";
 import useGetAllPlan from "../components/Hook/Plan/useGetAllPlan";
 import { useUser } from "../lib/user_provider";
 import useCreateSubscription from "../components/Hook/Data/Subscription/useCreateSubscription";
+import { useNavigate } from "react-router-dom";
+import { useModalState } from "../components/Hook/Ui/useModalState";
+import BuySubscriptionModal from "../components/Modal/Subscription/BuySubscriptionModal";
 
 export default function SubscriptionPage() {
   const [activePlan, setActivePlan] = useState<boolean>(false);
-  const [data, fetchData] = useGetAllPlan();
+  const navigate = useNavigate();
+  const [data] = useGetAllPlan();
   const { createSubscription } = useCreateSubscription();
-  const { user } = useUser();
+  const { user, getUserById } = useUser();
+  const { modalState, handleOpenCreate, handleCloseCreate } = useModalState();
+  const [selectedPlanId, setSelectedPlanId] = useState<string>("");
+  const [selectedPlanType, setSelectedPlanType] = useState<
+    "Monthly" | "Yearly"
+  >("Monthly");
   const benefits = {
     Free: ["Access to limited books", "Basic reader features"],
     Standard: [
@@ -28,8 +37,7 @@ export default function SubscriptionPage() {
       "Personalized recommendations",
     ],
   };
-  console.log(user?.id.toString());
-
+  // console.log(user?.id.toString());
   const renderSubscriptionCards = (isYearly: boolean) =>
     data.map((plan) => (
       <SubscriptionCard
@@ -43,11 +51,13 @@ export default function SubscriptionPage() {
         benefits={benefits[plan.name as keyof typeof benefits]}
         type={isYearly ? "Year" : "Month"}
         onClick={() => {
-          createSubscription(
-            user ? user.id.toString() : "",
-            plan.id.toString(),
-            isYearly ? "Yearly" : "Monthly",
-          );
+          if (user == null) {
+            navigate("/login");
+          } else {
+            handleOpenCreate();
+            setSelectedPlanId(plan.id.toString());
+            setSelectedPlanType(isYearly ? "Yearly" : "Monthly");
+          }
         }}
       />
     ));
@@ -86,6 +96,14 @@ export default function SubscriptionPage() {
   return (
     <PageLayout>
       <div className="relative max-h-[100vh] w-full overflow-y-auto bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2]">
+        <BuySubscriptionModal
+          open={modalState.create}
+          handleClose={handleCloseCreate}
+          fetchData={getUserById}
+          userId={user ? user.id.toString() : ""}
+          planId={selectedPlanId}
+          isYearly={selectedPlanType}
+        />
         <div
           className="m-16 flex items-center justify-center overflow-y-auto"
           style={{ gap: "10%" }}

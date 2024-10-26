@@ -8,9 +8,9 @@ export default function SubscribeButton({ onClick, text }: ButtonProps) {
       sx={{
         backgroundColor: "#EFAF21",
         fontWeight: "600",
-        color: "black",
-        // textTransform: "none",
-        paddingY: "12px",
+        color: "white",
+        textTransform: "none",
+        paddingY: "10px",
         paddingX: "30px",
         fontSize: "15px",
       }}
