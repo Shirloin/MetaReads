@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { User } from "./userProps";
 
 export interface BookModel {
   id: Principal;
@@ -39,14 +40,6 @@ export interface GenreModel {
   name: string;
 }
 
-export interface UserModel {
-  id: Principal;
-  username: string;
-  money: string;
-  photo: string;
-  plang: string[];
-}
-
 export interface PlanModel {
   id: Principal;
   name: string;
@@ -61,7 +54,7 @@ export interface AuthorDataProps {
   data: BookModel;
 }
 export interface UserDataProps {
-  data: UserModel;
+  data: User;
 }
 export const createBookModel = ({
   id,
