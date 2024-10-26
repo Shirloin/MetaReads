@@ -23,7 +23,6 @@ const useBooks = () => {
 
       console.log(booksResponse);
 
-      // Directly destructure to get books and total_count from booksResponse.Ok
       const { books } = booksResponse.Ok;
 
       const bookRows: BookModel[] = books.map((book: any) =>

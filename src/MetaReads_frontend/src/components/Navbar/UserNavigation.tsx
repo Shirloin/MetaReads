@@ -4,7 +4,7 @@ import LibraryLogo from "../../../public/assets/Library Logo.png";
 import SubscriptionLogo from "../../../public/assets/Subscription Logo.png";
 import SignoutLogo from "../../../public/assets/Sign out Logo.png";
 import { Menu, MenuItem } from "react-pro-sidebar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
   baseLogoutStyle,
@@ -16,6 +16,7 @@ import { AuthClient } from "@dfinity/auth-client";
 import { useUser } from "../../lib/user_provider";
 export default function UserNavigation() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, loading } = useUser();
   const days = BigInt(1);
   const hours = BigInt(24);
@@ -36,7 +37,7 @@ export default function UserNavigation() {
     const authClient = await AuthClient.create(defaultOptions.createOptions);
     await authClient.logout();
     document.cookie = "identity=; Max-Age=-99999999;";
-    navigate("/login"); 
+    navigate("/login");
   };
 
   return (
@@ -48,72 +49,76 @@ export default function UserNavigation() {
         },
       }}
     >
-      <MenuItem
-        style={getMenuItemStyle("/")}
-        icon={<AiFillHome size={22} />}
-        component={<Link to={createUrl("/")} />}
-      >
-        Home
-      </MenuItem>
-      <MenuItem
-        style={getMenuItemStyle("/store")}
-        icon={
-          <img
-            src={StoreLogo}
-            alt="Store Logo"
-            style={{
-              width: "22px",
-              height: "22px",
-            }}
-          />
-        }
-        component={<Link to={createUrl("/store")} />}
-      >
-        Store
-      </MenuItem>
-      {user && (
-        <MenuItem
-          style={getMenuItemStyle("/library")}
-          icon={
-            <img
-              src={LibraryLogo}
-              alt="Library Logo"
-              style={{ width: "22px", height: "22px" }}
-            />
-          }
-          component={<Link to={createUrl("/library")} />}
-        >
-          Library
-        </MenuItem>
-      )}
+      {loading == false && (
+        <>
+          <MenuItem
+            style={getMenuItemStyle("/", location)}
+            icon={<AiFillHome size={22} />}
+            component={<Link to={createUrl("/")} />}
+          >
+            Home
+          </MenuItem>
+          <MenuItem
+            style={getMenuItemStyle("/store", location)}
+            icon={
+              <img
+                src={StoreLogo}
+                alt="Store Logo"
+                style={{
+                  width: "22px",
+                  height: "22px",
+                }}
+              />
+            }
+            component={<Link to={createUrl("/store")} />}
+          >
+            Store
+          </MenuItem>
+          {user && (
+            <MenuItem
+              style={getMenuItemStyle("/library", location)}
+              icon={
+                <img
+                  src={LibraryLogo}
+                  alt="Library Logo"
+                  style={{ width: "22px", height: "22px" }}
+                />
+              }
+              component={<Link to={createUrl("/library")} />}
+            >
+              Library
+            </MenuItem>
+          )}
 
-      <MenuItem
-        style={getMenuItemStyle("/subscriptions")}
-        icon={
-          <img
-            src={SubscriptionLogo}
-            alt="Library Logo"
-            style={{ width: "22px", height: "22px" }}
-          />
-        }
-        component={<Link to={createUrl("/subscriptions")} />}
-      >
-        Subscriptions
-      </MenuItem>
-      {user && (
-        <MenuItem
-          icon={
-            <img
-              src={SignoutLogo}
-              alt="Library Logo"
-              style={{ width: "22px", height: "22px" }}
-            />
-          }
-          style={baseLogoutStyle()}
-          onClick={handleLogout}
-        >
-          Logout
-        </MenuItem>
+          <MenuItem
+            style={getMenuItemStyle("/subscriptions", location)}
+            icon={
+              <img
+                src={SubscriptionLogo}
+                alt="Library Logo"
+                style={{ width: "22px", height: "22px" }}
+              />
+            }
+            component={<Link to={createUrl("/subscriptions")} />}
+          >
+            Subscriptions
+          </MenuItem>
+          {user && (
+            <MenuItem
+              icon={
+                <img
+                  src={SignoutLogo}
+                  alt="Library Logo"
+                  style={{ width: "22px", height: "22px" }}
+                />
+              }
+              style={baseLogoutStyle()}
+              onClick={handleLogout}
+            >
+              Logout
+            </MenuItem>
+          )}
+        </>
       )}
     </Menu>
   );
