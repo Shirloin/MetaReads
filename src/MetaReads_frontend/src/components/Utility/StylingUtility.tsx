@@ -1,7 +1,4 @@
-import { useLocation } from "react-router-dom";
-
-export const getMenuItemStyle = (path: any) => {
-  const location = useLocation();
+export const getMenuItemStyle = (path: any, location: any) => {
   return location.pathname === path
     ? getHoverStyle() // Active styles
     : baseStyle(); // Default styles
