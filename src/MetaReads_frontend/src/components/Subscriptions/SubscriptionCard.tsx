@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import SubscribeButton from "../Form/Button/SubscribeButton";
 import CurrencyLogo from "../../../public/assets/Currency Logo.png";
 import ShimmerButton from "../Form/Button/ShimmerButton";
 import { NumberTicker } from "../ui/number-ticker";
