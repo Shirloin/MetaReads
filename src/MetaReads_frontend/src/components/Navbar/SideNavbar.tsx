@@ -1,6 +1,4 @@
-import { IoIosArrowDroprightCircle } from "react-icons/io";
-import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { Sidebar, Menu } from "react-pro-sidebar";
+  import { Sidebar, Menu } from "react-pro-sidebar";
 import MetaReadsFullLogo from "../../../public/assets/Meta Reads Full Logo.png";
 import MetaReadsLogo from "../../../public/assets/Meta Reads Logo.png";
 import { useCollapsed } from "../../lib/collapsed_provider";

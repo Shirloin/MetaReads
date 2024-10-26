@@ -15,9 +15,9 @@ export const useCreateUser = () => {
       const user = await MetaReads_backend.create_user({
         id: Principal.fromText(internetIdentityId),
         username: username,
-        money: [], 
-        password: [], 
-        image: []
+        money: [BigInt(100)],
+        password: [],
+        image: [],
       });
       return true; // Indicate success
     } catch (err: any) {

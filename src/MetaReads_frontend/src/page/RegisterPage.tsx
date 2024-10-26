@@ -4,13 +4,16 @@ import PrimaryButton from "../components/Form/Button/PrimaryButton";
 import InputField from "../components/Form/Input/TextField/InputField";
 import { Title } from "../components/Utility/TitleUtility";
 import { useCreateUser } from "../components/Hook/Data/User/useCreateUser";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastError } from "../components/Form/Notifications/ErrorNotification";
 import { ToastLoading } from "../components/Form/Notifications/LoadingNotification";
 import { toast } from "react-toastify";
 import { ToastSuccess } from "../components/Form/Notifications/SuccessNotification";
+import { useUser } from "../lib/user_provider";
 
 export default function RegisterPage() {
+  const { getUserById: fetchUserData } = useUser();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const loadingToastId = useRef<string | null>(null);
   const { internetIdentityId } = useParams();
@@ -23,12 +26,12 @@ export default function RegisterPage() {
         await createUser(internetIdentityId, username);
         ToastSuccess("Register Success");
         document.cookie = `identity=${internetIdentityId}; path=/; expires=${new Date(Date.now() + 86400e3).toUTCString()}`;
-        window.location.href = "/";
+        fetchUserData();
+        navigate("/store");
       }
     } catch (error: any) {
       ToastError(error.message);
-    }
-    finally {
+    } finally {
       if (loadingToastId.current) {
         toast.dismiss(loadingToastId.current);
         loadingToastId.current = null;
@@ -58,14 +61,19 @@ export default function RegisterPage() {
             </div>
           </div>
           <div>
-            <InputField label={"Username"} size={"medium"} value={username} onChange={(e) => setUsername(e.target.value)} />
+            <InputField
+              label={"Username"}
+              size={"medium"}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
 
           <div className="flex justify-center">
             <PrimaryButton text={"Create Account"} onClick={handleRegister} />
-          </div >
-        </div >
-      </div >
+          </div>
+        </div>
+      </div>
     </>
   );
 }

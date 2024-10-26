@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ShimmerButton from "../components/Form/Button/ShimmerButton";
 import PageLayout from "../components/Layout/PageLayout";
 import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
 import { ShootingStars } from "../components/ui/background/shooting-stars";
@@ -8,9 +7,10 @@ import { NumberTicker } from "../components/ui/number-ticker";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { motion } from "framer-motion";
 import { World } from "../components/ui/globe";
+import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   const [startTicker, setStartTicker] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartTicker(true);
@@ -66,7 +66,8 @@ export default function HomePage() {
                 <strong>
                   {startTicker ? <NumberTicker value={12965} /> : "Loading..."}
                 </strong>{" "}
-                users around the world and discover your next favorite read today!
+                users around the world and discover your next favorite read
+                today!
               </div>
             </div>
           </motion.div>
@@ -97,7 +98,7 @@ export default function HomePage() {
 
           <motion.button
             onClick={() => {
-              window.location.href = "/store";
+              navigate("/store");
             }}
             initial={{ y: "2vw", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -111,8 +112,6 @@ export default function HomePage() {
         <ShootingStars />
         <StarsBackground />
       </BackgroundBeamsWithCollision>
-
-
     </PageLayout>
   );
 }

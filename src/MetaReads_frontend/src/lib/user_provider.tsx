@@ -13,6 +13,7 @@ interface UserContextType {
   loading: boolean;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   isAdmin: boolean;
+  getUserById: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -27,26 +28,27 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const { getIdentityfromCookie } = useCookie();
 
-  useEffect(() => {
-    async function getUserById() {
-      setLoading(true);
-      try {
-        const user = await getIdentityfromCookie();
-        setUser(user);
-      } catch (error: any) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
+  async function getUserById() {
+    setLoading(true);
+    try {
+      const user = await getIdentityfromCookie();
+      setUser(user);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     getUserById();
   }, []);
 
   useEffect(() => {
-    if (user) {
-      if (user.username === "vasang") {
-        setIsAdmin(true);
-      }
+    if (user && user.username === "vasang") {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
     }
   }, [user]);
 
@@ -55,6 +57,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     loading,
     setUser,
     isAdmin,
+    getUserById,
   };
 
   return (
