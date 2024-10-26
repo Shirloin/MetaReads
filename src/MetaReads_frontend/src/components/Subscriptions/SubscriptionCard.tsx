@@ -15,11 +15,13 @@ export default function SubscriptionCard({
   price,
   benefits,
   type,
+  isActive,
 }: {
   title: string;
   price: string;
   benefits: string[];
   type?: string;
+  isActive?: boolean;
 }) {
   return (
     <Card
@@ -58,7 +60,6 @@ export default function SubscriptionCard({
         <div className="mb-6">
           {price != "0" ? (
             <div>
-
               <Typography
                 variant="body2"
                 sx={{ color: "white", fontSize: "34px", fontWeight: "600" }}
@@ -69,10 +70,10 @@ export default function SubscriptionCard({
                     <img src={CurrencyLogo} alt="Currency" className="w-6" />
                   </div>
                   <NumberTicker
-                    value={5}
+                    value={Number(price) + 50}
                     bottomValue={Number(price)}
                     direction="down"
-                    decimalPlaces={2}
+                    // decimalPlaces={2}
                   />
                 </span>
               </Typography>
@@ -84,12 +85,9 @@ export default function SubscriptionCard({
                 Per {type}
               </Typography>
             </div>
-
           ) : (
-            <>
-            </>
+            <></>
           )}
-
         </div>
         <div className="mb-5 flex justify-center rounded-md">
           <hr
@@ -121,13 +119,10 @@ export default function SubscriptionCard({
         <div></div>
       </CardContent>
       <CardActions className="m-4 flex items-center justify-center">
-        {/* Temp Validation */}
-        {price == "0" ? (
+        {isActive == true ? (
           <LitupButton text="Active Plan" />
-
         ) : (
-          <ShimmerButton text={"Select Plan"} onClick={() => { }} />
-
+          <ShimmerButton text={"Select Plan"} onClick={() => {}} />
         )}
       </CardActions>
     </Card>

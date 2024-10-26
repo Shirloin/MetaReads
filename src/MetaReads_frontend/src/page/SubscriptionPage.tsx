@@ -1,11 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "../components/Layout/PageLayout";
 import SubscriptionCard from "../components/Subscriptions/SubscriptionCard";
 import { TextGenerateEffect } from "../components/ui/text-generate-effect";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Tabs } from "../components/ui/tabs";
+import useGetAllPlan from "../components/Hook/Plan/useGetAllPlan";
 
 export default function SubscriptionPage() {
+  const [activePlan, setActivePlan] = useState<boolean>(false);
+  const [data, fetchData] = useGetAllPlan();
+  const benefits = {
+    Free: ["Access to limited books", "Basic reader features"],
+    Standard: [
+      "Access to more books",
+      "Basic reader features",
+      "Highlighting and note-taking",
+    ],
+    Premium: [
+      "Access to entire book library",
+      "Basic reader features",
+      "Highlighting and note-taking",
+      "Priority support",
+      "Personalized recommendations",
+    ],
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+  const renderSubscriptionCards = (isYearly: boolean) =>
+    data.map((plan) => (
+      <SubscriptionCard
+        key={plan.id.toString()}
+        title={plan.name}
+        price={
+          isYearly
+            ? plan.price_per_year.toString()
+            : plan.price_per_month.toString()
+        }
+        benefits={benefits[plan.name as keyof typeof benefits]}
+        type={isYearly ? "Year" : "Month"}
+      />
+    ));
+
   const tabs = [
     {
       title: "Monthly",
@@ -16,34 +55,7 @@ export default function SubscriptionPage() {
             className="flex items-center justify-center"
             style={{ gap: "10%" }}
           >
-            <SubscriptionCard
-              title="Free"
-              price="0"
-              benefits={["Access to limited books", "Basic reader features"]}
-              type="Month"
-            />
-            <SubscriptionCard
-              title="Basic"
-              price="1"
-              benefits={[
-                "Access to more books",
-                "Basic reader features",
-                "Highlighting and note-taking",
-              ]}
-              type="Month"
-            />
-            <SubscriptionCard
-              title="Premium"
-              price="2"
-              benefits={[
-                "Access to entire book library",
-                "Basic reader features",
-                "Highlighting and note-taking",
-                "Priority support",
-                "Personalized recommendations",
-              ]}
-              type="Month"
-            />
+            {renderSubscriptionCards(false)}
           </div>
         </div>
       ),
@@ -57,34 +69,7 @@ export default function SubscriptionPage() {
             className="flex items-center justify-center"
             style={{ gap: "10%" }}
           >
-            <SubscriptionCard
-              title="Free"
-              price="0"
-              benefits={["Access to limited books", "Basic reader features"]}
-              type="Year"
-            />
-            <SubscriptionCard
-              title="Basic"
-              price="1"
-              benefits={[
-                "Access to more books",
-                "Basic reader features",
-                "Highlighting and note-taking",
-              ]}
-              type="Year"
-            />
-            <SubscriptionCard
-              title="Premium"
-              price="2"
-              benefits={[
-                "Access to entire book library",
-                "Basic reader features",
-                "Highlighting and note-taking",
-                "Priority support",
-                "Personalized recommendations",
-              ]}
-              type="Year"
-            />
+            {renderSubscriptionCards(true)}
           </div>
         </div>
       ),
@@ -122,9 +107,11 @@ export default function SubscriptionPage() {
             </p>
           </div>
         </div>
-        <div className="relative flex max-w-full flex-col items-start justify-start md:h-[40rem]">
-          <Tabs tabs={tabs} />
-        </div>
+        {data.length > 0 && (
+          <div className="relative flex max-w-full flex-col items-start justify-start md:h-[40rem]">
+            <Tabs tabs={tabs} />
+          </div>
+        )}
       </div>
     </PageLayout>
   );

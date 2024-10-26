@@ -44,6 +44,14 @@ export interface UserModel {
   username: string;
   money: string;
   photo: string;
+  plang: string[];
+}
+
+export interface PlanModel {
+  id: Principal;
+  name: string;
+  price_per_year: bigint;
+  price_per_month: bigint;
 }
 
 export interface BookDataProps {
