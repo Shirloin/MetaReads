@@ -6,7 +6,7 @@ export const useUserById = async () => {
     async function getUserById(internetIdentityId: Principal) {
         try {
             const getUserById =
-              await MetaReads_backend.get_user(internetIdentityId);            
+                await MetaReads_backend.get_user(internetIdentityId);
             return getUserById;
         } catch (error: any) {
             return error.message;

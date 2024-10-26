@@ -88,7 +88,30 @@ fn delete_read(id: Principal) -> Result<Read, Error> {
 }
 
 #[ic_cdk::query]
-fn get_read_by_user(user_id: Principal) -> Vec<Read> {
+async fn get_read_by_user(book_id: Principal, user_id: Principal) -> Option<Read> {
+    if let Some(read) = READ_STORE.with(|read_store| {
+        let store = read_store.borrow();
+        store
+            .iter()
+            .find(|(_, read)| read.user.id == user_id && read.book.id == book_id)
+            .map(|(_, read)| read.clone())
+    }) {
+        return Some(read);
+    } else {
+        let payload = ReadPayload {
+            id: None,
+            book_id,
+            user_id,
+            page_history: Some(0),
+            total_read_duration: None,
+        };
+        let read = create_read(payload).await;
+    }
+    return None;
+}
+
+#[ic_cdk::query]
+fn get_reads_by_user(user_id: Principal) -> Vec<Read> {
     let mut reads = Vec::new();
     READ_STORE.with(|read_store| {
         let store = read_store.borrow();
