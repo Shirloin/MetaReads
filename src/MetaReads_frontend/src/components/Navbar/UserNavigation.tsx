@@ -4,7 +4,7 @@ import LibraryLogo from "../../../public/assets/Library Logo.png";
 import SubscriptionLogo from "../../../public/assets/Subscription Logo.png";
 import SignoutLogo from "../../../public/assets/Sign out Logo.png";
 import { Menu, MenuItem } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   baseLogoutStyle,
@@ -15,6 +15,7 @@ import { createUrl } from "../Utility/UrlUtility";
 import { AuthClient } from "@dfinity/auth-client";
 import { useUser } from "../../lib/user_provider";
 export default function UserNavigation() {
+  const navigate = useNavigate();
   const { user, loading } = useUser();
   const days = BigInt(1);
   const hours = BigInt(24);
@@ -30,12 +31,12 @@ export default function UserNavigation() {
       maxTimeToLive: days * hours * nanoseconds,
     },
   };
+
   const handleLogout = async () => {
     const authClient = await AuthClient.create(defaultOptions.createOptions);
     await authClient.logout();
     document.cookie = "identity=; Max-Age=-99999999;";
-
-    window.location.href = "/login";
+    navigate("/login"); 
   };
 
   return (
@@ -70,23 +71,21 @@ export default function UserNavigation() {
       >
         Store
       </MenuItem>
-      {
-        user && (
-          <MenuItem
-            style={getMenuItemStyle("/library")}
-            icon={
-              <img
-                src={LibraryLogo}
-                alt="Library Logo"
-                style={{ width: "22px", height: "22px" }}
-              />
-            }
-            component={<Link to={createUrl("/library")} />}
-          >
-            Library
-          </MenuItem>
-        )
-      }
+      {user && (
+        <MenuItem
+          style={getMenuItemStyle("/library")}
+          icon={
+            <img
+              src={LibraryLogo}
+              alt="Library Logo"
+              style={{ width: "22px", height: "22px" }}
+            />
+          }
+          component={<Link to={createUrl("/library")} />}
+        >
+          Library
+        </MenuItem>
+      )}
 
       <MenuItem
         style={getMenuItemStyle("/subscriptions")}
@@ -101,19 +100,21 @@ export default function UserNavigation() {
       >
         Subscriptions
       </MenuItem>
-      <MenuItem
-        icon={
-          <img
-            src={SignoutLogo}
-            alt="Library Logo"
-            style={{ width: "22px", height: "22px" }}
-          />
-        }
-        style={baseLogoutStyle()}
-        onClick={handleLogout}
-      >
-        Logout
-      </MenuItem>
+      {user && (
+        <MenuItem
+          icon={
+            <img
+              src={SignoutLogo}
+              alt="Library Logo"
+              style={{ width: "22px", height: "22px" }}
+            />
+          }
+          style={baseLogoutStyle()}
+          onClick={handleLogout}
+        >
+          Logout
+        </MenuItem>
+      )}
     </Menu>
   );
 }

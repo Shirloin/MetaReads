@@ -1,10 +1,20 @@
-export default function LitupButton({ text, className, }: { text?: string, className?: string }) {
-    return (
-        <button className="p-[3px] relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#efaf21] to-[#efaf21] rounded-lg" />
-            <div className={`px-6 py-3  bg-black rounded-[6px]  relative group transition duration-200 text-white uppercase ${className}`}>
-                {text}
-            </div>
-        </button >
-    )
+export default function LitupButton({
+  text,
+  className,
+  onClick,
+}: {
+  text?: string;
+  className?: string;
+  onClick?: () => void;
+}) {
+  return (
+    <button className="relative p-[3px]">
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#efaf21] to-[#efaf21]" />
+      <div
+        className={`group relative rounded-[6px] bg-black px-6 py-3 uppercase text-white transition duration-200 ${className}`}
+      >
+        {text}
+      </div>
+    </button>
+  );
 }

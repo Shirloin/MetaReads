@@ -1,5 +1,5 @@
 const checkCanisterId = () => {
-  const baseUrl = window.location.href; // Use href to get the full URL
+  const baseUrl = window.location.href; 
   const url = new URL(baseUrl);
   const urlCanisterId = url.searchParams.get("canisterId");
   const storedCanisterId = sessionStorage.getItem("canisterId");
@@ -8,7 +8,7 @@ const checkCanisterId = () => {
   }
   if (urlCanisterId) {
     sessionStorage.setItem("canisterId", urlCanisterId);
-    return urlCanisterId; // Return the canister ID from URL
+    return urlCanisterId; 
   } else {
     return null;
   }
