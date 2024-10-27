@@ -19,7 +19,6 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
   const [recommendedBooks, setRecommendedBooks] = useState<BookModel[]>();
 
   useEffect(() => {
-    console.log(rows);
 
     const firstFiveRows = rows.slice(0, 6);
     setRecommendedBooks(firstFiveRows);
@@ -39,8 +38,7 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
             modules={[Pagination, Autoplay]} // Include Autoplay module
             className="w-full"
             slidesPerView={1}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
+          // onSwiper={(swiper) => console.log(swiper)}
           >
             <SwiperSlide className="w-full">
               <img
@@ -87,17 +85,17 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
             text={"Popular"}
             color={"white"}
             outlineColor={"#EFAF21"}
-            onClick={() => {}}
+            onClick={() => { }}
           />
           <OutlinedButton
             text={"Recent Release"}
             color={"white"}
-            onClick={() => {}}
+            onClick={() => { }}
           />
           <OutlinedButton
             text={"Special Offer"}
             color={"white"}
-            onClick={() => {}}
+            onClick={() => { }}
           />
         </div>
         {rows && (

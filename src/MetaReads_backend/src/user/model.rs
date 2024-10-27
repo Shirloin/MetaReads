@@ -5,8 +5,6 @@ use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
-use crate::subscription::model::Subscription;
-
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
 pub struct User {
     pub id: Principal,
@@ -14,7 +12,6 @@ pub struct User {
     pub password: String,
     pub image: String,
     pub money: u64,
-    pub subscription: Option<Subscription>,
 }
 
 impl Storable for User {

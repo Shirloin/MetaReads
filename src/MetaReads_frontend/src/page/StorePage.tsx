@@ -22,7 +22,6 @@ export default function StorePage() {
   const [selectedBook, setSelectedBook] = useState<BookModel | null>(null);
 
   useEffect(() => {
-    console.log(selectedBook);
   }, [selectedBook]);
 
   const handleBookSelect = (book: BookModel | null) => {

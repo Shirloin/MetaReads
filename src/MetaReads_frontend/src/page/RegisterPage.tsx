@@ -24,7 +24,8 @@ export default function RegisterPage() {
     loadingToastId.current = ToastLoading("Loading..");
     try {
       if (internetIdentityId) {
-        await createUser(internetIdentityId, username);
+        console.log(username)
+        const res = await createUser(internetIdentityId, username);
         ToastSuccess("Register Success");
         document.cookie = `identity=${internetIdentityId}; path=/; expires=${new Date(Date.now() + 86400e3).toUTCString()}`;
         fetchUserData();

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { User } from "../components/Props/userProps";
 import { useCookie } from "../components/Hook/Cookie/useCookie";
+import { useSubscriptionByUser } from "../components/Hook/Data/Subscription/useSubscriptionByUser";
 
 interface UserContextType {
   user: User | null;
@@ -28,11 +29,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const { getIdentityfromCookie } = useCookie();
 
+
   async function getUserById() {
     setLoading(true);
+    const { getSubscriptionByUser } = await useSubscriptionByUser()
     try {
-      const user = await getIdentityfromCookie();
-      setUser(user);
+      const newUser = await getIdentityfromCookie();
+      setUser(newUser);
+      if (newUser) {
+        const subscription = await getSubscriptionByUser(newUser.id.toString())
+        setUser({
+          id: newUser.id,
+          username: newUser.username,
+          money: newUser.money,
+          image: newUser.image,
+          subscription: subscription[0],
+        });
+      }
     } catch (error: any) {
       console.log(error);
     } finally {

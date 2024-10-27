@@ -10,7 +10,7 @@ use candid::Principal;
 use ic_cdk::api::time;
 
 #[ic_cdk::update]
-async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscription, Error> {
+pub async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscription, Error> {
     let mut user = match get_user_by_id(&payload.user_id) {
         Some(ref user) => user.clone(),
         None => {
@@ -60,8 +60,6 @@ async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscriptio
         subscription_end_date: end_date,
     };
     insert_subscription(&subscription);
-    user.subscription = Some(subscription.clone());
-    insert_user(&user);
     Ok(subscription)
 }
 

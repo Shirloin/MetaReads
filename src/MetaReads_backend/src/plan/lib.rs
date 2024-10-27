@@ -63,6 +63,16 @@ pub fn get_plan_by_id(id: &Principal) -> Option<Plan> {
     PLAN_STORE.with(|plan_store| plan_store.borrow().get(id))
 }
 
+pub fn get_plan_by_name(name: &str) -> Option<Plan> {
+    PLAN_STORE.with(|plan_store| {
+        let store = plan_store.borrow();
+        store
+            .iter()
+            .find(|(_, plan)| plan.name == name)
+            .map(|(_, plan)| plan.clone())
+    })
+}
+
 pub async fn seed_plan(name: String, price_per_month: u64, price_per_year: u64) -> Option<Plan> {
     let payload = PlanPayload {
         id: None,

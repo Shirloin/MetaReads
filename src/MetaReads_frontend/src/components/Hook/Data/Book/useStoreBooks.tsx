@@ -15,7 +15,7 @@ const useStoreBooks = () => {
         query: "",
       });
 
-      console.log(booksResponse);
+      // console.log(booksResponse);
 
       const { books } = booksResponse.Ok;
 

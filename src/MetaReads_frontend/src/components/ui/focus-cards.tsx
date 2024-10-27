@@ -74,7 +74,7 @@ export function FocusCards({ books, handleBookSelect }: FocusCardsProps) {
   return (
     <div className="mx-auto grid w-full grid-cols-1 gap-10 pb-8 md:grid-cols-3 lg:grid-cols-6">
       {books.map((book: BookModel, index) => (
-        <Link to={`/book/${book.id}`}>
+        <Link to={`/book/${book.id}`} key={index}>
           <Card
             card={book}
             index={index}

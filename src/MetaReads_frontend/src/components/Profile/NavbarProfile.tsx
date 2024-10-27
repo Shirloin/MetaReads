@@ -16,6 +16,11 @@ export default function NavbarProfile() {
     return value ? (value.length > 5 ? `${value.slice(0, 7)}...` : value) : 0;
   };
 
+  const test = () => {
+    console.log("test")
+    console.log(user)
+  }
+
   return (
     <div>
       {loading ? (
@@ -40,7 +45,7 @@ export default function NavbarProfile() {
             />
           </Tooltip>
 
-          <div className="flex items-center">
+          <div onClick={test} className="flex items-center">
             <div className="flex flex-col items-center">
               <Tooltip title={user.username} arrow placement="top-start">
                 <div className="max-w-[100px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap">

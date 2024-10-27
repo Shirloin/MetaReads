@@ -3,7 +3,6 @@ use validator::Validate;
 
 use super::model::{User, UserPayload};
 use crate::error::error::Error;
-use crate::helper::helper::generate_unique_id;
 use crate::USER_STORE;
 
 #[ic_cdk::update]
@@ -27,7 +26,6 @@ async fn create_user(payload: UserPayload) -> Result<User, Error> {
         password: payload.password.unwrap_or_default(),
         image: payload.image.unwrap_or_default(),
         money: payload.money.unwrap_or(0),
-        subscription: None,
     };
     insert_user(&user);
     Ok(user)
