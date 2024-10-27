@@ -18,16 +18,25 @@ import { Header } from "../components/PDFReader/Header";
 import ShimmerButton from "../components/Form/Button/ShimmerButton";
 import { cn } from "../lib/utils";
 import { CardStack } from "../components/ui/card-stack";
-import { CircularProgress } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Button, CircularProgress } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
-import { BookModel } from "../components/Props/model";
+import { BookModel, SubscriptionModel, UserModel } from "../components/Props/model";
 import { Principal } from "@dfinity/principal";
+import { useCookie } from "../components/Hook/Cookie/useCookie";
+import { User } from "../components/Props/userProps";
+import { useUserById } from "../components/Hook/Data/User/useUserById";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
+  const nav = useNavigate();
+  const { getCookie } = useCookie();
+  const { getUserById } = useUserById();
+  const [user, setUser] = useState<UserModel>();
+  const [authorize, setAuthorize] = useState(false);
+  const [checked, setChecked] = useState(false);
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
 
   const fetchData = async () => {
@@ -39,13 +48,41 @@ const ReadPage = () => {
       const book = booksResponse.Ok;
       // console.log(book.book_url);
       setDetailBook(book);
+      console.log(book);
+      
     } catch (error) {
       console.error("Error fetching books:", error);
     }
   };
 
+  const getUser = async () => {
+    const cookie = getCookie("identity");
+    if (!cookie) {
+      nav("/login");
+      return;
+    }
+
+    try {
+      const userById = await getUserById(Principal.fromText(cookie));
+      console.log(userById);
+      
+      if ("Err" in userById) {
+        nav("/login");
+        return;
+      }
+      else {
+        setUser(userById.Ok);
+        setAuthorize(true);
+        // setAuthorize(user?.subscription[0]?.plan.name === detailBook?.plan)
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  }
+
   useEffect(() => {
     fetchData();
+    getUser();
   }, []);
 
   const [selectedText, setSelectedText] = useState<string | undefined>();
@@ -163,7 +200,16 @@ const ReadPage = () => {
 
   return (
     <>
-      {detailBook ? (
+      {detailBook && user ? (
+        !authorize ?
+          <div className="flex flex-col items-center justify-center h-[100vh]">
+            <div className="text-[red] text-center">You are not allowed to read this book</div>
+            <div>
+              <Link to={"/store"}><Button>Back</Button></Link>
+              <Link to={"/subscriptions"}><Button>Buy Subscription</Button></Link>
+            </div>
+          </div>
+        :
         <div className="flex h-screen flex-col text-white">
           <Header
             jumpToNextPage={jumpToNextPage}

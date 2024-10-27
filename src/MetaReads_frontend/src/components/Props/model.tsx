@@ -80,6 +80,29 @@ export const createBookModel = ({
   };
 };
 
+export interface UserModel {
+  id: Principal;
+  username: string;
+  money: bigint;
+  image: string;
+  subscription: [] | [SubscriptionModel];
+}
+
+export interface SubscriptionModel {
+  id: Principal;
+  plan: PlanModel;
+  user_id: Principal;
+  subscription_start_date: bigint;
+  subscription_end_date: bigint;
+}
+
+export interface PlanModel {
+  id: Principal;
+  name: string;
+  price_per_month: bigint;
+  price_per_year: bigint;
+}
+
 export const dummyBookData: BookModel = {
   id: Principal.fromText("aaaaa-aa"),
   title: "A VERY VERY LONG TITLE",
