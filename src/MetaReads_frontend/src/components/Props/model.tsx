@@ -1,13 +1,6 @@
 import { Principal } from "@dfinity/principal";
 import { User } from "./userProps";
 
-export interface SubscriptionModel {
-  id: Principal,
-  plan: PlanModel,
-  subscription_start_date: number,
-  subscription_end_date: number,
-}
-
 export interface BookModel {
   id: Principal;
   title: string;
