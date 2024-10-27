@@ -37,8 +37,9 @@ export default function BuySubscriptionModal({
     try {
       const success = await createSubscription(userId, planId, isYearly);
       if (success) {
-        ToastSuccess("Genre Created Successfully");
+        ToastSuccess("Subscription Payment Success!");
         fetchData();
+        handleClose();
       } else {
         if (error) ToastError(error as string);
       }

@@ -7,12 +7,13 @@ import React, {
 } from "react";
 import { User } from "../components/Props/userProps";
 import { useCookie } from "../components/Hook/Cookie/useCookie";
+import { UserModel } from "../components/Props/model";
 import { useSubscriptionByUser } from "../components/Hook/Data/Subscription/useSubscriptionByUser";
 
 interface UserContextType {
-  user: User | null;
+  user: UserModel | null;
   loading: boolean;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: React.Dispatch<React.SetStateAction<UserModel | null>>;
   isAdmin: boolean;
   getUserById: () => Promise<void>;
 }
@@ -24,7 +25,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserModel | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const { getIdentityfromCookie } = useCookie();
