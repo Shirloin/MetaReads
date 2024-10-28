@@ -83,7 +83,7 @@ export default function SubscriptionCard({
                 sx={{ color: "white", fontSize: "12px" }}
                 className="flex justify-center"
               >
-                Per {type}
+                Per {type == "Monthly" ? "Month" : "Year"}
               </Typography>
             </div>
           ) : (
