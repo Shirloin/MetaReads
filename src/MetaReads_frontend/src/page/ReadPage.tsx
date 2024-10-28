@@ -18,73 +18,23 @@ import { Header } from "../components/PDFReader/Header";
 import ShimmerButton from "../components/Form/Button/ShimmerButton";
 import { cn } from "../lib/utils";
 import { CardStack } from "../components/ui/card-stack";
-import { Button, CircularProgress } from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
-import { BookModel, SubscriptionModel, UserModel } from "../components/Props/model";
+import { BookModel } from "../components/Props/model";
 import { Principal } from "@dfinity/principal";
 import { useCookie } from "../components/Hook/Cookie/useCookie";
-import { User } from "../components/Props/userProps";
-import { useUserById } from "../components/Hook/Data/User/useUserById";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
-
+import { useUser } from "../lib/user_provider";
+import LoginWarningModal from "../components/Modal/Warning/LoginWarningModal";
+import { useModalState } from "../components/Hook/Ui/useModalState";
+import { useCheckUserAuthorization } from "../components/Hook/Data/User/useCheckUserAuthorization";
+import SubscriptionWarningModal from "../components/Modal/Warning/SubscriptionWarningModal";
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const nav = useNavigate();
   const { getCookie } = useCookie();
-  const { getUserById } = useUserById();
-  const [user, setUser] = useState<UserModel>();
-  const [authorize, setAuthorize] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useUser();
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
-
-  const fetchData = async () => {
-    try {
-      const booksResponse: any = await MetaReads_backend.get_book(
-        Principal.fromText(bookId as string),
-      );
-
-      const book = booksResponse.Ok;
-      // console.log(book.book_url);
-      setDetailBook(book);
-      console.log(book);
-      
-    } catch (error) {
-      console.error("Error fetching books:", error);
-    }
-  };
-
-  const getUser = async () => {
-    const cookie = getCookie("identity");
-    if (!cookie) {
-      nav("/login");
-      return;
-    }
-
-    try {
-      const userById = await getUserById(Principal.fromText(cookie));
-      console.log(userById);
-      
-      if ("Err" in userById) {
-        nav("/login");
-        return;
-      }
-      else {
-        setUser(userById.Ok);
-        setAuthorize(true);
-        // setAuthorize(user?.subscription[0]?.plan.name === detailBook?.plan)
-      }
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-    getUser();
-  }, []);
-
   const [selectedText, setSelectedText] = useState<string | undefined>();
   const [pageInput, setPageInput] = useState<number>(1);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
@@ -95,6 +45,33 @@ const ReadPage = () => {
   const fullScreenPluginInstance = fullScreenPlugin();
   const pageNavigationPluginInstance = pageNavigationPlugin();
   const zoomPluginInstance = zoomPlugin({ enableShortcuts: false });
+  const { authorize, isLoggedIn } = useCheckUserAuthorization({
+    user,
+    getCookie,
+    detailBook,
+  });
+
+  const fetchData = async () => {
+    try {
+      const booksResponse: any = await MetaReads_backend.get_book(
+        Principal.fromText(bookId as string),
+      );
+      const book = booksResponse.Ok;
+      setDetailBook(book);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+  const onLoginWarning = () => {
+    navigate("/login");
+  };
+  const onSubscriptionWarning = () => {
+    navigate("/subscriptions");
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [bookId]);
 
   const handleZoom = (scale: number) => {
     setZoomLevel(scale);
@@ -134,7 +111,7 @@ const ReadPage = () => {
         throw new Error("Network response was not ok");
       }
 
-      const text = await response.text(); 
+      const text = await response.text();
       console.log(text);
 
       addNewCard(text);
@@ -178,7 +155,6 @@ const ReadPage = () => {
       );
     },
   });
-
   const { jumpToNextPage, jumpToPreviousPage, CurrentPageLabel, jumpToPage } =
     pageNavigationPluginInstance;
   const { ShowSearchPopover } = searchPluginInstance;
@@ -197,66 +173,81 @@ const ReadPage = () => {
       jumpToPage(pageInput);
     }
   }, [pageInput]);
-
   return (
     <>
-      {detailBook && user ? (
-        !authorize ?
-          <div className="flex flex-col items-center justify-center h-[100vh]">
-            <div className="text-[red] text-center">You are not allowed to read this book</div>
-            <div>
-              <Link to={"/store"}><Button>Back</Button></Link>
-              <Link to={"/subscriptions"}><Button>Buy Subscription</Button></Link>
-            </div>
-          </div>
-        :
-        <div className="flex h-screen flex-col text-white">
-          <Header
-            jumpToNextPage={jumpToNextPage}
-            jumpToPreviousPage={jumpToPreviousPage}
-            CurrentPageLabel={CurrentPageLabel}
-            handlePageInputChange={handlePageInputChange}
-            zoomLevel={zoomLevel}
-            handleZoom={handleZoom}
-            ShowSearchPopover={ShowSearchPopover}
-            EnterFullScreen={EnterFullScreen}
+      {isLoggedIn == false ? (
+        <div className="text-white">
+          <LoginWarningModal
+            open={true}
+            handleClose={onLoginWarning}
+            fetchData={() => {}}
           />
-          <div className="flex-grow overflow-auto">
-            <Worker
-              workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
-            >
-              <Viewer
-                theme={"dark"}
-                fileUrl={detailBook.book_url}
-                onDocumentLoad={() => setIsDocumentLoaded(true)}
-                plugins={[
-                  pageNavigationPluginInstance,
-                  zoomPluginInstance,
-                  highlightPluginInstance,
-                  fullScreenPluginInstance,
-                  searchPluginInstance,
-                ]}
-              />
-            </Worker>
-          </div>
-          {cards.length > 0 && (
-            <>
-              {!loading ? (
-                <div className="fixed bottom-2 right-4 z-10 flex items-center justify-center">
-                  <CardStack items={cards} />
-                </div>
-              ) : (
-                <div className="fixed bottom-2 right-4 z-10 flex h-[300px] w-[300px] items-center justify-center">
-                  <CircularProgress />
-                </div>
-              )}
-            </>
-          )}
         </div>
       ) : (
-        <div className="flex h-screen items-center justify-center">
-          <CircularProgress />
-        </div>
+        <>
+          {detailBook && user ? (
+            !authorize ? (
+              <div className="z-[999] text-white">
+                test
+                <SubscriptionWarningModal
+                  open={true}
+                  handleClose={onSubscriptionWarning}
+                  fetchData={() => {}}
+                />
+              </div>
+            ) : (
+              <div className="flex h-screen flex-col text-white">
+                <Header
+                  jumpToNextPage={jumpToNextPage}
+                  jumpToPreviousPage={jumpToPreviousPage}
+                  CurrentPageLabel={CurrentPageLabel}
+                  handlePageInputChange={handlePageInputChange}
+                  zoomLevel={zoomLevel}
+                  handleZoom={handleZoom}
+                  ShowSearchPopover={ShowSearchPopover}
+                  EnterFullScreen={EnterFullScreen}
+                />
+                <div className="flex-grow overflow-auto">
+                  <Worker
+                    workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+                  >
+                    <Viewer
+                      theme={"dark"}
+                      fileUrl={detailBook.book_url}
+                      onDocumentLoad={() => setIsDocumentLoaded(true)}
+                      plugins={[
+                        pageNavigationPluginInstance,
+                        zoomPluginInstance,
+                        highlightPluginInstance,
+                        fullScreenPluginInstance,
+                        searchPluginInstance,
+                      ]}
+                    />
+                  </Worker>
+                </div>
+                {cards.length > 0 && (
+                  <>
+                    {!loading ? (
+                      <div className="fixed bottom-2 right-4 z-10 flex items-center justify-center">
+                        <CardStack items={cards} />
+                      </div>
+                    ) : (
+                      <div className="fixed bottom-2 right-4 z-10 flex h-[300px] w-[300px] items-center justify-center">
+                        <CircularProgress />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )
+          ) : (
+            <>
+              <div className="flex h-screen items-center justify-center">
+                <CircularProgress />
+              </div>
+            </>
+          )}
+        </>
       )}
     </>
   );

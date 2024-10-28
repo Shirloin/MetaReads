@@ -38,7 +38,7 @@ function LoginPage() {
     if (await authClient.isAuthenticated()) {
       const internetIdentityId = authClient.getIdentity().getPrincipal();
       const getUserById = await MetaReads_backend.get_user(internetIdentityId);
-      console.log(getUserById)
+      // console.log(getUserById)
       if (isError(getUserById)) {
         navigate("/register/" + internetIdentityId);
       } else {

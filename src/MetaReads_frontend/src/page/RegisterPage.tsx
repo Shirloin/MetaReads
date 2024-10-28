@@ -24,15 +24,17 @@ export default function RegisterPage() {
     loadingToastId.current = ToastLoading("Loading..");
     try {
       if (internetIdentityId) {
-        console.log(username)
-        const res = await createUser(internetIdentityId, username);
-        ToastSuccess("Register Success");
-        document.cookie = `identity=${internetIdentityId}; path=/; expires=${new Date(Date.now() + 86400e3).toUTCString()}`;
-        fetchUserData();
-        navigate("/store");
+        const res: any = await createUser(internetIdentityId, username);
+
+        if (res == true) {
+          ToastSuccess("Register Success");
+          document.cookie = `identity=${internetIdentityId}; path=/; expires=${new Date(Date.now() + 86400e3).toUTCString()}`;
+          fetchUserData();
+          navigate("/store");
+        } else {
+          ToastError(res);
+        }
       }
-    } catch (error: any) {
-      ToastError(error.message);
     } finally {
       if (loadingToastId.current) {
         toast.dismiss(loadingToastId.current);
@@ -40,6 +42,7 @@ export default function RegisterPage() {
       }
     }
   };
+
 
   return (
     <>

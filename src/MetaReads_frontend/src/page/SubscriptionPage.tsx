@@ -16,7 +16,6 @@ export default function SubscriptionPage() {
   const [data] = useGetAllPlan();
   const { user, getUserById } = useUser();
   const { modalState, handleOpenCreate, handleCloseCreate } = useModalState();
-
   // Combine selected plan details into a single state object
   const [selectedPlan, setSelectedPlan] = useState<{
     id: string;
@@ -114,7 +113,7 @@ export default function SubscriptionPage() {
           planId={selectedPlan ? selectedPlan.id : ""}
           isYearly={selectedPlan ? selectedPlan.type : "Monthly"}
           price={selectedPlan ? selectedPlan.price : ""}
-          benefits={selectedPlan ? selectedPlan.benefits : []} 
+          benefits={selectedPlan ? selectedPlan.benefits : []}
         />
         <div
           className="m-16 flex items-center justify-center overflow-y-auto"
