@@ -1,6 +1,11 @@
 import { Principal } from "@dfinity/principal";
 import { User } from "./userProps";
 
+export enum PlanLevel {
+  Free = "Free",
+  Standard = "Standard",
+  Premium = "Premium",
+}
 export interface BookModel {
   id: Principal;
   title: string;
@@ -85,7 +90,7 @@ export interface UserModel {
   username: string;
   money: bigint;
   image: string;
-  subscription: [] | [SubscriptionModel];
+  subscription: [] | [SubscriptionModel] | SubscriptionModel;
 }
 
 export interface SubscriptionModel {
