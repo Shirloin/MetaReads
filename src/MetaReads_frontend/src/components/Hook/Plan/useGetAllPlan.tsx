@@ -17,6 +17,7 @@ const useGetAllPlan = () => {
         price_per_year: planData.price_per_year,
         price_per_month: planData.price_per_month,
       }));
+      console.log(response);
 
       setData(response.reverse());
     } catch (error) {
