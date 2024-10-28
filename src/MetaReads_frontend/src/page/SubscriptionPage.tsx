@@ -16,7 +16,6 @@ export default function SubscriptionPage() {
   const [data] = useGetAllPlan();
   const { user, getUserById } = useUser();
   const { modalState, handleOpenCreate, handleCloseCreate } = useModalState();
-
   // Combine selected plan details into a single state object
   const [selectedPlan, setSelectedPlan] = useState<{
     id: string;

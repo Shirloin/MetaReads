@@ -21,11 +21,12 @@ import { CardStack } from "../components/ui/card-stack";
 import { Button, CircularProgress } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
-import { BookModel, SubscriptionModel, UserModel } from "../components/Props/model";
+import { BookModel, PlanLevel, SubscriptionModel, UserModel } from "../components/Props/model";
 import { Principal } from "@dfinity/principal";
 import { useCookie } from "../components/Hook/Cookie/useCookie";
 import { User } from "../components/Props/userProps";
 import { useUserById } from "../components/Hook/Data/User/useUserById";
+import { useUser } from "../lib/user_provider";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
@@ -33,8 +34,9 @@ const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const nav = useNavigate();
   const { getCookie } = useCookie();
-  const { getUserById } = useUserById();
-  const [user, setUser] = useState<UserModel>();
+  // const { getUserById } = useUserById()
+  const { user, getUserById } = useUser();
+  // const [user, setUser] = useState<UserModel>();
   const [authorize, setAuthorize] = useState(false);
   const [checked, setChecked] = useState(false);
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
@@ -46,16 +48,14 @@ const ReadPage = () => {
       );
 
       const book = booksResponse.Ok;
-      // console.log(book.book_url);
+      console.log(book.plan);
       setDetailBook(book);
-      console.log(book);
-      
     } catch (error) {
       console.error("Error fetching books:", error);
     }
   };
 
-  const getUser = async () => {
+  const checkUser = async () => {
     const cookie = getCookie("identity");
     if (!cookie) {
       nav("/login");
@@ -63,18 +63,39 @@ const ReadPage = () => {
     }
 
     try {
-      const userById = await getUserById(Principal.fromText(cookie));
-      console.log(userById);
-      
-      if ("Err" in userById) {
+      if (user == null) {
         nav("/login");
         return;
+      } else {
+        // Access Plan name
+        const planName =
+          Array.isArray(user.subscription)
+            ? user.subscription.length > 0
+              ? user.subscription[0]?.plan.name
+              : "No plan available"
+            : user.subscription?.plan?.name || "No plan available";
+        console.log(detailBook?.plan);
+        console.log(planName);
+
+        switch (detailBook?.plan) {
+          case PlanLevel.Free:
+            console.log("Asd");
+            setAuthorize(true);
+            break;
+
+          case PlanLevel.Standard:
+            setAuthorize(planName === PlanLevel.Standard || planName === PlanLevel.Premium)
+            break;
+
+          case PlanLevel.Premium:
+            setAuthorize(planName === PlanLevel.Premium)
+            break;
+
+          default:
+            setAuthorize(false)
+        }
       }
-      else {
-        setUser(userById.Ok);
-        setAuthorize(true);
-        // setAuthorize(user?.subscription[0]?.plan.name === detailBook?.plan)
-      }
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -82,8 +103,14 @@ const ReadPage = () => {
 
   useEffect(() => {
     fetchData();
-    getUser();
   }, []);
+
+  useEffect(() => {
+    if (detailBook != undefined) {
+      checkUser();
+    }
+  }, [detailBook])
+
 
   const [selectedText, setSelectedText] = useState<string | undefined>();
   const [pageInput, setPageInput] = useState<number>(1);
@@ -134,7 +161,7 @@ const ReadPage = () => {
         throw new Error("Network response was not ok");
       }
 
-      const text = await response.text(); 
+      const text = await response.text();
       console.log(text);
 
       addNewCard(text);
@@ -209,50 +236,50 @@ const ReadPage = () => {
               <Link to={"/subscriptions"}><Button>Buy Subscription</Button></Link>
             </div>
           </div>
-        :
-        <div className="flex h-screen flex-col text-white">
-          <Header
-            jumpToNextPage={jumpToNextPage}
-            jumpToPreviousPage={jumpToPreviousPage}
-            CurrentPageLabel={CurrentPageLabel}
-            handlePageInputChange={handlePageInputChange}
-            zoomLevel={zoomLevel}
-            handleZoom={handleZoom}
-            ShowSearchPopover={ShowSearchPopover}
-            EnterFullScreen={EnterFullScreen}
-          />
-          <div className="flex-grow overflow-auto">
-            <Worker
-              workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
-            >
-              <Viewer
-                theme={"dark"}
-                fileUrl={detailBook.book_url}
-                onDocumentLoad={() => setIsDocumentLoaded(true)}
-                plugins={[
-                  pageNavigationPluginInstance,
-                  zoomPluginInstance,
-                  highlightPluginInstance,
-                  fullScreenPluginInstance,
-                  searchPluginInstance,
-                ]}
-              />
-            </Worker>
+          :
+          <div className="flex h-screen flex-col text-white">
+            <Header
+              jumpToNextPage={jumpToNextPage}
+              jumpToPreviousPage={jumpToPreviousPage}
+              CurrentPageLabel={CurrentPageLabel}
+              handlePageInputChange={handlePageInputChange}
+              zoomLevel={zoomLevel}
+              handleZoom={handleZoom}
+              ShowSearchPopover={ShowSearchPopover}
+              EnterFullScreen={EnterFullScreen}
+            />
+            <div className="flex-grow overflow-auto">
+              <Worker
+                workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+              >
+                <Viewer
+                  theme={"dark"}
+                  fileUrl={detailBook.book_url}
+                  onDocumentLoad={() => setIsDocumentLoaded(true)}
+                  plugins={[
+                    pageNavigationPluginInstance,
+                    zoomPluginInstance,
+                    highlightPluginInstance,
+                    fullScreenPluginInstance,
+                    searchPluginInstance,
+                  ]}
+                />
+              </Worker>
+            </div>
+            {cards.length > 0 && (
+              <>
+                {!loading ? (
+                  <div className="fixed bottom-2 right-4 z-10 flex items-center justify-center">
+                    <CardStack items={cards} />
+                  </div>
+                ) : (
+                  <div className="fixed bottom-2 right-4 z-10 flex h-[300px] w-[300px] items-center justify-center">
+                    <CircularProgress />
+                  </div>
+                )}
+              </>
+            )}
           </div>
-          {cards.length > 0 && (
-            <>
-              {!loading ? (
-                <div className="fixed bottom-2 right-4 z-10 flex items-center justify-center">
-                  <CardStack items={cards} />
-                </div>
-              ) : (
-                <div className="fixed bottom-2 right-4 z-10 flex h-[300px] w-[300px] items-center justify-center">
-                  <CircularProgress />
-                </div>
-              )}
-            </>
-          )}
-        </div>
       ) : (
         <div className="flex h-screen items-center justify-center">
           <CircularProgress />
