@@ -17,9 +17,15 @@ const useGetAllPlan = () => {
         price_per_year: planData.price_per_year,
         price_per_month: planData.price_per_month,
       }));
-      console.log(response);
+      const order = ["Free", "Standard", "Premium"];
 
-      setData(response.reverse());
+      const sortedResponse = response.sort((a, b) => {
+        return order.indexOf(a.name) - order.indexOf(b.name);
+      });
+
+      console.log(sortedResponse);
+
+      setData(sortedResponse);
     } catch (error) {
       console.error("Error fetching plans:", error);
     }
