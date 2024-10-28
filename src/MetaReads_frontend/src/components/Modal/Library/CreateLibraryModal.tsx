@@ -24,6 +24,7 @@ export default function CreateLibraryModal({ open, handleClose, fetchData }: For
             if (success) {
                 ToastSuccess("Library Created Successfully");
                 fetchData();
+                handleClose()
             } else {
                 ToastError(error);
             }
