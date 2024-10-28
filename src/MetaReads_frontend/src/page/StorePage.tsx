@@ -7,10 +7,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css"; // Ensure the styles are imported
 import BookCard from "../components/Book/BookCard";
 import OutlinedButton from "../components/Form/Button/OutlinedButton";
-import {
-  BookModel,
-  BookModelProps,
-} from "../components/Props/model";
+import { BookModel, BookModelProps } from "../components/Props/model";
 import { FocusCards } from "../components/ui/focus-cards";
 import StoreContent from "../components/Store/StoreContent";
 import { useEffect, useState } from "react";
@@ -21,8 +18,7 @@ import { Principal } from "@dfinity/candid/lib/cjs/idl";
 export default function StorePage() {
   const [selectedBook, setSelectedBook] = useState<BookModel | null>(null);
 
-  useEffect(() => {
-  }, [selectedBook]);
+  useEffect(() => {}, [selectedBook]);
 
   const handleBookSelect = (book: BookModel | null) => {
     setSelectedBook(book);

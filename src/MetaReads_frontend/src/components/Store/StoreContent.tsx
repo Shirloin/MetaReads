@@ -9,6 +9,8 @@ import { FocusCards } from "../ui/focus-cards";
 import useBooks from "../Hook/Data/Book/useBooks";
 import { useEffect, useState } from "react";
 import useStoreBooks from "../Hook/Data/Book/useStoreBooks";
+import usePopularBooks from "../Hook/Data/Book/usePopularBooks";
+import useLatestBooks from "../Hook/Data/Book/useLatestBooks";
 
 interface StoreContentProps {
   handleBookSelect: (book: BookModel | null) => void;
@@ -16,13 +18,16 @@ interface StoreContentProps {
 
 export default function StoreContent({ handleBookSelect }: StoreContentProps) {
   const [rows, fetchData] = useStoreBooks();
+  const [popular, fetchPopularData] = usePopularBooks();
+  const [latest, fetchLatestData] = useLatestBooks();
   const [recommendedBooks, setRecommendedBooks] = useState<BookModel[]>();
+  const [selectBook, setSelectBook] = useState<string>("All Book");
 
   useEffect(() => {
-
     const firstFiveRows = rows.slice(0, 6);
     setRecommendedBooks(firstFiveRows);
   }, [rows]);
+
   return (
     <>
       <div className="w-full px-16">
@@ -38,7 +43,7 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
             modules={[Pagination, Autoplay]} // Include Autoplay module
             className="w-full"
             slidesPerView={1}
-          // onSwiper={(swiper) => console.log(swiper)}
+            // onSwiper={(swiper) => console.log(swiper)}
           >
             <SwiperSlide className="w-full">
               <img
@@ -82,25 +87,32 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
         <div className="flex gap-6 text-white">
           {/* Test */}
           <OutlinedButton
+            text={"All Book"}
+            color={"white"}
+            outlineColor={selectBook === "All Book" ? "#EFAF21" : "gray"}
+            onClick={() => setSelectBook("All Book")}
+          />
+          <OutlinedButton
             text={"Popular"}
             color={"white"}
-            outlineColor={"#EFAF21"}
-            onClick={() => { }}
+            outlineColor={selectBook === "Popular" ? "#EFAF21" : "gray"}
+            onClick={() => setSelectBook("Popular")}
           />
           <OutlinedButton
-            text={"Recent Release"}
+            text={"Latest"}
             color={"white"}
-            onClick={() => { }}
-          />
-          <OutlinedButton
-            text={"Special Offer"}
-            color={"white"}
-            onClick={() => { }}
+            outlineColor={selectBook === "Latest" ? "#EFAF21" : "gray"}
+            onClick={() => setSelectBook("Latest")}
           />
         </div>
-        {rows && (
-          <FocusCards books={rows} handleBookSelect={handleBookSelect} />
-        )}
+        {rows &&
+          (selectBook === "All Book" ? (
+            <FocusCards books={rows} handleBookSelect={handleBookSelect} />
+          ) : selectBook === "Popular" ? (
+            <FocusCards books={popular!} handleBookSelect={handleBookSelect} />
+          ) : (
+            <FocusCards books={latest!} handleBookSelect={handleBookSelect} />
+          ))}
       </div>
     </>
   );
