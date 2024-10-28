@@ -4,6 +4,7 @@ interface ModalState {
   create: boolean;
   update: boolean;
   delete: boolean;
+  other: boolean;
   selectedRow?: any;
 }
 
@@ -12,6 +13,7 @@ export const useModalState = () => {
     create: false,
     update: false,
     delete: false,
+    other: false,
     selectedRow: undefined,
   });
 
@@ -32,5 +34,8 @@ export const useModalState = () => {
     handleCloseCreate: () => toggleModal("create"),
     handleCloseUpdate: () => toggleModal("update"),
     handleCloseDelete: () => toggleModal("delete"),
+    // Other Component
+    handleOpen: () => toggleModal("other"),
+    handleClose: () => toggleModal("other"),
   };
 };

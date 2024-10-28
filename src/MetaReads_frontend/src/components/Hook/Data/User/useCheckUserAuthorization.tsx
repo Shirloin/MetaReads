@@ -14,7 +14,7 @@ export const useCheckUserAuthorization = ({
   detailBook,
 }: UseCheckUserAuthorizationParams) => {
   const [authorize, setAuthorize] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -22,10 +22,10 @@ export const useCheckUserAuthorization = ({
       const cookie = getCookie("identity");
 
       if (!cookie || !user) {
-        setIsLoggedIn(true);
+        setIsLoggedIn(false);
         return;
       }
-
+      setIsLoggedIn(true);
       const planName = Array.isArray(user.subscription)
         ? user.subscription.length > 0
           ? user.subscription[0]?.plan.name
