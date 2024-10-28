@@ -12,18 +12,21 @@ export const useCreateUser = () => {
 
 
     try {
-      const user = await MetaReads_backend.create_user({
+      const response: any = await MetaReads_backend.create_user({
         id: Principal.fromText(internetIdentityId),
         username: username,
         money: [BigInt(100)],
         password: [],
         image: [],
       });
-      console.log(user)
-      return true; // Indicate success
+      if (response?.Err?.ValidationErrors?.message) {
+        return response?.Err?.ValidationErrors?.message;
+      } else {
+        return true;
+      }
     } catch (err: any) {
       setError(err);
-      return false; // Indicate failure
+      return false;
     } finally {
       setLoading(false);
     }
