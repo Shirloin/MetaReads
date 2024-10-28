@@ -26,7 +26,7 @@ export default function SubscriptionPage() {
   } | null>(null);
 
   const benefits = {
-    Free: ["Access to limited books", "Basic reader features"],
+    Basic: ["Access to limited books", "Basic reader features"],
     Standard: [
       "Access to more books",
       "Basic reader features",
@@ -114,7 +114,7 @@ export default function SubscriptionPage() {
           planId={selectedPlan ? selectedPlan.id : ""}
           isYearly={selectedPlan ? selectedPlan.type : "Monthly"}
           price={selectedPlan ? selectedPlan.price : ""}
-          benefits={selectedPlan ? selectedPlan.benefits : []} 
+          benefits={selectedPlan ? selectedPlan.benefits : []}
         />
         <div
           className="m-16 flex items-center justify-center overflow-y-auto"
