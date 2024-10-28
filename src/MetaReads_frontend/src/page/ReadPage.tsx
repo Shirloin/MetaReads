@@ -28,12 +28,29 @@ import { useUser } from "../lib/user_provider";
 import LoginWarningModal from "../components/Modal/Warning/LoginWarningModal";
 import { useModalState } from "../components/Hook/Ui/useModalState";
 import { useCheckUserAuthorization } from "../components/Hook/Data/User/useCheckUserAuthorization";
+import SubscriptionWarningModal from "../components/Modal/Warning/SubscriptionWarningModal";
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const { getCookie } = useCookie();
   const navigate = useNavigate();
   const { user } = useUser();
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
+  const [selectedText, setSelectedText] = useState<string | undefined>();
+  const [pageInput, setPageInput] = useState<number>(1);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
+  const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const searchPluginInstance = searchPlugin();
+  const fullScreenPluginInstance = fullScreenPlugin();
+  const pageNavigationPluginInstance = pageNavigationPlugin();
+  const zoomPluginInstance = zoomPlugin({ enableShortcuts: false });
+  const { authorize, isLoggedIn } = useCheckUserAuthorization({
+    user,
+    getCookie,
+    detailBook,
+  });
+
   const fetchData = async () => {
     try {
       const booksResponse: any = await MetaReads_backend.get_book(
@@ -47,34 +64,14 @@ const ReadPage = () => {
   };
   const onLoginWarning = () => {
     navigate("/login");
-    handleClose();
   };
-  const { modalState: loginState, handleClose, handleOpen } = useModalState();
-  const { authorize, isLoggedIn } = useCheckUserAuthorization({
-    user,
-    getCookie,
-    detailBook,
-  });
+  const onSubscriptionWarning = () => {
+    navigate("/subscriptions");
+  };
 
   useEffect(() => {
     fetchData();
   }, [bookId]);
-  useEffect(() => {
-    if (isLoggedIn == false) {
-      handleOpen();
-    }
-  }, [isLoggedIn]);
-
-  const [selectedText, setSelectedText] = useState<string | undefined>();
-  const [pageInput, setPageInput] = useState<number>(1);
-  const [zoomLevel, setZoomLevel] = useState<number>(1);
-  const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
-  const [cards, setCards] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const searchPluginInstance = searchPlugin();
-  const fullScreenPluginInstance = fullScreenPlugin();
-  const pageNavigationPluginInstance = pageNavigationPlugin();
-  const zoomPluginInstance = zoomPlugin({ enableShortcuts: false });
 
   const handleZoom = (scale: number) => {
     setZoomLevel(scale);
@@ -181,7 +178,7 @@ const ReadPage = () => {
       {isLoggedIn == false ? (
         <div className="text-white">
           <LoginWarningModal
-            open={loginState.other}
+            open={true}
             handleClose={onLoginWarning}
             fetchData={() => {}}
           />
@@ -190,7 +187,14 @@ const ReadPage = () => {
         <>
           {detailBook && user ? (
             !authorize ? (
-              <>Change into Popup</>
+              <div className="z-[999] text-white">
+                test
+                <SubscriptionWarningModal
+                  open={true}
+                  handleClose={onSubscriptionWarning}
+                  fetchData={() => {}}
+                />
+              </div>
             ) : (
               <div className="flex h-screen flex-col text-white">
                 <Header
