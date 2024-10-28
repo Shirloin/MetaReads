@@ -6,7 +6,7 @@ use crate::{
     user::lib::{get_user_by_id, insert_user, substract_user_balance},
     SUBSCRIPTION_STORE,
 };
-use candid::Principal;
+use candid::{types::principal, Principal};
 use ic_cdk::api::time;
 
 #[ic_cdk::update]
@@ -27,6 +27,14 @@ pub async fn create_subscription(payload: SubscriptionPayload) -> Result<Subscri
             })
         }
     };
+
+    if let Some(existing_subscription) = get_subscription_by_user(payload.user_id) {
+        SUBSCRIPTION_STORE.with(|subscription_store| {
+            subscription_store
+                .borrow_mut()
+                .remove(&existing_subscription.id);
+        });
+    }
 
     let cost;
     let start_date = time() / 1_000_000_000;
