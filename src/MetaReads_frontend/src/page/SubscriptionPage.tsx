@@ -26,7 +26,7 @@ export default function SubscriptionPage() {
   } | null>(null);
 
   const benefits = {
-    Basic: ["Access to limited books", "Basic reader features"],
+    Free: ["Access to limited books", "Basic reader features"],
     Standard: [
       "Access to more books",
       "Basic reader features",
