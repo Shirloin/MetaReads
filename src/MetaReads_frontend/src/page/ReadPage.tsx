@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { Modal, Button, CircularProgress } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
 import { MetaReads_backend } from "../../../declarations/MetaReads_backend";
-import { BookModel } from "../components/Props/model";
 import { Principal } from "@dfinity/principal";
 import { useCookie } from "../components/Hook/Cookie/useCookie";
 import { useUser } from "../lib/user_provider";
+import { useModalState } from "../components/Hook/Ui/useModalState";
 import { useCheckUserAuthorization } from "../components/Hook/Data/User/useCheckUserAuthorization";
 import LoginWarningModal from "../components/Modal/Warning/LoginWarningModal";
-import { useModalState } from "../components/Hook/Ui/useModalState";
+import { BookModel } from "../components/Props/model";
+import PDFViewer from "../components/PDFReader/PDFViewer";
+import { CircularProgress } from "@mui/material";
 
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -17,6 +17,16 @@ const ReadPage = () => {
   const navigate = useNavigate();
   const { user } = useUser();
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
+  const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedText, setSelectedText] = useState<string | undefined>();
+  const { modalState: loginState, handleClose, handleOpen } = useModalState();
+  const { authorize, isLoggedIn } = useCheckUserAuthorization({
+    user,
+    getCookie,
+    detailBook,
+  });
+
   const fetchData = async () => {
     try {
       const booksResponse: any = await MetaReads_backend.get_book(
@@ -28,66 +38,78 @@ const ReadPage = () => {
       console.error("Error fetching books:", error);
     }
   };
-  const onLoginWarning = () => {
-    navigate("/login");
-    handleClose();
-  };
-  const { modalState: loginState, handleClose, handleOpen } = useModalState();
-  const { authorize, isLoggedIn } = useCheckUserAuthorization({
-    user,
-    getCookie,
-    detailBook,
-  });
 
   useEffect(() => {
     fetchData();
   }, [bookId]);
+
   useEffect(() => {
-    if (isLoggedIn == false) {
+    if (isLoggedIn === false) {
       handleOpen();
     }
   }, [isLoggedIn]);
 
+  const summarizeText = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://91.108.111.225:6468/summarize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: selectedText,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const text = await response.text();
+      console.log(text);
+      const newCard = {
+        id: cards.length + 1,
+        name: `Summarized Text - ${cards.length + 1}`,
+        content: <p>{text}</p>,
+      };
+      setCards((prevCards) => [...prevCards, newCard]);
+    } catch (error) {
+      console.error("Failed to fetch summary text:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      {isLoggedIn == false ? (
-        <div className="text-white">
-          <LoginWarningModal
-            open={loginState.other}
-            handleClose={onLoginWarning}
-            fetchData={() => {}}
-          />
-        </div>
+      {isLoggedIn === false ? (
+        <LoginWarningModal
+          open={loginState.other}
+          handleClose={() => navigate("/login")}
+          fetchData={() => {}}
+        />
       ) : (
         <>
           {detailBook && user ? (
             !authorize ? (
               <>Change into Popup</>
             ) : (
-              // <div className="flex h-[100vh] flex-col items-center justify-center">
-              //   <div className="text-center text-[red]">
-              //     You are not allowed to read this book
-              //   </div>
-              //   <div>
-              //     <Link to={"/store"}>
-              //       <Button>Back</Button>
-              //     </Link>
-              //     <Link to={"/subscriptions"}>
-              //       <Button>Buy Subscription</Button>
-              //     </Link>
-              //   </div>
-              // </div>
-              // Rest of the component content
-              <div className="flex h-screen flex-col text-white">
-                {/* PDF Viewer and other components */}
-              </div>
+              <PDFViewer
+                fileUrl={detailBook.book_url}
+                onDocumentLoad={() => {}}
+                cards={cards}
+                setCards={setCards}
+                loading={loading}
+                setLoading={setLoading}
+                selectedText={selectedText}
+                setSelectedText={setSelectedText}
+              />
             )
           ) : (
-            <></>
-
-            // <div className="flex h-screen items-center justify-center">
-            //   {/* <CircularProgress /> */}
-            // </div>
+            <div className="flex h-screen items-center justify-center">
+              <CircularProgress />
+            </div>
           )}
         </>
       )}
