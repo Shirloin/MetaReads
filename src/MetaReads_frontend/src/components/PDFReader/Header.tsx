@@ -20,6 +20,7 @@ import { SearchIcon } from "@react-pdf-viewer/search";
 import "@react-pdf-viewer/search/lib/styles/index.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import InputField from "../Form/Input/TextField/InputField";
+import { useNavigate } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
@@ -65,7 +66,7 @@ const Navigation = ({
   <div className="my-2 flex justify-center gap-2">
     <button
       onClick={jumpToPreviousPage}
-      className="w-[80px] rounded bg-gray-800 p-2 text-white"
+      className="w-[80px] rounded bg-gray-800 p-2 text-white hover:bg-gray-600"
     >
       Previous
     </button>
@@ -89,7 +90,7 @@ const Navigation = ({
     </div>
     <button
       onClick={jumpToNextPage}
-      className="w-[80px] rounded bg-gray-800 p-2 text-white"
+      className="w-[80px] rounded bg-gray-800 p-2 text-white hover:bg-gray-600"
     >
       Next
     </button>
@@ -101,7 +102,7 @@ const EnterFullScreenButton = ({
 }: {
   EnterFullScreen: (props: EnterFullScreenProps) => React.ReactElement;
 }) => (
-  <div className="flex items-center justify-center rounded-md bg-gray-800 p-3 px-3">
+  <div className="flex items-center justify-center rounded-md bg-gray-800 p-3 px-3 hover:bg-gray-600">
     <EnterFullScreen>
       {(props: RenderEnterFullScreenProps) => (
         <button onClick={props.onClick} className="text-white">
@@ -132,26 +133,38 @@ export const Header = ({
   handleZoom: (scale: number) => void;
   ShowSearchPopover: (props: ShowSearchPopoverProps) => React.ReactElement;
   EnterFullScreen: (props: EnterFullScreenProps) => React.ReactElement;
-}) => (
-  <div className="flex justify-between px-4">
-    <div className="flex items-center justify-center gap-2">
-      <EnterFullScreenButton EnterFullScreen={EnterFullScreen} />
-      <div className="flex items-center justify-center rounded-md bg-gray-800 p-2 px-3">
-        <ShowSearchPopover>
-          {(props: RenderShowSearchPopoverProps) => (
-            <button onClick={props.onClick} className="text-white">
-              <SearchIcon />
-            </button>
-          )}
-        </ShowSearchPopover>
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex justify-between px-4">
+      <div className="flex items-center justify-center gap-2">
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="  rounded-md bg-gray-800 px-4 py-2 text-white hover:bg-gray-600"
+        >
+          Back
+        </button>
+        <EnterFullScreenButton EnterFullScreen={EnterFullScreen} />
+        <div className="flex items-center justify-center rounded-md bg-gray-800 p-2 px-3 hover:bg-gray-600">
+          <ShowSearchPopover>
+            {(props: RenderShowSearchPopoverProps) => (
+              <button onClick={props.onClick} className="text-white">
+                <SearchIcon />
+              </button>
+            )}
+          </ShowSearchPopover>
+        </div>
       </div>
+      <Navigation
+        jumpToNextPage={jumpToNextPage}
+        jumpToPreviousPage={jumpToPreviousPage}
+        CurrentPageLabel={CurrentPageLabel}
+        handlePageInputChange={handlePageInputChange}
+      />
+      <Zoom zoomLevel={zoomLevel} handleZoom={handleZoom} />
     </div>
-    <Navigation
-      jumpToNextPage={jumpToNextPage}
-      jumpToPreviousPage={jumpToPreviousPage}
-      CurrentPageLabel={CurrentPageLabel}
-      handlePageInputChange={handlePageInputChange}
-    />
-    <Zoom zoomLevel={zoomLevel} handleZoom={handleZoom} />
-  </div>
-);
+  );
+};
