@@ -495,6 +495,33 @@ delete_read(id)
 
 Return Read or Error
 
+## Comment Reference
+
+#### Create Read
+
+```http
+create_comment({text, user_id, book_id})
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `text`      | `String` | **Required**.|
+| `user_id`      | `Principal` | **Required**.|
+| `book_id`      | `Principal` | **Required**.|
+
+Return Comment or Error
+
+#### Get Comment By Book
+
+```http
+get_commnent_by_book(book_id)
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `book_id`      | `Principal` | **Required**.|
+
+Return Array of Comment List
 
 
 If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
