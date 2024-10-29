@@ -11,6 +11,10 @@ import { useUser } from "../../lib/user_provider";
 import LibraryList from "../Library/LibraryList";
 import RemoveBook from "../Library/RemoveBook";
 
+import SubscriptionWarningModal from "../Modal/Warning/SubscriptionWarningModal";
+import { Title } from "../Utility/TitleUtility";
+import ShimmerButton from "../Form/Button/ShimmerButton";
+import CardComment from "../ui/card-comment";
 interface BookDetailProps {
   book: BookModel;
   libraryId?: string
@@ -100,8 +104,8 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
               <div className="font-normal">
                 <p className="mt-2 text-lg">Author: {book.author.name}</p>
                 <p className="text-lg">Genre: {book.genre.name}</p>
-                <p className="text-lg">Pages: {book.pages_count}</p>
-                <p className="text-lg">Views: {book.views}</p>
+                <p className="text-lg">Pages: {Number(book.pages_count)}</p>
+                <p className="text-lg">Views: {Number(book.views)}</p>
                 <p className="flex items-center gap-2 text-lg">
                   Total Reading Time: 14 hours
                 </p>
@@ -126,6 +130,13 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
                   onClick={() => setShowDescription(!showDescription)}
                 />
 
+                {isLoggedIn == true && (
+                  <>
+                    <button className="duration-400 transform rounded-lg border border-black bg-black px-6 py-2 font-bold text-black shadow-[0_0_0_3px_#000000_inset] transition hover:-translate-y-1 dark:border-[#EFAF21] dark:text-white">
+                      Add To Library
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -138,7 +149,20 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
           <p>{book.description}</p>
         </div>
       </div>
-      <div>Recommended For you</div>
+      <div className="pb-4 text-2xl font-bold">Comment</div>
+      <div className="w-full">
+        {!isLoggedIn ? (
+          <div className="flex w-full justify-center py-4">
+            <ShimmerButton text={"Login"} onClick={() => { }} />
+          </div>
+        ) : (
+          <></>
+        )}
+        <CardComment />
+        <CardComment />
+        <CardComment />
+        <CardComment />
+      </div>
     </div>
   );
 }
