@@ -10,7 +10,6 @@ import { useCookie } from "../Hook/Cookie/useCookie";
 import { useUser } from "../../lib/user_provider";
 import LibraryList from "../Library/LibraryList";
 import RemoveBook from "../Library/RemoveBook";
-
 import SubscriptionWarningModal from "../Modal/Warning/SubscriptionWarningModal";
 import { Title } from "../Utility/TitleUtility";
 import ShimmerButton from "../Form/Button/ShimmerButton";
@@ -129,7 +128,6 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
                   text={"More Information"}
                   onClick={() => setShowDescription(!showDescription)}
                 />
-
                 {isLoggedIn == true && (
                   <>
                     <button className="duration-400 transform rounded-lg border border-black bg-black px-6 py-2 font-bold text-black shadow-[0_0_0_3px_#000000_inset] transition hover:-translate-y-1 dark:border-[#EFAF21] dark:text-white">
