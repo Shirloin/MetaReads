@@ -35,7 +35,7 @@ export default function BookTable() {
   } = useModalState();
   const { pagination, handleChangePage, handleChangeRowsPerPage } =
     useCustomPagination();
-  const { query, handleQueryChange } = useQueryBook(rows);
+  const { query, handleQueryChange, filteredRows } = useQueryBook(rows);
 
   return (
     <>
@@ -66,13 +66,16 @@ export default function BookTable() {
           </div>
         </div>
         <BaseTable
-          rows={rows}
+          rows={filteredRows.slice(
+            pagination.page * pagination.rowsPerPage,
+            pagination.page * pagination.rowsPerPage + pagination.rowsPerPage,
+          )}
           headers={headers}
           handleOpenDelete={handleOpenDelete}
           handleOpenUpdate={handleOpenUpdate}
         />
         <CustomPagination
-          count={3}
+          count={filteredRows.length}
           rowsPerPage={pagination.rowsPerPage}
           page={pagination.page}
           handleChangePage={handleChangePage}
