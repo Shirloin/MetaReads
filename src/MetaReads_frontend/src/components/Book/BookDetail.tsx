@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 import { useCheckUserAuthorization } from "../Hook/Data/User/useCheckUserAuthorization";
 import { useCookie } from "../Hook/Cookie/useCookie";
 import { useUser } from "../../lib/user_provider";
-
+import SubscriptionWarningModal from "../Modal/Warning/SubscriptionWarningModal";
+import { Title } from "../Utility/TitleUtility";
+import ShimmerButton from "../Form/Button/ShimmerButton";
+import CardComment from "../ui/card-comment";
 interface BookDetailProps {
   book: BookModel;
 }
@@ -92,7 +95,7 @@ export default function BookDetail({ book }: BookDetailProps) {
                         Read
                       </div>
                     }
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 </Link>
 
@@ -100,15 +103,13 @@ export default function BookDetail({ book }: BookDetailProps) {
                   text={"More Information"}
                   onClick={() => setShowDescription(!showDescription)}
                 />
-                {
-                  isLoggedIn == true && (
-                    <>
-                      <button className="shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-black border border-black dark:border-[#EFAF21] dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
-                        Add To Library
-                      </button>
-                    </>
-                  )
-                }
+                {isLoggedIn == true && (
+                  <>
+                    <button className="duration-400 transform rounded-lg border border-black bg-black px-6 py-2 font-bold text-black shadow-[0_0_0_3px_#000000_inset] transition hover:-translate-y-1 dark:border-[#EFAF21] dark:text-white">
+                      Add To Library
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -121,7 +122,20 @@ export default function BookDetail({ book }: BookDetailProps) {
           <p>{book.description}</p>
         </div>
       </div>
-      <div>Recommended For you</div>
+      <div className="pb-4 text-2xl font-bold">Comment</div>
+      <div className="w-full">
+        {!isLoggedIn ? (
+          <div className="flex w-full justify-center py-4">
+            <ShimmerButton text={"Login"} onClick={() => {}} />
+          </div>
+        ) : (
+          <></>
+        )}
+        <CardComment />
+        <CardComment />
+        <CardComment />
+        <CardComment />
+      </div>
     </div>
   );
 }
