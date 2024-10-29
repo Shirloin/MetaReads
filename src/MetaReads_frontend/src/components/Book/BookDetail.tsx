@@ -5,6 +5,9 @@ import { BookModel } from "../Props/model";
 import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
 import { Link } from "react-router-dom";
+import { useCheckUserAuthorization } from "../Hook/Data/User/useCheckUserAuthorization";
+import { useCookie } from "../Hook/Cookie/useCookie";
+import { useUser } from "../../lib/user_provider";
 
 interface BookDetailProps {
   book: BookModel;
@@ -13,6 +16,13 @@ interface BookDetailProps {
 export default function BookDetail({ book }: BookDetailProps) {
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
   const [showDescription, setShowDescription] = useState<boolean>(false);
+  const { getCookie } = useCookie();
+  const { user } = useUser();
+  const { isLoggedIn } = useCheckUserAuthorization({
+    user,
+    getCookie,
+    detailBook: book,
+  });
 
   useEffect(() => {
     setShowDescription(false);
@@ -82,7 +92,7 @@ export default function BookDetail({ book }: BookDetailProps) {
                         Read
                       </div>
                     }
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 </Link>
 
@@ -90,6 +100,15 @@ export default function BookDetail({ book }: BookDetailProps) {
                   text={"More Information"}
                   onClick={() => setShowDescription(!showDescription)}
                 />
+                {
+                  isLoggedIn == true && (
+                    <>
+                      <button className="shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-black border border-black dark:border-[#EFAF21] dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+                        Add To Library
+                      </button>
+                    </>
+                  )
+                }
               </div>
             </div>
           </div>
