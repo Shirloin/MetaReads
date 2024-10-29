@@ -13,7 +13,6 @@ interface BookDetailProps {
 export default function BookDetail({ book }: BookDetailProps) {
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
   const [showDescription, setShowDescription] = useState<boolean>(false);
-
   useEffect(() => {
     setShowDescription(false);
     const img = new Image();
@@ -65,8 +64,8 @@ export default function BookDetail({ book }: BookDetailProps) {
               <div className="font-normal">
                 <p className="mt-2 text-lg">Author: {book.author.name}</p>
                 <p className="text-lg">Genre: {book.genre.name}</p>
-                <p className="text-lg">Pages: {book.pages_count}</p>
-                <p className="text-lg">Views: {book.views}</p>
+                <p className="text-lg">Pages: {Number(book.pages_count)}</p>
+                <p className="text-lg">Views: {Number(book.views)}</p>
                 <p className="flex items-center gap-2 text-lg">
                   Total Reading Time: 14 hours
                 </p>
