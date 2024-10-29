@@ -5,7 +5,7 @@ use ic_stable_structures::{storable::Bound, Storable};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
-use crate::{author::model::Author, genre::model::Genre};
+use crate::{author::model::Author, comment::model::Comment, genre::model::Genre};
 
 #[derive(Clone, Debug, CandidType, Deserialize, Serialize)]
 pub struct Book {
@@ -19,6 +19,7 @@ pub struct Book {
     pub plan: String,
     pub views: i64,
     pub page_count: u64,
+    pub comments: Vec<Comment>,
     pub created_at: u64,
     pub updated_at: Option<u64>,
 }

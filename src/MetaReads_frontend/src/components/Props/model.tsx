@@ -90,7 +90,7 @@ export interface UserModel {
   username: string;
   money: bigint;
   image: string;
-  subscription: [] | [SubscriptionModel] | SubscriptionModel;
+  subscription?: [] | [SubscriptionModel] | SubscriptionModel;
 }
 
 export interface SubscriptionModel {

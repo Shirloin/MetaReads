@@ -141,6 +141,7 @@ fn remove_book_in_library(payload: LibraryPayload) -> Result<Library, Error> {
     match get_library_by_id(&library_id) {
         Some(mut library) => {
             library.books.retain(|book| book.id != book_id);
+            insert_library(&library);
             Ok(library)
         }
         None => {

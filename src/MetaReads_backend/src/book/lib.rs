@@ -66,6 +66,7 @@ async fn create_book(payload: BookPayload) -> Result<Book, Error> {
         page_count: payload.page_count,
         plan: payload.plan,
         views: 0,
+        comments: Vec::new(),
         created_at: time() / 1_000_000_000,
         updated_at: None,
     };
@@ -237,6 +238,23 @@ fn get_latest_release_book() -> Vec<Book> {
     });
     books.sort_by(|a, b| b.created_at.cmp(&a.created_at));
     books.into_iter().take(20).collect()
+}
+#[ic_cdk::query]
+fn get_recommended_book() -> Vec<Book> {
+    let mut books: Vec<Book> = Vec::new();
+    BOOK_STORE.with(|book_store| {
+        let store = book_store.borrow();
+        for (_key, book) in store.iter() {
+            books.push(book.clone());
+        }
+    });
+    let len = books.len();
+    for i in (1..len).rev() {
+        let j = ic_cdk::api::time() as usize % (i + 1);
+        books.swap(i, j);
+    }
+
+    books.into_iter().take(15).collect()
 }
 #[ic_cdk::query]
 fn get_book_by_genre(genre_id: Principal) -> Vec<Book> {
