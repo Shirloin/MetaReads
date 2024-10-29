@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useCheckUserAuthorization } from "../Hook/Data/User/useCheckUserAuthorization";
 import { useCookie } from "../Hook/Cookie/useCookie";
 import { useUser } from "../../lib/user_provider";
+import LibraryList from "../Library/LibraryList";
 
 interface BookDetailProps {
   book: BookModel;
@@ -71,7 +72,16 @@ export default function BookDetail({ book }: BookDetailProps) {
             <img src={book.cover_image} alt="" className="z-10 h-[300px]" />
 
             <div className="z-10 ml-6 flex flex-col gap-2">
-              <h2 className="text-4xl font-bold">{book.title}</h2>
+              <div className="flex gap-3">
+
+                <h2 className="text-4xl font-bold">{book.title}</h2>    {
+                  isLoggedIn == true && (
+                    <>
+                      <LibraryList bookId={book.id.toString()} />
+                    </>
+                  )
+                }
+              </div>
               <div className="font-normal">
                 <p className="mt-2 text-lg">Author: {book.author.name}</p>
                 <p className="text-lg">Genre: {book.genre.name}</p>
@@ -100,15 +110,7 @@ export default function BookDetail({ book }: BookDetailProps) {
                   text={"More Information"}
                   onClick={() => setShowDescription(!showDescription)}
                 />
-                {
-                  isLoggedIn == true && (
-                    <>
-                      <button className="shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-black border border-black dark:border-[#EFAF21] dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
-                        Add To Library
-                      </button>
-                    </>
-                  )
-                }
+
               </div>
             </div>
           </div>

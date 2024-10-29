@@ -180,7 +180,7 @@ const ReadPage = () => {
           <LoginWarningModal
             open={true}
             handleClose={onLoginWarning}
-            fetchData={() => {}}
+            fetchData={() => { }}
           />
         </div>
       ) : (
@@ -188,11 +188,10 @@ const ReadPage = () => {
           {detailBook && user ? (
             !authorize ? (
               <div className="z-[999] text-white">
-                test
                 <SubscriptionWarningModal
                   open={true}
                   handleClose={onSubscriptionWarning}
-                  fetchData={() => {}}
+                  fetchData={() => { }}
                 />
               </div>
             ) : (

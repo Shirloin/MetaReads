@@ -24,8 +24,6 @@ export default function LibraryPage() {
       const test2: LibraryModel = library2;
 
       const updatedLibraryList: LibraryModel[] = [
-        test1,
-        test2,
         ...data
       ];
       setLibraryList(updatedLibraryList);
@@ -35,7 +33,7 @@ export default function LibraryPage() {
   }, [data]); // Run this effect when `data` changes
   const [selectedLibrary, setselectedLibrary] =
     React.useState<LibraryModel | null>(null);
-    
+
   const [selectedBook, setSelectedBook] = React.useState<BookModel | null>(
     null,
   );
