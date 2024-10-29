@@ -4,17 +4,21 @@ import React, { useEffect, useState } from "react";
 import { BookModel } from "../Props/model";
 import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCheckUserAuthorization } from "../Hook/Data/User/useCheckUserAuthorization";
 import { useCookie } from "../Hook/Cookie/useCookie";
 import { useUser } from "../../lib/user_provider";
 import LibraryList from "../Library/LibraryList";
+import RemoveBook from "../Library/RemoveBook";
 
 interface BookDetailProps {
   book: BookModel;
+  libraryId?: string
+  fetchData?: () => {}
 }
 
-export default function BookDetail({ book }: BookDetailProps) {
+export default function BookDetail({ book, libraryId, fetchData }: BookDetailProps) {
+  const location = useLocation();
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const { getCookie } = useCookie();
@@ -51,7 +55,14 @@ export default function BookDetail({ book }: BookDetailProps) {
 
   return (
     <div className="relative text-white">
-      <div className="h-[500px]">
+      <div className="h-[500px] relative">
+        {location.pathname === "/library" && fetchData && libraryId && (
+          <div className="absolute top-4 left-4 z-10">
+            <RemoveBook bookId={book.id.toString()}
+              fetchData={fetchData}
+              libraryId={libraryId} />
+          </div>
+        )}
         <div
           className="relative flex h-[500px] items-end justify-start"
           style={{
@@ -77,7 +88,11 @@ export default function BookDetail({ book }: BookDetailProps) {
                 <h2 className="text-4xl font-bold">{book.title}</h2>    {
                   isLoggedIn == true && (
                     <>
-                      <LibraryList bookId={book.id.toString()} />
+                      {location.pathname === "/library" ? (
+                        <LibraryList bookId={book.id.toString()} text="Add to another Library" />
+                      ) : (
+                        <LibraryList bookId={book.id.toString()} text="Add to Library" />
+                      )}
                     </>
                   )
                 }

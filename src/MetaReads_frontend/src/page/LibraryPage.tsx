@@ -44,6 +44,12 @@ export default function LibraryPage() {
   const handleBookSelect = (book: BookModel | null) => {
     setSelectedBook(book);
   };
+  const onBookRemoved = (): {} => {
+    handleLibrarySelect(null);
+    handleBookSelect(null);
+    fetchData();
+    return {};
+  }
 
   return (
     <PageLayout>
@@ -58,7 +64,7 @@ export default function LibraryPage() {
           />
           <div className="flex w-full flex-col">
             <div>
-              {selectedBook != null && <BookDetail book={selectedBook} />}
+              {selectedBook != null && selectedLibrary != null && <BookDetail book={selectedBook} fetchData={onBookRemoved} libraryId={selectedLibrary.id.toString()} />}
               {selectedBook == null && selectedLibrary != null && (
                 <div className="">
                   <LibraryContent
