@@ -42,9 +42,14 @@ export const useQueryBook = (
     setQuery(e.target.value);
   };
 
+  const filteredRows = rows.filter((row) => {
+    return row.title.toLowerCase().includes(query.toLowerCase());
+  });
+
   return {
     query,
     setQuery,
     handleQueryChange,
+    filteredRows
   };
 };
