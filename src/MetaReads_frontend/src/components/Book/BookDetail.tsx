@@ -16,11 +16,15 @@ import ShimmerButton from "../Form/Button/ShimmerButton";
 import CardComment from "../ui/card-comment";
 interface BookDetailProps {
   book: BookModel;
-  libraryId?: string
-  fetchData?: () => {}
+  libraryId?: string;
+  fetchData?: () => {};
 }
 
-export default function BookDetail({ book, libraryId, fetchData }: BookDetailProps) {
+export default function BookDetail({
+  book,
+  libraryId,
+  fetchData,
+}: BookDetailProps) {
   const location = useLocation();
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
   const [showDescription, setShowDescription] = useState<boolean>(false);
@@ -58,12 +62,14 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
 
   return (
     <div className="relative text-white">
-      <div className="h-[500px] relative">
+      <div className="relative h-[500px]">
         {location.pathname === "/library" && fetchData && libraryId && (
-          <div className="absolute top-4 left-4 z-10">
-            <RemoveBook bookId={book.id.toString()}
+          <div className="absolute left-4 top-4 z-10">
+            <RemoveBook
+              bookId={book.id.toString()}
               fetchData={fetchData}
-              libraryId={libraryId} />
+              libraryId={libraryId}
+            />
           </div>
         )}
         <div
@@ -87,18 +93,22 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
 
             <div className="z-10 ml-6 flex flex-col gap-2">
               <div className="flex gap-3">
-
-                <h2 className="text-4xl font-bold">{book.title}</h2>    {
-                  isLoggedIn == true && (
-                    <>
-                      {location.pathname === "/library" ? (
-                        <LibraryList bookId={book.id.toString()} text="Add to another Library" />
-                      ) : (
-                        <LibraryList bookId={book.id.toString()} text="Add to Library" />
-                      )}
-                    </>
-                  )
-                }
+                <h2 className="text-4xl font-bold">{book.title}</h2>{" "}
+                {isLoggedIn == true && (
+                  <>
+                    {location.pathname === "/library" ? (
+                      <LibraryList
+                        bookId={book.id.toString()}
+                        text="Add to another Library"
+                      />
+                    ) : (
+                      <LibraryList
+                        bookId={book.id.toString()}
+                        text="Add to Library"
+                      />
+                    )}
+                  </>
+                )}
               </div>
               <div className="font-normal">
                 <p className="mt-2 text-lg">Author: {book.author.name}</p>
@@ -120,7 +130,7 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
                         Read
                       </div>
                     }
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 </Link>
 
@@ -128,13 +138,6 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
                   text={"More Information"}
                   onClick={() => setShowDescription(!showDescription)}
                 />
-                {isLoggedIn == true && (
-                  <>
-                    <button className="duration-400 transform rounded-lg border border-black bg-black px-6 py-2 font-bold text-black shadow-[0_0_0_3px_#000000_inset] transition hover:-translate-y-1 dark:border-[#EFAF21] dark:text-white">
-                      Add To Library
-                    </button>
-                  </>
-                )}
               </div>
             </div>
           </div>
@@ -151,14 +154,11 @@ export default function BookDetail({ book, libraryId, fetchData }: BookDetailPro
       <div className="w-full">
         {!isLoggedIn ? (
           <div className="flex w-full justify-center py-4">
-            <ShimmerButton text={"Login"} onClick={() => { }} />
+            <ShimmerButton text={"Login"} onClick={() => {}} />
           </div>
         ) : (
           <></>
         )}
-        <CardComment />
-        <CardComment />
-        <CardComment />
         <CardComment />
       </div>
     </div>

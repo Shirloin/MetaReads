@@ -9,7 +9,6 @@ import { BookModel } from "../components/Props/model";
 function BookDetailPage() {
   const { bookId } = useParams<{ bookId: string }>();
   const [book, setBook] = useState<BookModel | undefined>();
-  
 
   const fetchData = async () => {
     try {
@@ -17,23 +16,20 @@ function BookDetailPage() {
         Principal.fromText(bookId as string),
       );
 
-      const bookResponse = booksResponse.Ok
+      const bookResponse = booksResponse.Ok;
 
-
-      
-      const bookData: BookModel = 
-      {
-          id: Principal.fromText(bookResponse.id.toString()),
-          title: bookResponse.string,
-          author: bookResponse.author,
-          plan: bookResponse.plan,
-          genre: bookResponse.genre,
-          description: bookResponse.description,
-          cover_image: bookResponse.cover_image,
-          views: bookResponse.views,
-          pages_count: bookResponse.page_count,
-          book_url: bookResponse.book_url
-      }
+      const bookData: BookModel = {
+        id: Principal.fromText(bookResponse.id.toString()),
+        title: bookResponse.title,
+        author: bookResponse.author,
+        plan: bookResponse.plan,
+        genre: bookResponse.genre,
+        description: bookResponse.description,
+        cover_image: bookResponse.cover_image,
+        views: bookResponse.views,
+        pages_count: bookResponse.page_count,
+        book_url: bookResponse.book_url,
+      };
 
       setBook(bookData);
     } catch (error) {
