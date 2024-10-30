@@ -205,7 +205,7 @@ service : () -> {
   get_latest_release_book : () -> (vec Book) query;
   get_library_by_user : (principal) -> (vec Library) query;
   get_popular_book : () -> (vec Book) query;
-  get_read_by_user : (principal, principal) -> (opt Read) query;
+  get_read_by_user : (principal, principal) -> (Result_6);
   get_reads_by_user : (principal) -> (vec Read) query;
   get_recommended_book : () -> (vec Book) query;
   get_subscription_by_user : (principal) -> (opt Subscription) query;

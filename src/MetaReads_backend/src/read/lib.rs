@@ -1,3 +1,4 @@
+use std::f64::RADIX;
 use std::fs::read;
 
 use candid::Principal;
@@ -87,8 +88,8 @@ fn delete_read(id: Principal) -> Result<Read, Error> {
     }
 }
 
-#[ic_cdk::query]
-async fn get_read_by_user(book_id: Principal, user_id: Principal) -> Option<Read> {
+#[ic_cdk::update]
+async fn get_read_by_user(book_id: Principal, user_id: Principal) -> Result<Read, Error> {
     if let Some(read) = READ_STORE.with(|read_store| {
         let store = read_store.borrow();
         store
@@ -96,18 +97,18 @@ async fn get_read_by_user(book_id: Principal, user_id: Principal) -> Option<Read
             .find(|(_, read)| read.user.id == user_id && read.book.id == book_id)
             .map(|(_, read)| read.clone())
     }) {
-        return Some(read);
-    } else {
-        let payload = ReadPayload {
-            id: None,
-            book_id,
-            user_id,
-            page_history: Some(0),
-            total_read_duration: None,
-        };
-        let read = create_read(payload).await;
+        return Ok(read);
     }
-    return None;
+
+    let payload = ReadPayload {
+        id: None,
+        book_id,
+        user_id,
+        page_history: Some(0),
+        total_read_duration: None,
+    };
+
+    return create_read(payload).await;
 }
 
 #[ic_cdk::query]
