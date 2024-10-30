@@ -105,7 +105,7 @@ fn get_all_book(payload: PaginateBookPayload) -> Result<PaginatedBooks, Error> {
     })
 }
 
-#[ic_cdk::query]
+#[ic_cdk::update]
 fn get_book(id: Principal) -> Result<Book, Error> {
     match get_book_by_id(&id) {
         Some(mut book) => {
