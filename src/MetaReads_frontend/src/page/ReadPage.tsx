@@ -29,6 +29,7 @@ import LoginWarningModal from "../components/Modal/Warning/LoginWarningModal";
 import { useModalState } from "../components/Hook/Ui/useModalState";
 import { useCheckUserAuthorization } from "../components/Hook/Data/User/useCheckUserAuthorization";
 import SubscriptionWarningModal from "../components/Modal/Warning/SubscriptionWarningModal";
+import { initBeforeUnLoad } from "../components/Utility/UnloadUtility";
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const { getCookie } = useCookie();
@@ -56,6 +57,17 @@ const ReadPage = () => {
       const booksResponse: any = await MetaReads_backend.get_book(
         Principal.fromText(bookId as string),
       );
+      if (bookId && user) {
+        console.log(bookId);
+        console.log(user?.id.toString());
+        
+        const getUserRead = await MetaReads_backend.get_read_by_user(Principal.fromText(bookId), user?.id);
+        console.log(getUserRead);
+        // console.log("test");
+        
+        // setPageInput(getUserRead.page_history);
+      }
+        
       const book = booksResponse.Ok;
       setDetailBook(book);
     } catch (error) {
@@ -69,9 +81,23 @@ const ReadPage = () => {
     navigate("/subscriptions");
   };
 
+  const updateRead = async () => {
+    try {
+      if (bookId && user) {
+        
+      }
+    } catch (error) {
+      
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, [bookId]);
+
+  useEffect(() => {
+    // initBeforeUnLoad()
+  }, []);
 
   const handleZoom = (scale: number) => {
     setZoomLevel(scale);
@@ -82,6 +108,7 @@ const ReadPage = () => {
     if (isDocumentLoaded) {
       handleZoom(1);
     }
+    
   }, [isDocumentLoaded]);
 
   const addNewCard = (text: string) => {
