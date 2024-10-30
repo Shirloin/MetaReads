@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -30,6 +30,7 @@ import { useModalState } from "../components/Hook/Ui/useModalState";
 import { useCheckUserAuthorization } from "../components/Hook/Data/User/useCheckUserAuthorization";
 import SubscriptionWarningModal from "../components/Modal/Warning/SubscriptionWarningModal";
 import { initBeforeUnLoad } from "../components/Utility/UnloadUtility";
+import { Read } from "../components/Props/readProps";
 const ReadPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const { getCookie } = useCookie();
@@ -38,6 +39,10 @@ const ReadPage = () => {
   const [detailBook, setDetailBook] = useState<BookModel | undefined>();
   const [selectedText, setSelectedText] = useState<string | undefined>();
   const [pageInput, setPageInput] = useState<number>(1);
+  const [readId, setReadId] = useState<Principal>();
+  const [userId, setUserId] = useState<Principal>();
+  const currentPageRef = useRef(1);
+  const [totalReadDuration, setTotalReadDuration] = useState<number>(0);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
@@ -54,22 +59,29 @@ const ReadPage = () => {
 
   const fetchData = async () => {
     try {
+      
       const booksResponse: any = await MetaReads_backend.get_book(
         Principal.fromText(bookId as string),
       );
+      const book = booksResponse.Ok;
+      setDetailBook(book);
       if (bookId && user) {
         console.log(bookId);
         console.log(user?.id.toString());
-        
-        const getUserRead = await MetaReads_backend.get_read_by_user(Principal.fromText(bookId), user?.id);
+        setUserId(user?.id);
+        const getUserRead: any = await MetaReads_backend.get_read_by_user(Principal.fromText(bookId), user?.id);
         console.log(getUserRead);
-        // console.log("test");
         
-        // setPageInput(getUserRead.page_history);
+
+        if ("Ok" in getUserRead) {
+          console.log(getUserRead.Ok.id);
+          
+          setReadId(getUserRead.Ok.id);
+          setPageInput(parseInt(getUserRead.Ok.page_history.toString()));
+          setTotalReadDuration(parseInt(getUserRead.Ok.total_read_duration.toString()))
+        }
+        
       }
-        
-      const book = booksResponse.Ok;
-      setDetailBook(book);
     } catch (error) {
       console.error("Error fetching books:", error);
     }
@@ -83,7 +95,24 @@ const ReadPage = () => {
 
   const updateRead = async () => {
     try {
-      if (bookId && user) {
+      console.log(bookId);
+      console.log(userId);
+      
+      if (bookId && userId) {
+        console.log(currentPageRef.current);
+        console.log(readId);
+
+        if (readId && userId) {
+          const p = await MetaReads_backend.update_read({
+            id: [readId],
+            user_id: userId,
+            book_id: Principal.fromText(bookId),
+            page_history: [BigInt(currentPageRef.current)],
+            total_read_duration: [BigInt(totalReadDuration)]
+          })
+          console.log(p);
+          
+        }
         
       }
     } catch (error) {
@@ -96,7 +125,11 @@ const ReadPage = () => {
   }, [bookId]);
 
   useEffect(() => {
-    // initBeforeUnLoad()
+    initBeforeUnLoad(updateRead)
+    return () => {
+      // Cleanup the beforeunload handler
+      window.onbeforeunload = null;
+  };
   }, []);
 
   const handleZoom = (scale: number) => {
@@ -199,7 +232,23 @@ const ReadPage = () => {
     if (pageInput !== undefined) {
       jumpToPage(pageInput);
     }
-  }, [pageInput]);
+    
+  }, [pageInput])
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+        console.log(readId);
+        console.log(userId);
+        
+        
+        setTotalReadDuration((prevTime) => prevTime+1);
+    }, 1000);
+    
+
+    return () => clearInterval(timer);
+  }, [totalReadDuration]);
+
+
   return (
     <>
       {isLoggedIn == false ? (
@@ -232,6 +281,7 @@ const ReadPage = () => {
                   handleZoom={handleZoom}
                   ShowSearchPopover={ShowSearchPopover}
                   EnterFullScreen={EnterFullScreen}
+                  UpdateRead={updateRead}
                 />
                 <div className="flex-grow overflow-auto">
                   <Worker
@@ -248,6 +298,7 @@ const ReadPage = () => {
                         fullScreenPluginInstance,
                         searchPluginInstance,
                       ]}
+                      onPageChange={(e) => { currentPageRef.current = e.currentPage; }}
                     />
                   </Worker>
                 </div>

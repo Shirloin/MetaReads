@@ -105,7 +105,7 @@ async fn get_read_by_user(book_id: Principal, user_id: Principal) -> Result<Read
         book_id,
         user_id,
         page_history: Some(0),
-        total_read_duration: None,
+        total_read_duration: Some(0),
     };
 
     return create_read(payload).await;

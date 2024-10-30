@@ -122,6 +122,7 @@ export const Header = ({
   handleZoom,
   ShowSearchPopover,
   EnterFullScreen,
+  UpdateRead
 }: {
   jumpToNextPage: () => void;
   jumpToPreviousPage: () => void;
@@ -133,6 +134,7 @@ export const Header = ({
   handleZoom: (scale: number) => void;
   ShowSearchPopover: (props: ShowSearchPopoverProps) => React.ReactElement;
   EnterFullScreen: (props: EnterFullScreenProps) => React.ReactElement;
+  UpdateRead: () => Promise<void>;
 }) => {
   const navigate = useNavigate();
 
@@ -140,7 +142,8 @@ export const Header = ({
     <div className="flex justify-between px-4">
       <div className="flex items-center justify-center gap-2">
         <button
-          onClick={() => {
+          onClick={async () => {
+            await UpdateRead()
             navigate(-1);
           }}
           className="  rounded-md bg-gray-800 px-4 py-2 text-white hover:bg-gray-600"
