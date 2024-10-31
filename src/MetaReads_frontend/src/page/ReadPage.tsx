@@ -59,7 +59,6 @@ const ReadPage = () => {
 
   const fetchData = async () => {
     try {
-      
       const booksResponse: any = await MetaReads_backend.get_book(
         Principal.fromText(bookId as string),
       );
@@ -69,18 +68,21 @@ const ReadPage = () => {
         console.log(bookId);
         console.log(user?.id.toString());
         setUserId(user?.id);
-        const getUserRead: any = await MetaReads_backend.get_read_by_user(Principal.fromText(bookId), user?.id);
+        const getUserRead: any = await MetaReads_backend.get_read_by_user(
+          Principal.fromText(bookId),
+          user?.id,
+        );
         console.log(getUserRead);
-        
 
         if ("Ok" in getUserRead) {
           console.log(getUserRead.Ok.id);
-          
+
           setReadId(getUserRead.Ok.id);
           setPageInput(parseInt(getUserRead.Ok.page_history.toString()));
-          setTotalReadDuration(parseInt(getUserRead.Ok.total_read_duration.toString()))
+          setTotalReadDuration(
+            parseInt(getUserRead.Ok.total_read_duration.toString()),
+          );
         }
-        
       }
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -97,7 +99,7 @@ const ReadPage = () => {
     try {
       console.log(bookId);
       console.log(userId);
-      
+
       if (bookId && userId) {
         console.log(currentPageRef.current);
         console.log(readId);
@@ -108,28 +110,24 @@ const ReadPage = () => {
             user_id: userId,
             book_id: Principal.fromText(bookId),
             page_history: [BigInt(currentPageRef.current)],
-            total_read_duration: [BigInt(totalReadDuration)]
-          })
+            total_read_duration: [BigInt(totalReadDuration)],
+          });
           console.log(p);
-          
         }
-        
       }
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
   useEffect(() => {
     fetchData();
   }, [bookId]);
 
   useEffect(() => {
-    initBeforeUnLoad(updateRead)
+    initBeforeUnLoad(updateRead);
     return () => {
       // Cleanup the beforeunload handler
       window.onbeforeunload = null;
-  };
+    };
   }, []);
 
   const handleZoom = (scale: number) => {
@@ -141,7 +139,6 @@ const ReadPage = () => {
     if (isDocumentLoaded) {
       handleZoom(1);
     }
-    
   }, [isDocumentLoaded]);
 
   const addNewCard = (text: string) => {
@@ -232,22 +229,18 @@ const ReadPage = () => {
     if (pageInput !== undefined) {
       jumpToPage(pageInput);
     }
-    
-  }, [pageInput])
-  
+  }, [pageInput]);
+
   useEffect(() => {
     const timer = setInterval(() => {
-        console.log(readId);
-        console.log(userId);
-        
-        
-        setTotalReadDuration((prevTime) => prevTime+1);
+      console.log(readId);
+      console.log(userId);
+
+      setTotalReadDuration((prevTime) => prevTime + 1);
     }, 1000);
-    
 
     return () => clearInterval(timer);
   }, [totalReadDuration]);
-
 
   return (
     <>
@@ -256,7 +249,7 @@ const ReadPage = () => {
           <LoginWarningModal
             open={true}
             handleClose={onLoginWarning}
-            fetchData={() => { }}
+            fetchData={() => {}}
           />
         </div>
       ) : (
@@ -267,7 +260,7 @@ const ReadPage = () => {
                 <SubscriptionWarningModal
                   open={true}
                   handleClose={onSubscriptionWarning}
-                  fetchData={() => { }}
+                  fetchData={() => {}}
                 />
               </div>
             ) : (
@@ -298,7 +291,9 @@ const ReadPage = () => {
                         fullScreenPluginInstance,
                         searchPluginInstance,
                       ]}
-                      onPageChange={(e) => { currentPageRef.current = e.currentPage; }}
+                      onPageChange={(e) => {
+                        currentPageRef.current = e.currentPage;
+                      }}
                     />
                   </Worker>
                 </div>

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import useStoreBooks from "../Hook/Data/Book/useStoreBooks";
 import usePopularBooks from "../Hook/Data/Book/usePopularBooks";
 import useLatestBooks from "../Hook/Data/Book/useLatestBooks";
+import useRecommendBooks from "../Hook/Data/Book/useRecommendBook";
 
 interface StoreContentProps {
   handleBookSelect: (book: BookModel | null) => void;
@@ -18,15 +19,17 @@ interface StoreContentProps {
 
 export default function StoreContent({ handleBookSelect }: StoreContentProps) {
   const [rows, fetchData] = useStoreBooks();
+  const [recommend, fetchRecommendData] = useRecommendBooks();
+  const [recommendSlice, setRecommendSlice] = useState<BookModel[]>();
   const [popular, fetchPopularData] = usePopularBooks();
   const [latest, fetchLatestData] = useLatestBooks();
   const [recommendedBooks, setRecommendedBooks] = useState<BookModel[]>();
   const [selectBook, setSelectBook] = useState<string>("All Book");
 
   useEffect(() => {
-    const firstFiveRows = rows.slice(0, 6);
-    setRecommendedBooks(firstFiveRows);
-  }, [rows]);
+    const firstFiveRows = recommend.slice(0, 6);
+    setRecommendSlice(firstFiveRows);
+  }, [recommend]);
 
   return (
     <>
@@ -80,7 +83,7 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
         <div className="flex items-center justify-between">
           <p className="text-lg font-bold">Recommended For You</p>
         </div>
-        {recommendedBooks && <FocusCards books={recommendedBooks} />}
+        {recommendSlice && <FocusCards books={recommendSlice} />}
       </div>
 
       <div className="flex w-full flex-col gap-8 px-16">

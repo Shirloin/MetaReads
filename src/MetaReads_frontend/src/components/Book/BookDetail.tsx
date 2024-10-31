@@ -61,7 +61,7 @@ export default function BookDetail({
   }, [book.cover_image]);
 
   return (
-    <div className="relative text-white">
+    <div className="relative overflow-y-scroll text-white">
       <div className="relative h-[500px]">
         {location.pathname === "/library" && fetchData && libraryId && (
           <div className="absolute left-4 top-4 z-10">
@@ -159,7 +159,15 @@ export default function BookDetail({
         ) : (
           <></>
         )}
-        <CardComment />
+        <div className="mb-4">
+          <CardComment />
+          <CardComment />
+          <CardComment />
+          <CardComment />
+          <CardComment />
+          <CardComment />
+          <CardComment />
+        </div>
       </div>
     </div>
   );
