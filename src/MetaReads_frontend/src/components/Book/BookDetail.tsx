@@ -1,7 +1,7 @@
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsBookFill } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
-import { BookModel } from "../Props/model";
+import React, { useEffect, useRef, useState } from "react";
+import { BookModel, CommentModel } from "../Props/model";
 import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
 import { Link, useLocation } from "react-router-dom";
@@ -14,6 +14,13 @@ import SubscriptionWarningModal from "../Modal/Warning/SubscriptionWarningModal"
 import { Title } from "../Utility/TitleUtility";
 import ShimmerButton from "../Form/Button/ShimmerButton";
 import CardComment from "../ui/card-comment";
+import { useCreateBook } from "../Hook/Data/Book/useCreateBook";
+import { useCreateComment } from "../Hook/Data/Comment/useSubmitComment";
+import { ToastSuccess } from "../Form/Notifications/SuccessNotification";
+import { ToastError } from "../Form/Notifications/ErrorNotification";
+import { toast } from "react-toastify";
+import { MetaReads_backend } from "../../../../declarations/MetaReads_backend";
+import { ToastLoading } from "../Form/Notifications/LoadingNotification";
 interface BookDetailProps {
   book: BookModel;
   libraryId?: string;
@@ -30,11 +37,61 @@ export default function BookDetail({
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const { getCookie } = useCookie();
   const { user } = useUser();
+  const [text, setText] = useState<string>("");
   const { isLoggedIn } = useCheckUserAuthorization({
     user,
     getCookie,
     detailBook: book,
   });
+  const [allComment, setAllComment] = useState<CommentModel[]>();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  const [refresh, setRefresh] = useState<boolean>();
+
+  useEffect(() => {
+    const getCommentResponse = async () => {
+      if (book) {
+        const commentsResponse: any =
+          await MetaReads_backend.get_comment_by_book(book.id);
+        console.log("testing", commentsResponse);
+
+        setAllComment(commentsResponse);
+      }
+    };
+
+    getCommentResponse();
+  }, [refresh]);
+
+  const { createComment, error } = useCreateComment();
+  const loadingToastId = useRef<string | null>(null);
+  const handleSubmitComment = async (e: any) => {
+    e.preventDefault();
+    if (text === "" && !text) {
+      ToastError("Comment cannot be empty!");
+      return;
+    }
+    // @ts-ignore
+    loadingToastId.current = ToastLoading("Loading..");
+    try {
+      const success = await createComment(text, user!.id, book.id);
+      if (success) {
+        ToastSuccess("Book Created Successfully");
+        // fetchData();
+      } else {
+        ToastError(error);
+      }
+      setRefresh((refresh) => !refresh);
+      setText("");
+    } finally {
+      if (loadingToastId.current) {
+        toast.dismiss(loadingToastId.current);
+        loadingToastId.current = null;
+      }
+    }
+  };
 
   useEffect(() => {
     setShowDescription(false);
@@ -150,23 +207,48 @@ export default function BookDetail({
           <p>{book.description}</p>
         </div>
       </div>
-      <div className="pb-4 text-2xl font-bold">Comment</div>
+      <div className="pb-4 text-2xl font-bold">
+        {(allComment && allComment?.length) || 0} Comment
+      </div>
       <div className="w-full">
         {!isLoggedIn ? (
           <div className="flex w-full justify-center py-4">
             <ShimmerButton text={"Login"} onClick={() => {}} />
           </div>
         ) : (
-          <></>
+          <>
+            <div className="my-6 flex w-full py-2">
+              <div className="">
+                <div className="mr-[16px] h-[40px] w-[40px] rounded-full bg-white"></div>
+              </div>
+              <div className="mr-12 flex-1">
+                <form action="" onSubmit={handleSubmitComment}>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    className="w-full flex-1 border-b border-gray-500 bg-transparent py-2 outline-none"
+                    placeholder="Add Comment"
+                    onChange={(e: any) => {
+                      setText(e.target.value);
+                    }}
+                    value={text}
+                  />
+                </form>
+              </div>
+            </div>
+          </>
         )}
         <div className="mb-4">
-          <CardComment />
-          <CardComment />
-          <CardComment />
-          <CardComment />
-          <CardComment />
-          <CardComment />
-          <CardComment />
+          {allComment &&
+            allComment.map((comment: CommentModel) => (
+              <CardComment
+                id={comment.id}
+                user={comment.user}
+                text={comment.text}
+                created_at={comment.created_at}
+              />
+            ))}
         </div>
       </div>
     </div>

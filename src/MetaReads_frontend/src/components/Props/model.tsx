@@ -19,6 +19,13 @@ export interface BookModel {
   book_url: string;
 }
 
+export interface CommentModel {
+  id: Principal;
+  text: string;
+  user: User;
+  created_at: any;
+}
+
 export interface BookModelProps {
   id: Principal;
   title: string;
