@@ -56,7 +56,25 @@ const ReadPage = () => {
     getCookie,
     detailBook,
   });
+  function saveStartReadingTime() {
+    const startTime = Date.now();
+    localStorage.setItem("_start_reading", JSON.stringify(startTime));
+  }
 
+  function loadStartReadingTimeAndCalculateDuration() {
+    let startReadingTime: any = localStorage.getItem("_start_reading");
+
+    if (startReadingTime) {
+      startReadingTime = JSON.parse(startReadingTime);
+      const currentTime = Date.now();
+      const durationInMilliseconds = currentTime - startReadingTime;
+      const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+
+      return durationInSeconds;
+    } else {
+      return null;
+    }
+  }
   const fetchData = async () => {
     try {
       const booksResponse: any = await MetaReads_backend.get_book(
@@ -75,10 +93,12 @@ const ReadPage = () => {
         console.log(getUserRead);
 
         if ("Ok" in getUserRead) {
-          console.log(getUserRead.Ok.id);
+          // console.log(getUserRead.Ok.id);
+          console.log(getUserRead.Ok.total_read_duration.toString());
 
           setReadId(getUserRead.Ok.id);
           setPageInput(parseInt(getUserRead.Ok.page_history.toString()));
+          saveStartReadingTime();
           setTotalReadDuration(
             parseInt(getUserRead.Ok.total_read_duration.toString()),
           );
@@ -104,13 +124,14 @@ const ReadPage = () => {
         console.log(currentPageRef.current);
         console.log(readId);
 
-        if (readId && userId) {
+        const currTime = loadStartReadingTimeAndCalculateDuration();
+        if (readId && userId && currTime != null) {
           const p = await MetaReads_backend.update_read({
             id: [readId],
             user_id: userId,
             book_id: Principal.fromText(bookId),
             page_history: [BigInt(currentPageRef.current)],
-            total_read_duration: [BigInt(totalReadDuration)],
+            total_read_duration: [BigInt(totalReadDuration + currTime)],
           });
           console.log(p);
         }
@@ -231,16 +252,6 @@ const ReadPage = () => {
     }
   }, [pageInput]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      console.log(readId);
-      console.log(userId);
-
-      setTotalReadDuration((prevTime) => prevTime + 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [totalReadDuration]);
 
   return (
     <>

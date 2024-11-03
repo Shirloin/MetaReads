@@ -118,7 +118,7 @@ export default function BookDetail({
   }, [book.cover_image]);
 
   return (
-    <div className="relative overflow-y-scroll text-white">
+    <div className="relative max-h-[100vh] overflow-y-scroll text-white">
       <div className="relative h-[500px]">
         {location.pathname === "/library" && fetchData && libraryId && (
           <div className="absolute left-4 top-4 z-10">
@@ -207,48 +207,50 @@ export default function BookDetail({
           <p>{book.description}</p>
         </div>
       </div>
-      <div className="pb-4 text-2xl font-bold">
-        {(allComment && allComment?.length) || 0} Comment
-      </div>
-      <div className="w-full">
-        {!isLoggedIn ? (
-          <div className="flex w-full justify-center py-4">
-            <ShimmerButton text={"Login"} onClick={() => {}} />
-          </div>
-        ) : (
-          <>
-            <div className="my-6 flex w-full py-2">
-              <div className="">
-                <div className="mr-[16px] h-[40px] w-[40px] rounded-full bg-white"></div>
-              </div>
-              <div className="mr-12 flex-1">
-                <form action="" onSubmit={handleSubmitComment}>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    className="w-full flex-1 border-b border-gray-500 bg-transparent py-2 outline-none"
-                    placeholder="Add Comment"
-                    onChange={(e: any) => {
-                      setText(e.target.value);
-                    }}
-                    value={text}
-                  />
-                </form>
-              </div>
+      <div className="m-10">
+        <div className="w-full border-b-2 border-[#EFAF21] pb-3 text-2xl font-bold">
+          {(allComment && allComment?.length) || 0} Review(s)
+        </div>
+        <div className="w-full">
+          {!isLoggedIn ? (
+            <div className="flex w-full justify-center py-4">
+              <ShimmerButton text={"Login"} onClick={() => {}} />
             </div>
-          </>
-        )}
-        <div className="mb-4">
-          {allComment &&
-            allComment.map((comment: CommentModel) => (
-              <CardComment
-                id={comment.id}
-                user={comment.user}
-                text={comment.text}
-                created_at={comment.created_at}
-              />
-            ))}
+          ) : (
+            <>
+              <div className="my-6 flex w-full py-2">
+                <div className="">
+                  <div className="mr-[16px] h-[40px] w-[40px] rounded-full bg-white"></div>
+                </div>
+                <div className="flex-1">
+                  <form action="" onSubmit={handleSubmitComment}>
+                    <input
+                      type="text"
+                      name=""
+                      id=""
+                      className="w-full flex-1 border-b border-gray-500 bg-transparent py-2 outline-none"
+                      placeholder="Leave your reviews"
+                      onChange={(e: any) => {
+                        setText(e.target.value);
+                      }}
+                      value={text}
+                    />
+                  </form>
+                </div>
+              </div>
+            </>
+          )}
+          <div className="mb-4">
+            {allComment &&
+              allComment.map((comment: CommentModel) => (
+                <CardComment
+                  id={comment.id}
+                  user={comment.user}
+                  text={comment.text}
+                  created_at={comment.created_at}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </div>

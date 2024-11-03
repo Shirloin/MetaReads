@@ -37,12 +37,12 @@ export default function SubscriptionPage() {
     Standard: [
       "Access to more books",
       "Basic reader features",
-      "Highlighting and note-taking",
+      "AI Summarizer",
     ],
     Premium: [
       "Access to entire book library",
       "Basic reader features",
-      "Highlighting and note-taking",
+      "AI Summarizer",
       "Priority support",
       "Personalized recommendations",
     ],
