@@ -14,23 +14,36 @@ import { useEffect, useState } from "react";
 import BookDetail from "../components/Book/BookDetail";
 import useBooks from "../components/Hook/Data/Book/useBooks";
 import { Principal } from "@dfinity/candid/lib/cjs/idl";
+import useStoreBooks from "../components/Hook/Data/Book/useStoreBooks";
 
 export default function StorePage() {
   const [selectedBook, setSelectedBook] = useState<BookModel | null>(null);
 
   useEffect(() => {}, [selectedBook]);
+  const [rows, fetchData] = useStoreBooks();
 
   const handleBookSelect = (book: BookModel | null) => {
     setSelectedBook(book);
   };
 
+  const [search, setSearch] = useState<string>("");
+  useEffect(() => {
+    fetchData(search);
+  }, [search]);
+
   return (
     <PageLayout>
-      <div className="relative max-h-[100vh] w-full overflow-y-auto bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2]">
-        <TopNavbar />
-        {selectedBook != null && <BookDetail book={selectedBook} />}
-        {selectedBook == null && (
-          <StoreContent handleBookSelect={handleBookSelect} />
+      <div className="relative min-h-[100vh] w-full overflow-y-auto bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2]">
+        <TopNavbar search={search} setSearch={setSearch} />
+        {/* {selectedBook != null && <BookDetail book={selectedBook} />} */}
+        {search != "" ? (
+          <>
+            <FocusCards books={rows} />
+          </>
+        ) : (
+          selectedBook == null && (
+            <StoreContent handleBookSelect={handleBookSelect} />
+          )
         )}
       </div>
     </PageLayout>

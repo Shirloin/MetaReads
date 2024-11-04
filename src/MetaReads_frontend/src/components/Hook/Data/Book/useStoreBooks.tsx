@@ -9,10 +9,10 @@ import { Principal } from "@dfinity/principal";
 const useStoreBooks = () => {
   const [rows, setRows] = useState<BookModel[]>([]);
 
-  const fetchData = async () => {
+  const fetchData = async (query: string) => {
     try {
       const booksResponse: any = await MetaReads_backend.get_all_book({
-        query: "",
+        query: query,
       });
 
       // console.log(booksResponse);
@@ -41,7 +41,7 @@ const useStoreBooks = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData("");
   }, []);
 
   return [rows, fetchData] as const;
