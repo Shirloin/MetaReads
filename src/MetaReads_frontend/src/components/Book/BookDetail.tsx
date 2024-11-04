@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BookModel, CommentModel } from "../Props/model";
 import GradientButton from "../Form/Button/GradientButton";
 import TopGradientButton from "../Form/Button/TopGradientButton";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCheckUserAuthorization } from "../Hook/Data/User/useCheckUserAuthorization";
 import { useCookie } from "../Hook/Cookie/useCookie";
 import { useUser } from "../../lib/user_provider";
@@ -42,32 +42,35 @@ export default function BookDetail({
   const { getCookie } = useCookie();
   const { user } = useUser();
   const [text, setText] = useState<string>("");
+  const navigate = useNavigate();
   const { isLoggedIn } = useCheckUserAuthorization({
     user,
     getCookie,
     detailBook: book,
   });
+
   const [allComment, setAllComment] = useState<CommentModel[]>();
 
   const getReadData = async () => {
     if (user) {
       setLoading(true);
       try {
-        const readData: any = await MetaReads_backend.get_read_by_user(book.id, user?.id);
+        const readData: any = await MetaReads_backend.get_read_by_user(
+          book.id,
+          user?.id,
+        );
         setReadData(readData.Ok);
         console.log(readData);
-        
       } catch (error: any) {
         ToastError(error.message);
       }
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     console.log(user);
     getReadData();
-
   }, [user]);
 
   const [refresh, setRefresh] = useState<boolean>();
@@ -194,16 +197,30 @@ export default function BookDetail({
                 <p className="text-lg">Pages: {Number(book.pages_count)}</p>
                 <p className="text-lg">Views: {Number(book.views)}</p>
                 <p className="flex items-center gap-2 text-lg">
-                  Your Total Reading Time: 
-                  {loading ? " Calculating..." : (
+                  {isLoggedIn == true && (
                     <>
-                      {" "}
-                      {Math.floor(Number(readData?.total_read_duration) / (60 * 60))} hours{" "}
-                      {Math.floor((Number(readData?.total_read_duration) / (60)) % 60)} minutes{" "}
-                      {Math.floor((Number(readData?.total_read_duration)) % 60)} seconds
+                      Your Total Reading Time:
+                      {loading ? (
+                        " Calculating..."
+                      ) : (
+                        <>
+                          {" "}
+                          {Math.floor(
+                            Number(readData?.total_read_duration) / (60 * 60),
+                          )}{" "}
+                          hours{" "}
+                          {Math.floor(
+                            (Number(readData?.total_read_duration) / 60) % 60,
+                          )}{" "}
+                          minutes{" "}
+                          {Math.floor(
+                            Number(readData?.total_read_duration) % 60,
+                          )}{" "}
+                          seconds
+                        </>
+                      )}
                     </>
                   )}
-                  
                 </p>
               </div>
               <div className="flex gap-6">
@@ -244,7 +261,12 @@ export default function BookDetail({
         <div className="w-full">
           {!isLoggedIn ? (
             <div className="flex w-full justify-center py-4">
-              <ShimmerButton text={"Login"} onClick={() => {}} />
+              <ShimmerButton
+                text={"Login"}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              />
             </div>
           ) : (
             <>
