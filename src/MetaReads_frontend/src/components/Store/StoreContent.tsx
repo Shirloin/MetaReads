@@ -51,28 +51,28 @@ export default function StoreContent({ handleBookSelect }: StoreContentProps) {
             <SwiperSlide className="w-full">
               <img
                 className="aspect-[4/1] w-full object-cover"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmCtbXTlczk8XPY6YzMJQaN0Q3En9LMORUsg&s"
+                src="https://static.vecteezy.com/system/resources/previews/008/424/173/non_2x/horizontal-banner-with-school-children-and-text-books-boys-and-girls-are-standing-near-books-study-education-back-to-school-poster-for-store-shop-library-school-library-vector.jpg"
                 alt=""
               />
             </SwiperSlide>
             <SwiperSlide className="w-full">
               <img
                 className="aspect-[4/1] w-full object-cover"
-                src="https://t3.ftcdn.net/jpg/03/21/97/42/360_F_321974259_BnmlxfkknMol8HiQ0dg1bwQizor48uB9.jpg"
+                src="https://static.vecteezy.com/system/resources/previews/013/867/971/non_2x/book-store-cartoon-banner-with-young-woman-face-free-vector.jpg"
                 alt=""
               />
             </SwiperSlide>
             <SwiperSlide className="w-full">
               <img
                 className="aspect-[4/1] w-full object-cover"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLzl3KUOFtEPdAUkK2HPukocZu9lbYk_YYcA&s"
+                src="https://static.vecteezy.com/system/resources/previews/002/294/880/non_2x/reading-book-web-banner-design-student-reading-book-on-stack-of-book-to-get-inspiration-online-education-digital-classroom-e-learning-concept-header-or-footer-banner-free-vector.jpg"
                 alt=""
               />
             </SwiperSlide>
             <SwiperSlide className="w-full">
               <img
                 className="aspect-[4/1] w-full object-cover"
-                src="https://as1.ftcdn.net/v2/jpg/04/27/15/08/1000_F_427150821_oQOZiOLP6lnWQdUmUG0YgQiTUsjmaGwE.jpg"
+                src="https://static.vecteezy.com/system/resources/previews/002/294/867/non_2x/digital-book-web-banner-design-student-reading-online-book-on-tablet-online-education-digital-classroom-e-learning-concept-header-or-footer-banner-free-vector.jpg"
                 alt=""
               />
             </SwiperSlide>
