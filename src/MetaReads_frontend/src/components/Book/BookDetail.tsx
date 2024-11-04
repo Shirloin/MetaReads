@@ -21,6 +21,8 @@ import { ToastError } from "../Form/Notifications/ErrorNotification";
 import { toast } from "react-toastify";
 import { MetaReads_backend } from "../../../../declarations/MetaReads_backend";
 import { ToastLoading } from "../Form/Notifications/LoadingNotification";
+import { Principal } from "@dfinity/principal";
+import { Read } from "../Props/readProps";
 interface BookDetailProps {
   book: BookModel;
   libraryId?: string;
@@ -35,6 +37,8 @@ export default function BookDetail({
   const location = useLocation();
   const [dominantColor, setDominantColor] = useState<string>("rgba(0,0,0,0.5)");
   const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [readData, setReadData] = useState<Read | undefined>();
   const { getCookie } = useCookie();
   const { user } = useUser();
   const [text, setText] = useState<string>("");
@@ -45,8 +49,25 @@ export default function BookDetail({
   });
   const [allComment, setAllComment] = useState<CommentModel[]>();
 
+  const getReadData = async () => {
+    if (user) {
+      setLoading(true);
+      try {
+        const readData: any = await MetaReads_backend.get_read_by_user(book.id, user?.id);
+        setReadData(readData.Ok);
+        console.log(readData);
+        
+      } catch (error: any) {
+        ToastError(error.message);
+      }
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     console.log(user);
+    getReadData();
+
   }, [user]);
 
   const [refresh, setRefresh] = useState<boolean>();
@@ -173,7 +194,16 @@ export default function BookDetail({
                 <p className="text-lg">Pages: {Number(book.pages_count)}</p>
                 <p className="text-lg">Views: {Number(book.views)}</p>
                 <p className="flex items-center gap-2 text-lg">
-                  Total Reading Time: 14 hours
+                  Your Total Reading Time: 
+                  {loading ? " Calculating..." : (
+                    <>
+                      {" "}
+                      {Math.floor(Number(readData?.total_read_duration) / (60 * 60))} hours{" "}
+                      {Math.floor((Number(readData?.total_read_duration) / (60)) % 60)} minutes{" "}
+                      {Math.floor((Number(readData?.total_read_duration)) % 60)} seconds
+                    </>
+                  )}
+                  
                 </p>
               </div>
               <div className="flex gap-6">

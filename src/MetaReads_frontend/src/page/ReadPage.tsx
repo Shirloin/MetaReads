@@ -42,7 +42,8 @@ const ReadPage = () => {
   const [readId, setReadId] = useState<Principal>();
   const [userId, setUserId] = useState<Principal>();
   const currentPageRef = useRef(1);
-  const [totalReadDuration, setTotalReadDuration] = useState<number>(0);
+  const [currentTime, setCurrentTime] = useState<number>(new Date().getTime());
+  const [currentDuration, setCurrentDuration] = useState<number>(0);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
@@ -99,7 +100,7 @@ const ReadPage = () => {
           setReadId(getUserRead.Ok.id);
           setPageInput(parseInt(getUserRead.Ok.page_history.toString()));
           saveStartReadingTime();
-          setTotalReadDuration(
+          setCurrentDuration(
             parseInt(getUserRead.Ok.total_read_duration.toString()),
           );
         }
@@ -126,17 +127,26 @@ const ReadPage = () => {
 
         const currTime = loadStartReadingTimeAndCalculateDuration();
         if (readId && userId && currTime != null) {
+          console.log(currentDuration);
+          
+          console.log((new Date().getTime() - currentTime));
+          console.log((new Date().getTime() - currentTime) / 1000);
+          console.log(currentDuration + (new Date().getTime() - currentTime) / 1000);
+          
           const p = await MetaReads_backend.update_read({
             id: [readId],
             user_id: userId,
             book_id: Principal.fromText(bookId),
             page_history: [BigInt(currentPageRef.current)],
-            total_read_duration: [BigInt(totalReadDuration + currTime)],
+            total_read_duration: [BigInt(parseInt((currentDuration + (new Date().getTime() - currentTime) / 1000).toString()))],
           });
           console.log(p);
         }
       }
-    } catch (error) {}
+    } catch (error: any) {
+      console.log(error.message);
+      
+    }
   };
 
   useEffect(() => {
