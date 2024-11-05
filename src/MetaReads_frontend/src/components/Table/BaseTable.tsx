@@ -78,7 +78,7 @@ export default function BaseTable({
                                 {cellIndex === 0 ? (
                                   <img
                                     src={cell as string}
-                                    className="h-[200px] w-[380px]"
+                                    className="min-h-[200px] min-w-[150px]"
                                     alt="Book Cover"
                                   />
                                 ) : (

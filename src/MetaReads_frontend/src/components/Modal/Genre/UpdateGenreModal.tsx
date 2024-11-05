@@ -23,7 +23,7 @@ export default function UpdateGenreModal({
     try {
       const success = await updateGenre(selectedItem.id, name);
       if (success) {
-        ToastSuccess("Genre Created Successfully");
+        ToastSuccess("Genre Updated Successfully");
         fetchData();
       } else {
         ToastError(error);

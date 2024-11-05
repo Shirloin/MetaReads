@@ -57,7 +57,7 @@ export default function UpdateBookModal({
           page_count,
         );
         if (success) {
-          ToastSuccess("Author Created Successfully");
+          ToastSuccess("Book Updated Successfully");
           fetchData();
           handleClose();
         } else {

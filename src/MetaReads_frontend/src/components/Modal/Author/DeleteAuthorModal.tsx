@@ -21,7 +21,7 @@ export default function DeleteAuthorModal({
     try {
       const success = await deleteAuthor(selectedItem.id);
       if (success) {
-        ToastSuccess("Author Created Successfully");
+        ToastSuccess("Author Deleted Successfully");
         fetchData();
       } else {
         ToastError(error);

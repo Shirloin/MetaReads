@@ -23,7 +23,7 @@ export default function UpdateAuthorModal({
     try {
       const success = await updateAuthor(selectedItem.id, name);
       if (success) {
-        ToastSuccess("Author Created Successfully");
+        ToastSuccess("Author Updated Successfully");
         fetchData();
       } else {
         ToastError(error);

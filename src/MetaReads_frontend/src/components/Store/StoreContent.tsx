@@ -6,7 +6,6 @@ import "swiper/swiper-bundle.css"; // Ensure the styles are imported
 import OutlinedButton from "../Form/Button/OutlinedButton";
 import { BookModel, BookModelProps } from "../Props/model";
 import { FocusCards } from "../ui/focus-cards";
-import useBooks from "../Hook/Data/Book/useBooks";
 import { useEffect, useState } from "react";
 import useStoreBooks from "../Hook/Data/Book/useStoreBooks";
 import usePopularBooks from "../Hook/Data/Book/usePopularBooks";
