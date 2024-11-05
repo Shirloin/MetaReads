@@ -10,7 +10,7 @@ import UpdateAuthorModal from "../Modal/Author/UpdateAuthorModal";
 import useAuthors from "../Hook/Data/Author/useAuthors";
 import { CreateAuthorModal } from "../Modal/Author/CreateAuthorModal";
 import { CreateBookModal } from "../Modal/Book/CreateBookModal";
-import useBooks from "../Hook/Data/Book/useBooks";
+import { useBooks } from "../Hook/Data/Book/useBooks";
 import DeleteBookModal from "../Modal/Book/DeleteBookModal";
 import UpdateBookModal from "../Modal/Book/UpdateBookModal";
 

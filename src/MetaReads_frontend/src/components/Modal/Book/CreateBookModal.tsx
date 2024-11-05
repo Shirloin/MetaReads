@@ -24,7 +24,7 @@ interface BookModel {
   description: string;
   coverImage: File | null;
   views: number;
-  pages_count: number;
+  page_count: number;
 }
 
 export function CreateBookModal({
@@ -34,7 +34,7 @@ export function CreateBookModal({
 }: FormModalProps) {
   const { createBook, error } = useCreateBook();
   const loadingToastId = useRef<string | null>(null);
-  
+
   const { uploadBookFile, uploadBookCover } = useFirebaseStorage();
 
   const handleCreate = async (
@@ -45,7 +45,7 @@ export function CreateBookModal({
     genre: Principal,
     description: string,
     coverImage: File | null,
-    pages_count: any,
+    page_count: any,
   ) => {
     // @ts-ignore
     loadingToastId.current = ToastLoading("Loading..");
@@ -53,8 +53,14 @@ export function CreateBookModal({
     try {
       if (book_url && coverImage) {
         const currentTime = new Date().getTime().toString();
-        const pdf_url = await uploadBookFile(book_url, currentTime + " - " + title);
-        const book_cover = await uploadBookCover(coverImage, currentTime + " - " + title);
+        const pdf_url = await uploadBookFile(
+          book_url,
+          currentTime + " - " + title,
+        );
+        const book_cover = await uploadBookCover(
+          coverImage,
+          currentTime + " - " + title,
+        );
         const success = await createBook(
           title,
           author,
@@ -63,7 +69,7 @@ export function CreateBookModal({
           genre,
           description,
           book_cover,
-          pages_count,
+          page_count,
         );
         if (success) {
           ToastSuccess("Book Created Successfully");

@@ -8,8 +8,8 @@ import { BookModel, BookModelProps, GenreModel } from "../../../Props/model";
 import { Principal } from "@dfinity/principal";
 
 function createData(data: BaseTableColumnBooksProps) {
-  const { cover_image, id, title, book_url, plan, pages_count, option } = data;
-  return { cover_image, id, title, book_url, plan, pages_count, option };
+  const { cover_image, id, title, book_url, plan, page_count, option } = data;
+  return { cover_image, id, title, book_url, plan, page_count, option };
 }
 
 const usePopularBooks = () => {
@@ -26,7 +26,7 @@ const usePopularBooks = () => {
           title: book.title,
           book_url: book.book_url,
           plan: book.plan,
-          pages_count: book.page_count,
+          page_count: book.page_count,
           option: "Options",
         }),
       );

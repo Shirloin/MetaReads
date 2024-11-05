@@ -31,7 +31,7 @@ export const useQueryBook = (
     description: string;
     cover_image: string;
     views: number;
-    pages_count: number;
+    page_count: number;
   }[],
 ) => {
   const [query, setQuery] = useState<string>("");
@@ -50,6 +50,6 @@ export const useQueryBook = (
     query,
     setQuery,
     handleQueryChange,
-    filteredRows
+    filteredRows,
   };
 };

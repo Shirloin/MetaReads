@@ -1,42 +1,50 @@
-import { Button } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
-import { InputFileProps } from '../../../Props/inputFieldProps';
+import { Button } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { InputFileProps } from "../../../Props/inputFieldProps";
 
-function FileInput({  
-    onChange,
-    name
-    }:
-    InputFileProps
-) {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [currName, setCurrName] = useState("");
+function FileInput({ onChange, name, initialFile }: InputFileProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [currName, setCurrName] = useState("");
 
-    const handleButtonClick = () => {
-        if (fileInputRef.current != null) {
-            fileInputRef.current.click();
-        }
-    };
-
-    const handleChangeFile = (e: any) => {
-        onChange(e)
-        setCurrName(e.target.files[0].name);
+  const handleButtonClick = () => {
+    if (fileInputRef.current != null) {
+      fileInputRef.current.click();
     }
+  };
 
-    useEffect(() => {
-        
-        
-    }, [currName]);
+  const handleChangeFile = (e: any) => {
+    onChange(e);
+    setCurrName(e.target.files[0].name);
+  };
 
-    return (
-        <div className='flex items-center'>
-            <div>
-                <input name={name} type='file' accept='application/pdf' ref={fileInputRef} onChange={(e) => handleChangeFile(e)}  className='hidden'></input>
-                <Button onClick={handleButtonClick}>Upload file</Button>
+  useEffect(() => {
+    if (initialFile) {
+      setCurrName(initialFile.name);
 
-            </div>
-            <div className='text-[gray] ml-2'>{ currName.length <= 0 ? "Insert PDF File" : currName}</div>
-        </div>
-    )
+      const url = URL.createObjectURL(initialFile);
+
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [initialFile]);
+
+  return (
+    <div className="flex items-center">
+      <div>
+        <input
+          name={name}
+          type="file"
+          accept="application/pdf"
+          ref={fileInputRef}
+          onChange={(e) => handleChangeFile(e)}
+          className="hidden"
+        ></input>
+        <Button onClick={handleButtonClick}>Upload file</Button>
+      </div>
+      <div className="ml-2 text-[gray]">
+        {currName ? currName : "Insert PDF File"}
+      </div>
+    </div>
+  );
 }
 
-export default FileInput
+export default FileInput;

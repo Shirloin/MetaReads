@@ -1,4 +1,5 @@
 import { Principal } from "@dfinity/principal";
+import { AuthorModel, GenreModel } from "./model";
 
 export interface BaseTableColumnProps {
   id: Principal;
@@ -12,6 +13,6 @@ export interface BaseTableColumnBooksProps {
   book_url: string;
   plan: string;
   cover_image: string;
-  pages_count: number;
+  page_count: number;
   option: string;
 }

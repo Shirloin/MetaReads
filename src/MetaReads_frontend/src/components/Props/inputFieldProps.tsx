@@ -24,4 +24,5 @@ export interface InputFileProps {
   onChange: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void;
+  initialFile?: File | null;
 }

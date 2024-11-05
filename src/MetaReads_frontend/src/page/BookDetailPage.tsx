@@ -27,7 +27,7 @@ function BookDetailPage() {
         description: bookResponse.description,
         cover_image: bookResponse.cover_image,
         views: bookResponse.views,
-        pages_count: bookResponse.page_count,
+        page_count: bookResponse.page_count,
         book_url: bookResponse.book_url,
       };
 

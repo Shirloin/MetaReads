@@ -15,7 +15,7 @@ export const useUpdateBook = () => {
     genre: Principal,
     description: string,
     coverImage: string,
-    pages_count: number,
+    page_count: number,
   ) => {
     const book_id: Principal = Principal.fromText(id.toString());
     setLoading(true);
@@ -30,7 +30,7 @@ export const useUpdateBook = () => {
         plan: plan,
         author_id: author,
         genre_id: genre,
-        page_count: BigInt(pages_count),
+        page_count: BigInt(page_count),
       });
       console.log(res);
 

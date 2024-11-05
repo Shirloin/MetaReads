@@ -26,7 +26,7 @@ const useLibraries = () => {
     description: book.description,
     cover_image: book.cover_image,
     views: Number(book.views),
-    pages_count: Number(book.page_count),
+    page_count: Number(book.page_count),
     book_url: book.book_url,
   });
 

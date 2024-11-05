@@ -15,7 +15,7 @@ export const useCreateBook = () => {
     genre: Principal,
     description: string,
     coverImage: string,
-    pages_count: number,
+    page_count: number,
   ) => {
     setLoading(true);
     setError(null);
@@ -30,7 +30,7 @@ export const useCreateBook = () => {
         plan: plan,
         author_id: author,
         genre_id: genre,
-        page_count: BigInt(pages_count),
+        page_count: BigInt(page_count),
       });
       return true; // Indicate success
     } catch (err: any) {

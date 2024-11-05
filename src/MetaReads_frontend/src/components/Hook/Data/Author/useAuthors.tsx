@@ -15,7 +15,6 @@ const useAuthors = () => {
   const fetchData = async () => {
     try {
       const authorResponse = await MetaReads_backend.get_all_author();
-      console.log(authorResponse[0].id.toString());
 
       const authorRows: BaseTableColumnProps[] = authorResponse.map(
         (authorData) =>
@@ -25,8 +24,6 @@ const useAuthors = () => {
             option: "Options",
           }),
       );
-
-      console.log(authorRows);
 
       setRows(authorRows);
     } catch (error) {
@@ -38,7 +35,7 @@ const useAuthors = () => {
     fetchData();
   }, []);
 
-  return [rows, fetchData] as const; // Keep the 'as const' for proper typing
+  return [rows, fetchData] as const;
 };
 
 export default useAuthors;

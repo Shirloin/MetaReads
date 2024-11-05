@@ -22,7 +22,9 @@ export default function BookCard({ data }: BookDataProps) {
               </div>
               <div style={{ color: "#3FF39D" }}>{data.price}</div>
             </span> */}
-            <div className="flex gap-2" ><div>Total Pages:</div> {data.pages_count} </div>
+            <div className="flex gap-2">
+              <div>Total Pages:</div> {data.page_count}{" "}
+            </div>
           </div>
           <div className="transform text-sm opacity-0 transition-transform group-hover:block group-hover:opacity-100">
             <p>Genre: {data.genre.name}</p>
@@ -39,7 +41,11 @@ export default function BookCard({ data }: BookDataProps) {
               <FaBookmark />
             </div>
             <div>
-              <PrimaryButton text={"Subscribe"} color={"white"} onClick={() => { }} />
+              <PrimaryButton
+                text={"Subscribe"}
+                color={"white"}
+                onClick={() => {}}
+              />
             </div>
           </div>
         </div>

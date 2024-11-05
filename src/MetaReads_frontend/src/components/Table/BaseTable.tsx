@@ -49,31 +49,45 @@ export default function BaseTable({
                           },
                         }}
                       >
-                        {Object.entries(row).map(([key, cell]: any, cellIndex) => {
-                          // Skip rendering the "id" field
-                          if (key === "id") return null;
+                        {Object.entries(row).map(
+                          ([key, cell]: any, cellIndex) => {
+                            // Skip rendering the "id" field
+                            if (key === "id") return null;
 
-                          if (key === "option") {
+                            if (key === "option") {
+                              return (
+                                <DataCell key={cellIndex}>
+                                  <div className="flex gap-3">
+                                    <AiFillEdit
+                                      fontSize="18px"
+                                      className="cursor-pointer text-green-600"
+                                      onClick={() => handleOpenUpdate(row)}
+                                    />
+                                    <AiFillDelete
+                                      fontSize={"18px"}
+                                      onClick={() => handleOpenDelete(row)}
+                                      className="cursor-pointer text-red-600"
+                                    />
+                                  </div>
+                                </DataCell>
+                              );
+                            }
+
                             return (
                               <DataCell key={cellIndex}>
-                                <div className="flex gap-3">
-                                  <AiFillEdit
-                                    fontSize="18px"
-                                    className="cursor-pointer text-green-600"
-                                    onClick={() => handleOpenUpdate(row)}
+                                {cellIndex === 0 ? (
+                                  <img
+                                    src={cell as string}
+                                    className="h-[200px] w-[120px]"
+                                    alt="Book Cover"
                                   />
-                                  <AiFillDelete
-                                    fontSize={"18px"}
-                                    onClick={() => handleOpenDelete(row)}
-                                    className="cursor-pointer text-red-600"
-                                  />
-                                </div>
+                                ) : (
+                                  cell.toString()
+                                )}
                               </DataCell>
                             );
-                          }
-
-                          return <DataCell key={cellIndex}>{cellIndex === 0 ? <img src={cell as string} className="w-[120px] h-[200px]" alt="Book Cover"/> : cell.toString()}</DataCell>;
-                        })}
+                          },
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>

@@ -121,6 +121,18 @@ fn get_book(id: Principal) -> Result<Book, Error> {
     }
 }
 
+#[ic_cdk::query]
+fn get_book_detail(id: Principal) -> Result<Book, Error> {
+    match get_book_by_id(&id) {
+        Some(mut book) => Ok(book),
+        None => {
+            return Err(Error::NotFound {
+                message: "Book Not Found".to_string(),
+            });
+        }
+    }
+}
+
 #[ic_cdk::update]
 fn update_book(payload: BookPayload) -> Result<Book, Error> {
     let book_id = match payload.id {

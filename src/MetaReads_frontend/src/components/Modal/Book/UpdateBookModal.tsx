@@ -30,15 +30,21 @@ export default function UpdateBookModal({
     genre: Principal,
     description: string,
     coverImage: File | null,
-    pages_count: any,
+    page_count: any,
   ) => {
     // @ts-ignore
     loadingToastId.current = ToastLoading("Loading..");
     try {
       if (book_url && coverImage) {
         const currentTime = new Date().getTime().toString();
-        const pdf_url = await uploadBookFile(book_url, currentTime + " - " + title);
-        const book_cover = await uploadBookCover(coverImage, currentTime + " - " + title);
+        const pdf_url = await uploadBookFile(
+          book_url,
+          currentTime + " - " + title,
+        );
+        const book_cover = await uploadBookCover(
+          coverImage,
+          currentTime + " - " + title,
+        );
         const success = await updateBook(
           selectedItem.id,
           title,
@@ -48,7 +54,7 @@ export default function UpdateBookModal({
           genre,
           description,
           book_cover,
-          pages_count,
+          page_count,
         );
         if (success) {
           ToastSuccess("Author Created Successfully");

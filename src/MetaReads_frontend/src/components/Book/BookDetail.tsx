@@ -194,7 +194,7 @@ export default function BookDetail({
               <div className="font-normal">
                 <p className="mt-2 text-lg">Author: {book.author.name}</p>
                 <p className="text-lg">Genre: {book.genre.name}</p>
-                <p className="text-lg">Pages: {Number(book.pages_count)}</p>
+                <p className="text-lg">Pages: {Number(book.page_count)}</p>
                 <p className="text-lg">Views: {Number(book.views)}</p>
                 <p className="flex items-center gap-2 text-lg">
                   {isLoggedIn == true && (

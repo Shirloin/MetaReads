@@ -8,11 +8,11 @@ import { BookModel, BookModelProps, GenreModel } from "../../../Props/model";
 import { Principal } from "@dfinity/principal";
 
 function createData(data: BaseTableColumnBooksProps) {
-  const { cover_image, id, title, book_url, plan, pages_count, option } = data;
-  return { cover_image, id, title, book_url, plan, pages_count, option };
+  const { cover_image, id, title, book_url, plan, page_count, option } = data;
+  return { cover_image, id, title, book_url, plan, page_count, option };
 }
 
-const useBooks = () => {
+export const useBooks = () => {
   const [rows, setRows] = useState<BookModel[]>([]);
 
   const fetchData = async () => {
@@ -32,7 +32,7 @@ const useBooks = () => {
           title: book.title,
           book_url: book.book_url,
           plan: book.plan,
-          pages_count: book.page_count,
+          page_count: book.page_count,
           option: "Options",
         }),
       );
@@ -50,4 +50,30 @@ const useBooks = () => {
   return [rows, fetchData] as const;
 };
 
-export default useBooks;
+export const useBook = (bookId: string) => {
+  const [book, setBook] = useState<BookModel>();
+  const fetchData = async () => {
+    try {
+      const response = await MetaReads_backend.get_book_detail(
+        Principal.fromText(bookId),
+      );
+
+      if ("Ok" in response) {
+        const bookRes = response.Ok;
+        const book: BookModel = {
+          ...bookRes,
+          page_count: Number(bookRes.page_count),
+          views: Number(bookRes.views),
+        };
+
+        setBook(book);
+      }
+    } catch (error) {
+      console.error("Error fetching book detail:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return [book, fetchData] as const;
+};

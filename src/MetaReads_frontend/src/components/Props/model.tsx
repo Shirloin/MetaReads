@@ -15,7 +15,7 @@ export interface BookModel {
   description: string;
   cover_image: string;
   views: number;
-  pages_count: number;
+  page_count: number;
   book_url: string;
 }
 
@@ -87,7 +87,7 @@ export const createBookModel = ({
     description,
     cover_image,
     views: 10000,
-    pages_count: 12,
+    page_count: 12,
     book_url,
   };
 };
@@ -126,7 +126,7 @@ export const dummyBookData: BookModel = {
   cover_image:
     "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
   views: 10000,
-  pages_count: 12,
+  page_count: 12,
   book_url: "hahiahi",
 };
 
@@ -144,7 +144,7 @@ export const recommendedBooks: BookModel[] = [
     cover_image:
       "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
     views: 10000,
-    pages_count: 12,
+    page_count: 12,
     book_url: "hahahihi",
   },
 ];
@@ -164,7 +164,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -178,7 +178,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -192,7 +192,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -206,7 +206,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://miblart.com/wp-content/uploads/2020/01/Daughter-of-Man-book-cover-scaled-1.jpeg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -220,7 +220,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -234,7 +234,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -248,7 +248,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -262,7 +262,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -276,7 +276,7 @@ export const library1: LibraryModel = {
       cover_image:
         "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
   ],
@@ -297,7 +297,7 @@ export const library2: LibraryModel = {
       cover_image:
         "https://getcovers.com/wp-content/uploads/2020/12/image3.png",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -311,7 +311,7 @@ export const library2: LibraryModel = {
       cover_image:
         "https://th.bing.com/th/id/OIP.7rF2B7fGNp3xdBg41W8P0gAAAA?pid=ImgDet&w=432&h=691&rs=1",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -325,7 +325,7 @@ export const library2: LibraryModel = {
       cover_image:
         "https://m.media-amazon.com/images/I/81pyW-09QnL._SL1500_.jpg",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
     {
@@ -339,7 +339,7 @@ export const library2: LibraryModel = {
       cover_image:
         "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198",
       views: 10000,
-      pages_count: 12,
+      page_count: 12,
       book_url: "hahahihi",
     },
   ],

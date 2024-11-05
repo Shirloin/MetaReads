@@ -201,6 +201,7 @@ service : () -> {
   get_all_user : () -> (vec User) query;
   get_book : (principal) -> (Result_1);
   get_book_by_genre : (principal) -> (vec Book) query;
+  get_book_detail : (principal) -> (Result_1) query;
   get_comment_by_book : (principal) -> (vec Comment) query;
   get_latest_release_book : () -> (vec Book) query;
   get_library_by_user : (principal) -> (vec Library) query;

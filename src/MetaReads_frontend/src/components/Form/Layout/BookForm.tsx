@@ -14,6 +14,7 @@ import SelectAuthorBookField from "../Input/TextField/SelectAuthorBookField";
 import FileInput from "../Input/FileUpload/FileInput";
 import ImageInput from "../Input/FileUpload/ImageInput";
 import useFirebaseStorage from "../../Hook/Firebase/useFirebaseStorage";
+import { useBook } from "../../Hook/Data/Book/useBooks";
 
 interface ModalFormProps {
   handleClose: () => void;
@@ -25,9 +26,9 @@ interface ModalFormProps {
     genre: Principal,
     description: string,
     coverImage: File | null,
-    pages_count: number,
+    page_count: number,
   ) => void;
-  selectedItem?: { name: string };
+  selectedItem?: any;
   buttonContent: string;
 }
 
@@ -37,6 +38,7 @@ export default function BookForm({
   selectedItem,
   buttonContent,
 }: ModalFormProps) {
+  const [book] = useBook(selectedItem.id.toString());
   const [data, setData] = useState<{
     title: string;
     author: any;
@@ -45,7 +47,7 @@ export default function BookForm({
     genre: any;
     description: string;
     coverImage: File | null;
-    pages_count: number;
+    page_count: number;
   }>({
     title: "",
     author: Principal.fromText("aaaaa-aa"),
@@ -54,8 +56,42 @@ export default function BookForm({
     genre: Principal.fromText("aaaaa-aa"),
     description: "",
     coverImage: null,
-    pages_count: 0,
+    page_count: 0,
   });
+  useEffect(() => {
+    if (book) {
+      setData({
+        title: book.title || "",
+        author: Principal.fromText(book.author.id.toString() || "aaaaa-aa"),
+        book_url: null,
+        plan: book.plan || "",
+        genre: Principal.fromText(book.genre.id.toString() || "aaaaa-aa"),
+        description: book.description || "",
+        coverImage: null,
+        page_count: Number(book.page_count),
+      });
+      fetchFileFromUrl(book.book_url, "book");
+      fetchFileFromUrl(book.cover_image, "image");
+    }
+  }, [book]);
+
+  const fetchFileFromUrl = async (url: string, type: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      if (type === "book") {
+        const bookName = book?.title ? `${book.title}.pdf` : "book.pdf";
+        const file = new File([blob], bookName, { type: blob.type });
+        setData((prevData) => ({ ...prevData, book_url: file }));
+      } else if (type === "image") {
+        const bookName = book?.title ? `${book.title}.png` : "book.png";
+        const file = new File([blob], bookName, { type: blob.type });
+        setData((prevData) => ({ ...prevData, coverImage: file }));
+      }
+    } catch (error) {
+      console.error("Error fetching the book file:", error);
+    }
+  };
 
   const handleChange = async (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -64,7 +100,6 @@ export default function BookForm({
   const handleFileChange = async (e: any) => {
     setData({ ...data, [e.target.name]: e.target.files[0] });
     console.log(data);
-    
   };
 
   const [rows, fetchData] = useGenres();
@@ -77,38 +112,34 @@ export default function BookForm({
     }
   }, [rows]);
 
-  const print = () => {
-    console.log(Principal.fromText(data.genre));
-  };
-
   const handleSubmit = async () => {
     if (!data.title || data.title.trim() === "") {
       ToastError("Title can't be empty");
-    } else if (!data.author || data.author.trim() === "") {
+    } else if (!data.author) {
       ToastError("Author can't be empty");
     } else if (!data.book_url) {
       ToastError("Book url can't be empty");
     } else if (!data.plan || data.plan.trim() === "") {
       ToastError("Plan can't be empty");
-    } else if (!data.genre || data.genre.trim() === "") {
+    } else if (!data.genre) {
       ToastError("Genre can't be empty");
     } else if (!data.description || data.description.trim() === "") {
       ToastError("Description can't be empty");
     } else if (!data.coverImage) {
       ToastError("Cover Image can't be empty");
-    } else if (!data.pages_count) {
+    } else if (!data.page_count) {
       ToastError("Pages Count can't be empty");
     } else {
-      
+      console.log(data);
       onSubmit(
         data.title,
-        Principal.fromText(data.author),
+        Principal.fromText(data.author.toString()),
         data.book_url, // book url
         data.plan,
-        Principal.fromText(data.genre),
+        Principal.fromText(data.genre.toString()),
         data.description,
         data.coverImage, // cover url
-        data.pages_count,
+        data.page_count,
       );
     }
   };
@@ -135,6 +166,7 @@ export default function BookForm({
         <FileInput
           name="book_url"
           onChange={handleFileChange}
+          initialFile={data.book_url}
         />
       </div>
 
@@ -155,13 +187,14 @@ export default function BookForm({
           <ImageInput
             name="coverImage"
             onChange={handleFileChange}
+            initialFile={data.coverImage}
           />
         </div>
         <div className="my-4">
           <InputBookField
             label={"Pages Count"}
-            value={data.pages_count}
-            name="pages_count"
+            value={data.page_count}
+            name="page_count"
             onChange={handleChange}
             type="number"
           />

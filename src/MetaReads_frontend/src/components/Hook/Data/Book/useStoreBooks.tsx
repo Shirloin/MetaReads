@@ -29,7 +29,7 @@ const useStoreBooks = () => {
           description: book.description,
           cover_image: book.cover_image,
           views: book.views,
-          pages_count: book.pages_count,
+          page_count: book.page_count,
           book_url: book.book_url,
         };
       });
