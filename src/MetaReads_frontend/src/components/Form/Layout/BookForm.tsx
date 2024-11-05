@@ -38,7 +38,7 @@ export default function BookForm({
   selectedItem,
   buttonContent,
 }: ModalFormProps) {
-  const [book] = useBook(selectedItem.id.toString());
+  const [book] = selectedItem ? useBook(selectedItem.id.toString()) : [null];
   const [data, setData] = useState<{
     title: string;
     author: any;
