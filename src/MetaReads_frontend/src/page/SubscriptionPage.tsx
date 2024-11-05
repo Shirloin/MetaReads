@@ -49,6 +49,7 @@ export default function SubscriptionPage() {
   };
 
   const renderSubscriptionCards = (isYearly: boolean) =>
+    data &&
     data.map((plan) => {
       const isActivePlan = planInfo.activePlan.trim() === plan.name.trim();
       const type = isYearly ? "Yearly" : "Monthly";

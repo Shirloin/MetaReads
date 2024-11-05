@@ -101,19 +101,20 @@ export default function SubscriptionCard({
         </div>
         <div className="overflow-x- max-h-[220px] overflow-y-auto">
           <ul className="flex flex-col space-y-2">
-            {benefits.map((benefit: any, index: any) => (
-              <li
-                key={index}
-                className="flex items-center p-2 text-sm text-gray-600"
-              >
-                <div className="mr-2">
-                  <BsFillCheckCircleFill color="#EFAF21" size={19} />
-                </div>
-                <div className="text-white" style={{ fontSize: "16px" }}>
-                  {benefit}
-                </div>
-              </li>
-            ))}
+            {benefits &&
+              benefits.map((benefit: any, index: any) => (
+                <li
+                  key={index}
+                  className="flex items-center p-2 text-sm text-gray-600"
+                >
+                  <div className="mr-2">
+                    <BsFillCheckCircleFill color="#EFAF21" size={19} />
+                  </div>
+                  <div className="text-white" style={{ fontSize: "16px" }}>
+                    {benefit}
+                  </div>
+                </li>
+              ))}
           </ul>
         </div>
 

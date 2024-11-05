@@ -11,112 +11,146 @@ pub async fn seed_data() {
     ];
 
     let authors = vec![
-        seed_author("John Doe".to_string()).await.unwrap(),
-        seed_author("Sophia Green".to_string()).await.unwrap(),
-        seed_author("Mark Turner".to_string()).await.unwrap(),
-        seed_author("Alex Johnson".to_string()).await.unwrap(),
+        seed_author("Lewis Carroll".to_string()).await.unwrap(),
+        seed_author("Mark Twain".to_string()).await.unwrap(),
+        seed_author("Arthur Conan Doyle".to_string()).await.unwrap(),
+        seed_author("Howard Pyle".to_string()).await.unwrap(),
+        seed_author("L. Frank Baum".to_string()).await.unwrap(),
+        seed_author("Edith Nesbit".to_string()).await.unwrap(),
     ];
 
     let genres = vec![
+        seed_genre("Fairy Tale".to_string()).await.unwrap(),
         seed_genre("Adventure".to_string()).await.unwrap(),
-        seed_genre("Romance".to_string()).await.unwrap(),
-        seed_genre("Horror".to_string()).await.unwrap(),
-        seed_genre("Technology".to_string()).await.unwrap(),
+        seed_genre("Detective".to_string()).await.unwrap(),
+        seed_genre("Historical Fiction".to_string()).await.unwrap(),
+        seed_genre("Christmas Stories".to_string()).await.unwrap(),
+        seed_genre("Fiction".to_string()).await.unwrap(),
+        seed_genre("Folk".to_string()).await.unwrap(),
     ];
     if let (Some(author1), Some(genre1)) = (authors.get(0), genres.get(0)) {
         seed_book(
-            "This Testing for Reading Book".to_string(),
-            "This Book for Reading Only".to_string(),
-            "https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2F99qxfe2j7pk71.jpg".to_string(),
+            "Alice's Adventures in Wonderland".to_string(),
+            "Alice's Adventures in Wonderland is a fantasy novel that follows Alice's journey in a magical world.".to_string(),
+            "https://covers.openlibrary.org/b/id/10527843-L.jpg".to_string(),
             author1.id,
             genre1.id,
-            12,
-            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/20000-Leagues-Under-the-Sea.pdf?alt=media&token=007762dc-f73b-439b-bd75-c993514d6866".to_string(),
+            120,
+            "".to_string(),
             "Free".to_string(),
         ).await;
+    }
+
+    if let (Some(author2), Some(genre1)) = (authors.get(1), genres.get(0)) {
         seed_book(
-            "The Mysterious Adventure gen 0".to_string(),
-            "A thrilling adventure through unknown lands, filled with mystery and excitement.".to_string(),
-            "https://99designs-blog.imgix.net/blog/wp-content/uploads/2020/11/attachment_122099194-e1606150293120.jpg?auto=format&q=60&fit=max&w=930".to_string(),
-            author1.id,
-            genre1.id,
-            12,
-            "hahahihi".to_string(),
-            "Free".to_string(),
-        ).await;
-        seed_book(
-            "The Mysterious Adventure gen 0".to_string(),
-            "A thrilling adventure through unknown lands, filled with mystery and excitement."
+            "Adventures of Huckleberry Finn".to_string(),
+            "A classic story of Huck Finn and his journey with Jim along the Mississippi River."
                 .to_string(),
-            "https://th.bing.com/th/id/OIP.tri5pcbkBl8M-Rv6U3uObAHaL2?rs=1&pid=ImgDetMain"
-                .to_string(),
-            author1.id,
+            "https://covers.openlibrary.org/b/id/8157718-L.jpg".to_string(),
+            author2.id,
             genre1.id,
-            12,
-            "hahahihi".to_string(),
-            "Free".to_string(),
+            100,
+            "".to_string(),
+            "Standard".to_string(),
         )
         .await;
     }
 
     if let (Some(author2), Some(genre2)) = (authors.get(1), genres.get(1)) {
         seed_book(
-            "Love and Destiny".to_string(),
-            "A heartwarming story about love, fate, and the choices that shape our lives."
-                .to_string(),
-            "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1"
-                .to_string(),
+            "The Adventures of Tom Sawyer".to_string(),
+            "A tale of a mischievous boy's adventures along the Mississippi River.".to_string(),
+            "https://covers.openlibrary.org/b/id/12043351-L.jpg".to_string(),
             author2.id,
             genre2.id,
-            12,
-            "hahahihi".to_string(),
-            "Free".to_string(),
-        )
-        .await;
-        seed_book(
-            "Haha hihi".to_string(),
-            "A heartwarming story about love, fate, and the choices that shape our lives."
-                .to_string(),
-            "https://th.bing.com/th/id/OIP.uUra-zVv-Ug0Kbo83QyepAHaL2?pid=ImgDet&w=474&h=758&rs=1"
-                .to_string(),
-            author2.id,
-            genre2.id,
-            12,
-            "hahahihi".to_string(),
-            "Free".to_string(),
-        )
-        .await;
-    }
-    if let (Some(author3), Some(genre3)) = (authors.get(2), genres.get(2)) {
-        seed_book(
-            "The Dark Woods".to_string(),
-            "A chilling tale of survival in a haunted forest where no one can hear you scream."
-                .to_string(),
-            "https://1.bp.blogspot.com/-HRRu6dw6FTI/UiGGOYfeeII/AAAAAAAAAV4/aLFjY4lAAXkpQzVzVrmi0Nicu-kNwqeKwCPcB/s1600/german.jpg"
-                .to_string(),
-            author3.id,
-            genre3.id,
-            12,
-            "hahahihi".to_string(),
-            "Premium".to_string(),
-        )
-        .await;
-    }
-    if let (Some(author4), Some(genre4)) = (authors.get(3), genres.get(3)) {
-        seed_book(
-            "The Code Master's Handbook".to_string(),
-            "A comprehensive guide for aspiring developers and seasoned coders alike."
-                .to_string(),
-            "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/art-book-cover-design-template-34323b0f0734dccded21e0e3bebf004c_screen.jpg?ts=1637015198"
-                .to_string(),
-            author4.id,
-            genre4.id,
-            12,
-            "hahahihi".to_string(),
+            150,
+            "".to_string(),
             "Premium".to_string(),
         )
         .await;
     }
 
+    if let (Some(author3), Some(genre3)) = (authors.get(2), genres.get(2)) {
+        seed_book(
+            "The Adventures of Sherlock Holmes".to_string(),
+            "A collection of detective stories featuring Sherlock Holmes.".to_string(),
+            "https://covers.openlibrary.org/b/id/6717853-L.jpg".to_string(),
+            author3.id,
+            genre3.id,
+            170,
+            "".to_string(),
+            "Premium".to_string(),
+        )
+        .await;
+    }
+
+    if let (Some(author4), Some(genre4)) = (authors.get(3), genres.get(3)) {
+        seed_book(
+            "The Merry Adventures of Robin Hood".to_string(),
+            "A retelling of the Robin Hood legend with heroic exploits.".to_string(),
+            "https://covers.openlibrary.org/b/id/5913135-L.jpg".to_string(),
+            author4.id,
+            genre4.id,
+            120,
+            "".to_string(),
+            "Standard".to_string(),
+        )
+        .await;
+    }
+
+    if let (Some(author5), Some(genre5)) = (authors.get(4), genres.get(4)) {
+        seed_book(
+            "The Complete Life and Adventures of Santa Claus".to_string(),
+            "A fantasy story about Santa Claus’s life and adventures.".to_string(),
+            "https://covers.openlibrary.org/b/id/1979059-L.jpg".to_string(),
+            author5.id,
+            genre5.id,
+            119,
+            "".to_string(),
+            "Standard".to_string(),
+        )
+        .await;
+    }
+
+    if let (Some(author6), Some(genre6)) = (authors.get(5), genres.get(5)) {
+        seed_book(
+            "The Story of the Treasure Seekers".to_string(),
+            "The adventures of the Bastable children as they seek fortune.".to_string(),
+            "https://covers.openlibrary.org/b/id/13241364-L.jpg".to_string(),
+            author6.id,
+            genre6.id,
+            85,
+            "".to_string(),
+            "Free".to_string(),
+        )
+        .await;
+    }
+    if let (Some(author6), Some(genre6)) = (authors.get(5), genres.get(5)) {
+        seed_book(
+            "Adventures of Huckleberry Finn / Adventures of Tom Sawyer".to_string(),
+            "The Adventures of Tom Sawyer is a novel by Mark Twain published in 1876 about a boy, Tom Sawyer, growing up along the Mississippi River. Often accompanied by his friend Huckleberry Finn, Tom goes on several adventures in the fictional town of St. Petersburg.".to_string(),
+            "https://covers.openlibrary.org/b/id/12374727-L.jpg".to_string(),
+            author6.id,
+            genre6.id,
+            100,
+            "".to_string(),
+            "Free".to_string(),
+        )
+        .await;
+    }
+
+    if let (Some(author6), Some(genre6)) = (authors.get(5), genres.get(5)) {
+        seed_book(
+            "The Adventures of Gerard".to_string(),
+            "The Adventures of Gerard is a collection of short stories by Sir Arthur Conan Doyle featuring the dashing French hussar Brigadier Gerard, detailing his adventures and exploits during the Napoleonic Wars.".to_string(),
+            "https://covers.openlibrary.org/b/id/8243324-L.jpg".to_string(),
+            author6.id,
+            genre6.id,
+            121,
+            "".to_string(),
+            "Premium".to_string(),
+        )
+        .await;
+    }
     ic_cdk::println!("Seeded author, genre, and book successfully!");
 }
