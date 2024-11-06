@@ -36,7 +36,7 @@ pub async fn seed_data() {
             author1.id,
             genre1.id,
             120,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Free".to_string(),
         ).await;
     }
@@ -50,7 +50,7 @@ pub async fn seed_data() {
             author2.id,
             genre1.id,
             100,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Standard".to_string(),
         )
         .await;
@@ -64,7 +64,7 @@ pub async fn seed_data() {
             author2.id,
             genre2.id,
             150,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Premium".to_string(),
         )
         .await;
@@ -78,7 +78,7 @@ pub async fn seed_data() {
             author3.id,
             genre3.id,
             170,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Premium".to_string(),
         )
         .await;
@@ -92,7 +92,7 @@ pub async fn seed_data() {
             author4.id,
             genre4.id,
             120,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Standard".to_string(),
         )
         .await;
@@ -106,7 +106,7 @@ pub async fn seed_data() {
             author5.id,
             genre5.id,
             119,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Standard".to_string(),
         )
         .await;
@@ -120,7 +120,7 @@ pub async fn seed_data() {
             author6.id,
             genre6.id,
             85,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Free".to_string(),
         )
         .await;
@@ -133,7 +133,7 @@ pub async fn seed_data() {
             author6.id,
             genre6.id,
             100,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Free".to_string(),
         )
         .await;
@@ -147,7 +147,7 @@ pub async fn seed_data() {
             author6.id,
             genre6.id,
             121,
-            "".to_string(),
+            "https://firebasestorage.googleapis.com/v0/b/hackaton-5c2b6.appspot.com/o/books%2F1730814892904%20-%20Remember?alt=media&token=adf753a1-79d1-4544-90a8-a7c9193f4a7a".to_string(),
             "Premium".to_string(),
         )
         .await;

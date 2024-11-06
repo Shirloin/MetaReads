@@ -44,7 +44,6 @@ export default function SubscriptionPage() {
       "Basic reader features",
       "AI Summarizer",
       "Priority support",
-      "Personalized recommendations",
     ],
   };
 
