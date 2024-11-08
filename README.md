@@ -1,6 +1,15 @@
 # `MetaReads`
 
-Welcome to your new `MetaReads` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+Metareads is an innovative web application for reading books online, built on advanced Web3 technology, ICP (Internet Computer Protocol), Internet Identity, and Artificial Intelligence. Designed for accessibility, Metareads allows users to read seamlessly across smartphones, laptops, computers, and other devices. With powerful AI integration, users can summarize paragraphs, making it easier to grasp key ideas and enhance their reading experience. 
+
+There are 6 main features in Metareads. 
+
+- **Authentication using Internet Identity**: Metareads has implemented ICP Internet Identity to help users securely and seamlessly log in to the website. 
+- **Subscription Based Model**: Metareads offers multiple tiers of subscription options to facilitate diverse reading needs and budgets, allowing users to access a range of content based on their chosen plan. 
+- **Online Reading**: Metareads allows users to read books directly on the website providing easy access anywhere. User reading history is automatically saved, including total time spent reading and the last page accessed. 
+- **AI-Powered Summarization**: Instantly summarize books or specific paragraphs using integrated artificial intelligence. 
+- **Library Management and Customization**: Metareads enables users to personalize their library, giving them complete control over organizing and customizing their library page. 
+- **Book Reviews**: Metareads allows users to leave reviews for books they’ve read, providing other readers with insights and recommendations. 
 
 To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
 
