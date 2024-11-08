@@ -142,7 +142,7 @@ After the user has the required subscription tier, user can continue to read the
 
 #### Read Page (Premium with AI) Screen
 
-<img src="./assets/screenshoot/Read Page (Premium with AI).png" alt="Read Page (Premium with AI) Screen" width="20000" />
+<img src="./assets/screenshoot/Read Page (Premium with AI).jpg" alt="Read Page (Premium with AI) Screen" width="20000" />
 
 #### Summarizer Screen
 
